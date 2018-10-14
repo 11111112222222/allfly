@@ -1,0 +1,61 @@
+/**
+ * 作品：reset.css
+ * 维护：马建阳
+ * 更新：2018年10月14日
+ * 理念：1. 适应中文，基于最新主流浏览器
+ *       2. reset 的目的不是清除浏览器的默认样式，这仅是部分工作。清除和重置是紧密不可分的。
+ *       3. reset 的目的不是让默认样式在所有浏览器下一致，而是减少默认样式有可能带来的问题。
+ */
+
+/* 清除内外边距 */
+/* 定义样式表使用的字符编码 */
+/* textarea多行的文本输入控件。 */
+/* pre 预格式化文本。被包围在 pre 元素中的文本通常会保留空格和换行符。而文本也会呈现为等宽字体 */
+@charset "utf-8";
+* { margin: 0; padding: 0; }
+
+/* 重置列表元素 */
+ul, ol { list-style: none; }
+
+/* 重置文本格式元素 */
+a { text-decoration: none; }
+/* 引号 */
+q:before, q:after { content: ''; }
+
+/* 重置表单元素 */
+/* fieldset字段集 legend说明*/
+legend { color: #000; } /* for ie6 组合表单中的相关元素*/
+button, textarea { font-size: 100%; border: 0; } /* 使得表单元素在 ie 下能继承字体大小 */
+fieldset, img { border: 0; } /* img 搭车：让链接里的 img 无边框 */
+
+/* 重置表格元素 
+    border-collapse 属性用于设置表格边框是分开还是合并
+    border-spacing 属性指定相邻单元格边框之间的距离,该属性只适用于 border-collapse 值是 separate 的时候。
+*/
+table { border-collapse: collapse; border-spacing: 0; }
+
+/* 清除浮动 */
+.fl { float: left; }
+.fr { float: right; }
+.clearfix:after { display: block; clear: both; content: ""; visibility: hidden; height: 0; }
+.clearfix { zoom: 1; } /* 解决ie bug */
+
+/* 文字选中效果 */
+::selection {
+  background-color: #b3d4fc;
+  text-shadow: none;
+}
+
+/* 浏览器升级 */
+.browser-up {
+  padding: 1rem;
+  background: #ccc;
+  text-align: center;
+}
+
+/* 移动设备 */
+body {
+  /* -webkit-text-size-adjust: none; */
+  /* -webkit-tap-highlight-color: rgba(0, 0, 0, 0); */
+}
+
