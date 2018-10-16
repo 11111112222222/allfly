@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from 'components/Login/Login.vue'
 import User from 'components/User/User.vue'
+import OrderAccept from 'components/Order/OrderAccept.vue'
+import NewOrder from 'components/Order/NewOrder.vue'
 
 Vue.use(Router)
 
@@ -19,7 +21,20 @@ export default new Router({
     {
       path: '/user',
       name: 'user',
-      component: User
-    }
+      component: User,
+      children:[
+        {
+          path: 'orderAccept',
+          name: 'orderAccept',
+          component: OrderAccept
+        },
+        {
+          path: 'newOrder',
+          name: 'newOrder',
+          component: NewOrder
+        }
+      ]
+    },
+    
   ]
 })
