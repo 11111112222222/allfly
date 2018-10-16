@@ -22,7 +22,7 @@ export default new Router({
       path: '/user',
       name: 'user',
       component: User,
-      children:[
+      children: [
         {
           path: 'orderAccept',
           name: 'orderAccept',
@@ -34,7 +34,6 @@ export default new Router({
           component: NewOrder
         }
       ]
-    },
-    
+    }
   ]
 })

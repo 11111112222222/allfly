@@ -11,9 +11,6 @@
       </aside>
       <content>
         <router-view/>
-        <!-- <div>展示第一个组件</div>
-        <div>展示第二个组件</div>
-        <div>展示第三个组件</div> -->
       </content> 
     </section>
     
@@ -123,7 +120,6 @@ header {
     right: 20px;
     transform: translateY(-50%);
   }
-  
 }
 section {
   display: flex;
