@@ -20,7 +20,7 @@ export default {
 
   methods: {
     pushUser() {
-      this.$router.push({ path: 'user' });
+      this.$router.push({ path: 'user/orderAccept' });
     }
   },
 

@@ -28,27 +28,27 @@ export default {
   data() {
     return {
       menu: [{
-          label: '保单',
+          label: '寿险',
           children: [{
-            label: '保单受理作业',
+            label: '寿险受理作业',
           },{
             label: '新契约受理报表',
           },{
-            label: '保单交费记录查询',
+            label: '寿险交费记录查询',
           },{
             label: '续期应收自动化作业',
           },{
-            label: '保单及客户数据导入',
+            label: '寿险保单及客户数据导入',
           }]
         }, {
-          label: '一级 2',
+          label: '财险',
           children: [{
-            label: '二级 2-1',
+            label: '车险',
             children: [{
               label: '三级 2-1-1'
             }]
           }, {
-            label: '二级 2-2',
+            label: '非车险',
             children: [{
               label: '三级 2-2-1'
             }]
@@ -80,11 +80,19 @@ export default {
        
     },
     handleNodeClick(data) {
-        console.log(data.label);
-        if(data.label=="保单受理作业"){
+        //console.log(data.label);
+        switch (data.label) {
+          case "寿险受理作业":
             this.$router.push({ path: '/user/orderAccept' });
-        }else if(data.label=="新契约受理报表"){
-          this.$router.push({ path: '/user/newOrder' });
+            break;
+          case "新契约受理报表":
+            this.$router.push({ path: '/user/newOrder' });
+            break;
+          case "寿险交费记录查询":
+            this.$router.push({ path: '/user/payRecord' });
+            break;
+          default:
+            break;
         }
          
     }
@@ -112,7 +120,7 @@ header {
   line-height: 40px;
   text-align:left;
   padding:0 10px;
-  background-color: rgb(158, 184, 238);
+  background-color: rgb(114, 151, 230);
   // display: flex;
   // align-items: center;
   // justify-content: center;
@@ -130,14 +138,14 @@ section {
   height: calc(100vh - 40px);
   aside {
     min-width:200px;
-    background-color: #DCDFE6;
+    background-color: #cccfff;
     .el-tree{
-      background-color: #DCDFE6 !important;
+      background-color: #cccfff !important;
     }
   }
   content {
     flex-grow: 1;
-    background: $color-theme;
+    background-color: #DCDFE6;
   }
 }
 </style>
