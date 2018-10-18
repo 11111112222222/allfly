@@ -25,7 +25,8 @@ q:before, q:after { content: ''; }
 /* 重置表单元素 */
 /* fieldset字段集 legend说明*/
 legend { color: #000; } /* for ie6 组合表单中的相关元素*/
-button, textarea { font-size: 100%; border: 0; } /* 使得表单元素在 ie 下能继承字体大小 */
+// button, textarea { font-size: 100%; border: 0; } /* 使得表单元素在 ie 下能继承字体大小 */
+
 fieldset, img { border: 0; } /* img 搭车：让链接里的 img 无边框 */
 
 /* 重置表格元素 
@@ -33,6 +34,15 @@ fieldset, img { border: 0; } /* img 搭车：让链接里的 img 无边框 */
     border-spacing 属性指定相邻单元格边框之间的距离,该属性只适用于 border-collapse 值是 separate 的时候。
 */
 table { border-collapse: collapse; border-spacing: 0; }
+
+label, input {
+  margin-bottom: 10px;
+}
+
+label {
+  padding-right: 10px;
+}
+
 
 /* 清除浮动 */
 .fl { float: left; }

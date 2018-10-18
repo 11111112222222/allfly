@@ -77,7 +77,6 @@ export default {
        
     },
     handleNodeClick(data) {
-        console.log(data.label);
         if(data.label=="保单受理作业"){
             this.$router.push({ path: '/user/orderAccept' });
         }else if(data.label=="新契约受理报表"){
