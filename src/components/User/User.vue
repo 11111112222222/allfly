@@ -7,7 +7,7 @@
     </header>
     <section>
       <aside>
-        <el-tree :data="menu" :props="defaultProps"  @node-click="handleNodeClick"></el-tree>
+        <el-tree :data="menu" :props="defaultProps" :highlight-current="true"  @node-click="handleNodeClick"></el-tree>
       </aside>
       <content>
         <router-view/>
