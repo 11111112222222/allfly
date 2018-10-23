@@ -130,14 +130,16 @@ section {
   height: calc(100vh - 40px);
   aside {
     min-width:200px;
-    background-color: #DCDFE6;
+    background-color: #CCCFFF;
     .el-tree{
-      background-color: #DCDFE6 !important;
+      background-color: #CCCFFF !important;
     }
   }
   content {
     flex-grow: 1;
-    background: $color-theme;
+    // background-color:#DCDFE6;
+    background-color:#fff;
+    padding:10px;
   }
 }
 </style>
