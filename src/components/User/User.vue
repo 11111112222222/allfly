@@ -28,17 +28,19 @@ export default {
   data() {
     return {
       menu: [{
-          label: '寿险',
+          label: '人身险',
           children: [{
-            label: '寿险受理作业',
+            label: '保单受理作业',
           },{
             label: '新契约受理报表',
           },{
-            label: '寿险交费记录查询',
+            label: '保单交费记录查询',
+          },{
+            label: '保单回执回销录入',
           },{
             label: '续期应收自动化作业',
           },{
-            label: '寿险保单及客户数据导入',
+            label: '保单及客户数据导入',
           }]
         }, {
           label: '财险',
@@ -82,13 +84,13 @@ export default {
     handleNodeClick(data) {
         //console.log(data.label);
         switch (data.label) {
-          case "寿险受理作业":
+          case "保单受理作业":
             this.$router.push({ path: '/user/orderAccept' });
             break;
           case "新契约受理报表":
             this.$router.push({ path: '/user/newOrder' });
             break;
-          case "寿险交费记录查询":
+          case "保单交费记录查询":
             this.$router.push({ path: '/user/payRecord' });
             break;
           default:
