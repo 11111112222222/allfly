@@ -132,7 +132,7 @@ section {
   }
   content {
     flex-grow: 1;
-    background: $color-theme;
+    // background: $color-theme;
   }
 }
 </style>

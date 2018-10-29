@@ -55,6 +55,7 @@ export default {
 <style lang='scss' scoped>
 @import "common/scss/variable.scss";
 .wrapper {
+    text-align: center;
     // background: rgb(158, 184, 238);
     background: rgb(252, 255, 244); /* Old browsers */
     background: -moz-linear-gradient(
