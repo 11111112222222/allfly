@@ -1,8 +1,8 @@
 <template>
  <div class="page" style="height:100%">
-    <el-tabs type="border-card" style="height:100%">
-        <el-tab-pane label="保单交费记录查询">
-            <div class="search">
+    <el-tabs type="border-card" v-model="activeTab" style="height:100%">
+        <el-tab-pane label="保单交费记录查询" name="searchTab">
+            <div class="tabContent">
                 <form action="">
                 <div>
                     <div class="title">分支机构</div>
@@ -204,11 +204,50 @@
                         </div>
                     </div>
                 </fieldset>
-                <el-button type="primary" size="medium" class="searchBtn">查询</el-button>
+                <el-button type="primary" size="medium" class="searchBtn" @click="handleToggleTab">查询</el-button>
             </form>
             </div>
         </el-tab-pane>
-        <el-tab-pane label="列表">列表</el-tab-pane>
+        <el-tab-pane label="列表" name="listTab">
+            <div class="tabContent">
+                <div class="totalCost">总保费：{{totalCost}}</div>
+                <div class="listTable">
+                    <el-table
+                        size="mini"
+                        border
+                        height="440px"
+                        :data="recordList"
+                        highlight-current-row>
+                        <el-table-column
+                        type="index"
+                        width="50">
+                        </el-table-column>
+                        <el-table-column
+                        property="date"
+                        label="日期"
+                        sortable
+                        width="120">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="姓名"
+                        sortable
+                        width="120">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="地址"
+                        sortable>
+                        </el-table-column>
+                    </el-table>
+                </div>
+                <div class="oprateBtn">
+                        <el-button type="primary" size="mini">导出Excel</el-button>
+                        <el-button type="danger" size="mini">删除</el-button>
+                        <el-button type="primary" size="mini">查看 / 编辑</el-button>
+                </div>
+            </div>
+        </el-tab-pane>
     </el-tabs>
  </div>
 </template>
@@ -217,6 +256,7 @@
 export default {
  data() {
  return {
+    activeTab:'searchTab',
     branchChecked:true,
     branchOpt: [{
           value: '不区分',
@@ -351,7 +391,17 @@ export default {
         }, {
           value: '员工编号',
         }],
-    principalInput:''
+    principalInput:'',
+    totalCost:0,
+    recordList: [{
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        }]
  }
  },
  components: {
@@ -371,15 +421,20 @@ export default {
          }else{
             this.subYearShow=false;
          }
+     },
+     handleToggleTab(){
+         this.activeTab="listTab"
      }
  }
 }
 </script>
 
 <style scoped lang="scss">
-    .search{
+    .tabContent{
+        position: relative;
         text-align: left;
         padding:0 30px;
+        height: 100%;
     }
     .title{
         display: inline-block;
@@ -411,6 +466,20 @@ export default {
     .searchBtn{
         width:100px;
         margin-left:200px;
+    }
+    .totalCost{
+        float:right;
+        height: 30px;
+    }
+    .listTable{
+        clear: both;
+        //max-width:1000px;
+        width:100%;
+    }
+    .oprateBtn{
+       position: fixed;;
+       bottom:25px;
+       right:45px;
     }
 
 </style>

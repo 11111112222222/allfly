@@ -52,7 +52,7 @@ export default {
           }, {
             label: '非车险',
             children: [{
-              label: '三级 2-2-1'
+              label: '续期应收自动化作业'
             }]
           }]
         }, {
@@ -138,14 +138,16 @@ header {
 section {
   display: flex;
   height: calc(100vh - 40px);
+  overflow-y: hidden;
   aside {
-    min-width:200px;
+    width:230px;
     background-color: #cccfff;
     .el-tree{
       background-color: #cccfff !important;
     }
   }
   content {
+    width:calc(100vw - 230px);
     flex-grow: 1;
     background-color: #DCDFE6;
   }
