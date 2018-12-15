@@ -97,6 +97,9 @@ export default {
             break;
         }
          
+    },
+    pushToOrderData(findOrderItem){
+      this.$router.push({name:'neworderdata',query:{findOrderItem:findOrderItem}})
     }
 
   },
@@ -109,7 +112,9 @@ export default {
     
   },
 
-  mounted() {},
+  mounted() {
+    this.$root.eventHub.$on('pushToOrderData', this.pushToOrderData)
+  },
 
   destroyed() {}
 };
@@ -149,7 +154,12 @@ section {
   content {
     width:calc(100vw - 230px);
     flex-grow: 1;
-    background-color: #DCDFE6;
+
+    // background-color:#DCDFE6;
+    background-color:#fff;
+    // padding:10px;
+    height:100%;
+    overflow-y:scroll;
   }
 }
 </style>
