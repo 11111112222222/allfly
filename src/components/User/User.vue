@@ -87,6 +87,9 @@ export default {
           this.$router.push({ path: '/user/newOrder' });
         }
          
+    },
+    pushToOrderData(findOrderItem){
+      this.$router.push({name:'neworderdata',query:{findOrderItem:findOrderItem}})
     }
 
   },
@@ -99,7 +102,9 @@ export default {
     
   },
 
-  mounted() {},
+  mounted() {
+    this.$root.eventHub.$on('pushToOrderData', this.pushToOrderData)
+  },
 
   destroyed() {}
 };
@@ -139,7 +144,9 @@ section {
     flex-grow: 1;
     // background-color:#DCDFE6;
     background-color:#fff;
-    padding:10px;
+    // padding:10px;
+    height:100%;
+    overflow-y:scroll;
   }
 }
 </style>

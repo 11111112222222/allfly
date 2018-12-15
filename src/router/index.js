@@ -4,6 +4,7 @@ import Login from 'components/Login/Login.vue'
 import User from 'components/User/User.vue'
 import OrderAccept from 'components/Order/OrderAccept.vue'
 import NewOrder from 'components/Order/NewOrder.vue'
+import NewOrderData from 'components/Order/NewOrderData.vue'
 
 Vue.use(Router)
 
@@ -27,6 +28,11 @@ export default new Router({
           path: 'orderAccept',
           name: 'orderAccept',
           component: OrderAccept
+        },
+        {
+          path: 'neworderdata',
+          name: 'neworderdata',
+          component: NewOrderData
         },
         {
           path: 'newOrder',
