@@ -21,7 +21,7 @@
                   :value="item.value">
                   </el-option>
                   </el-select>&nbsp;&nbsp;
-                <el-select v-model="selectedComp" :disabled="compDisabled2"size="mini" style="margin-left: 10px;" placeholder="请选择">
+                <el-select v-model="selectedComp" :disabled="compDisabled2" size="mini" style="margin-left: 10px;" placeholder="请选择">
                   <el-option
                   v-for="item in options2"
                   :key="item.value"
@@ -79,7 +79,6 @@
               size="mini"
               placeholder="选择月">
             </el-date-picker>
-          </el-date-picker>
           </span>  
         </div>
     </fieldset>
