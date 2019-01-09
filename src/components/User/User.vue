@@ -47,7 +47,7 @@ export default {
           children: [{
             label: '车险',
             children: [{
-              label: '三级 2-1-1'
+              label: '车险受理作业'
             }]
           }, {
             label: '非车险',
@@ -82,7 +82,7 @@ export default {
        
     },
     handleNodeClick(data) {
-        //console.log(data.label);
+        // console.log(data.label);
         switch (data.label) {
           case "保单受理作业":
             this.$router.push({ path: '/user/orderAccept' });
@@ -92,6 +92,9 @@ export default {
             break;
           case "保单交费记录查询":
             this.$router.push({ path: '/user/payRecord' });
+            break;
+          case "车险受理作业":
+            this.$router.push({ path: '/user/carInsurAccept' });
             break;
           default:
             break;

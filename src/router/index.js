@@ -6,14 +6,14 @@ import OrderAccept from 'components/Order/OrderAccept.vue'
 import NewOrder from 'components/Order/NewOrder.vue'
 import PayRecord from 'components/Order/payRecord.vue'
 import NewOrderData from 'components/Order/NewOrderData.vue'
-
+import CarInsurAccept from 'components/Order/CarInsurAccept.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',   
+      path: '/',
       name: 'login',
       component: Login
     },
@@ -25,7 +25,7 @@ export default new Router({
       path: '/user',
       name: 'user',
       component: User,
-      children:[
+      children: [
         {
           path: 'orderAccept',
           name: 'orderAccept',
@@ -45,9 +45,14 @@ export default new Router({
           path: 'payRecord',
           name: 'payRecord',
           component: PayRecord
+        },
+        {
+          path: 'carInsurAccept',
+          name: 'carInsurAccept',
+          component: CarInsurAccept
         }
       ]
-    },
-    
+    }
+
   ]
 })
