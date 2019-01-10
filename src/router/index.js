@@ -4,9 +4,9 @@ import Login from 'components/Login/Login.vue'
 import User from 'components/User/User.vue'
 import OrderAccept from 'components/Order/OrderAccept.vue'
 import NewOrder from 'components/Order/NewOrder.vue'
-import PayRecord from 'components/Order/payRecord.vue'
+import PayRecord from 'components/Order/PayRecord.vue'
 import NewOrderData from 'components/Order/NewOrderData.vue'
-
+import PayEditor from 'components/Order/PayEditor.vue'
 
 Vue.use(Router)
 
@@ -45,6 +45,11 @@ export default new Router({
           path: 'payRecord',
           name: 'payRecord',
           component: PayRecord
+        },
+        {
+          path: 'payEditor',
+          name: 'payEditor',
+          component: PayEditor
         }
       ]
     },

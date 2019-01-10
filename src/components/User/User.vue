@@ -10,7 +10,9 @@
         <el-tree :data="menu" :props="defaultProps" :highlight-current="true"  @node-click="handleNodeClick"></el-tree>
       </aside>
       <content>
-        <router-view/>
+        <keep-alive>
+          <router-view/>
+        </keep-alive>
         <!-- <div>展示第一个组件</div>
         <div>展示第二个组件</div>
         <div>展示第三个组件</div> -->
@@ -158,8 +160,8 @@ section {
     // background-color:#DCDFE6;
     background-color:#fff;
     // padding:10px;
-    height:100%;
-    overflow-y:scroll;
+     height:100%;
+    //overflow-y:scroll;
   }
 }
 </style>

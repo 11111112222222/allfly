@@ -1,6 +1,6 @@
 <template>
  <div class="page" style="height:100%">
-    <el-tabs type="border-card" v-model="activeTab" style="height:100%">
+    <el-tabs type="border-card" v-model="activeTab" style="height:100%;overflow-y:auto;">
         <el-tab-pane label="保单交费记录查询" name="searchTab">
             <div class="tabContent">
                 <form action="">
@@ -213,18 +213,20 @@
                 <div class="totalCost">总保费：{{totalCost}}</div>
                 <div class="listTable">
                     <el-table
+                        ref="recordTable"
                         size="mini"
                         border
                         height="440px"
                         :data="recordList"
-                        highlight-current-row>
+                        highlight-current-row
+                        @row-click="setOrderNum">
                         <el-table-column
                         type="index"
                         width="50">
                         </el-table-column>
                         <el-table-column
-                        property="date"
-                        label="日期"
+                        property="orderNum"
+                        label="保单号码"
                         sortable
                         width="120">
                         </el-table-column>
@@ -243,8 +245,8 @@
                 </div>
                 <div class="oprateBtn">
                         <el-button type="primary" size="mini">导出Excel</el-button>
-                        <el-button type="danger" size="mini">删除</el-button>
-                        <el-button type="primary" size="mini">查看 / 编辑</el-button>
+                        <el-button type="danger" size="mini" @click="delateInfo">删除</el-button>
+                        <el-button type="primary" size="mini" @click="editorBtn">查看 / 编辑</el-button>
                 </div>
             </div>
         </el-tab-pane>
@@ -394,18 +396,24 @@ export default {
     principalInput:'',
     totalCost:0,
     recordList: [{
-          date: '2016-05-02',
+          orderNum: '345345345',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1518 弄'
         }, {
-          date: '2016-05-04',
+          orderNum: '576542526',
           name: '小虎',
           address: '北京市普陀区金沙江路 1517 弄'
-        }]
+    }],
+    orderNum:'',
+    recordListIndex:0
  }
  },
  components: {
 
+ },
+ mounted() {
+     this.checked();
+     console.log('进入了')
  },
  methods:{
      handleSelectChange(value){
@@ -424,8 +432,68 @@ export default {
      },
      handleToggleTab(){
          this.activeTab="listTab"
+     },
+     editorBtn(){
+         this.$router.push({path:"/user/payEditor",query:{orderNum:this.orderNum}})
+     },
+     delateInfo(){
+         this.$confirm('确定删除该条数据吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            for(var i=0;i<this.recordList.length;i++){
+                if(this.recordList[i].orderNum==this.orderNum){
+                    this.recordList.splice(i,1);
+                    break;
+                }
+            }
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+     },
+     checked(){
+        //this.$root.eventHub.$on("sendOrderNum",(val)=>{
+        //      for(var i=0;i<this.recordList.length;i++){
+        //     if(this.recordList[i].orderNum==val){
+        //         this.recordListIndex=i;
+        //         console.log("forIndex",this.recordListIndex)
+        //         break;
+        //     }
+        // }
+        // })
+       // console.log("index",this.recordListIndex)
+        this.$refs.recordTable.setCurrentRow(this.recordList[0]);
+        this.orderNum=this.recordList[0].orderNum;
+     },
+     getOrderRow(val){
+         console.log("val",val)
+       
+     },
+     setOrderNum(row){  
+         console.log("当前行",row);
+         this.orderNum=row.orderNum;
      }
- }
+ },
+//  watch: {
+//      '$route':"checked"
+//  },
+ beforeRouteEnter (to, from, next){
+  //console.log("准备进入路由模板");
+    next(vm=>{
+      //通过vm访问组件实例
+     // vm.$root.eventHub.$on('sendOrderNum',vm.getOrderRow);
+    //   vm.fetchData();
+    //   vm.getDate();
+    })
+  }
 }
 </script>
 
@@ -434,7 +502,8 @@ export default {
         position: relative;
         text-align: left;
         padding:0 30px;
-        height: 100%;
+        // height: 100%;
+        // overflow: scroll;
     }
     .title{
         display: inline-block;
@@ -477,9 +546,11 @@ export default {
         width:100%;
     }
     .oprateBtn{
-       position: fixed;;
-       bottom:25px;
-       right:45px;
+    //    position: fixed;;
+    //    bottom:25px;
+    //    right:45px;
+        float: right;
+        margin-top:20px;
     }
 
 </style>
