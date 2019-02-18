@@ -35,11 +35,11 @@ export default {
         return {};
     },
 
-    methods: {
-        pushUser() {
-            this.$router.push({ path: "user" });
-        }
-    },
+  methods: {
+    pushUser() {
+      this.$router.push({ path: 'user/orderAccept' });
+    }
+  },
 
     computed: {},
 

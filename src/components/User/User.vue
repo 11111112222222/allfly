@@ -7,10 +7,15 @@
     </header>
     <section>
       <aside>
-        <el-tree :data="menu" :props="defaultProps"  @node-click="handleNodeClick"></el-tree>
+        <el-tree :data="menu" :props="defaultProps" :highlight-current="true"  @node-click="handleNodeClick"></el-tree>
       </aside>
       <content>
-        <router-view/>
+        <keep-alive>
+          <router-view/>
+        </keep-alive>
+        <!-- <div>展示第一个组件</div>
+        <div>展示第二个组件</div>
+        <div>展示第三个组件</div> -->
       </content> 
     </section>
     
@@ -25,7 +30,7 @@ export default {
   data() {
     return {
       menu: [{
-          label: '保单',
+          label: '人身险',
           children: [{
             label: '保单受理作业',
           },{
@@ -33,21 +38,23 @@ export default {
           },{
             label: '保单交费记录查询',
           },{
+            label: '保单回执回销录入',
+          },{
             label: '续期应收自动化作业',
           },{
             label: '保单及客户数据导入',
           }]
         }, {
-          label: '一级 2',
+          label: '财险',
           children: [{
-            label: '二级 2-1',
+            label: '车险',
             children: [{
-              label: '三级 2-1-1'
+              label: '车险受理作业'
             }]
           }, {
-            label: '二级 2-2',
+            label: '非车险',
             children: [{
-              label: '三级 2-2-1'
+              label: '续期应收自动化作业'
             }]
           }]
         }, {
@@ -77,12 +84,27 @@ export default {
        
     },
     handleNodeClick(data) {
-        if(data.label=="保单受理作业"){
+        // console.log(data.label);
+        switch (data.label) {
+          case "保单受理作业":
             this.$router.push({ path: '/user/orderAccept' });
-        }else if(data.label=="新契约受理报表"){
-          this.$router.push({ path: '/user/newOrder' });
+            break;
+          case "新契约受理报表":
+            this.$router.push({ path: '/user/newOrder' });
+            break;
+          case "保单交费记录查询":
+            this.$router.push({ path: '/user/payRecord' });
+            break;
+          case "车险受理作业":
+            this.$router.push({ path: '/user/carInsurAccept' });
+            break;
+          default:
+            break;
         }
          
+    },
+    pushToOrderData(findOrderItem){
+      this.$router.push({name:'neworderdata',query:{findOrderItem:findOrderItem}})
     }
 
   },
@@ -95,7 +117,9 @@ export default {
     
   },
 
-  mounted() {},
+  mounted() {
+    this.$root.eventHub.$on('pushToOrderData', this.pushToOrderData)
+  },
 
   destroyed() {}
 };
@@ -108,7 +132,7 @@ header {
   line-height: 40px;
   text-align:left;
   padding:0 10px;
-  background-color: rgb(158, 184, 238);
+  background-color: rgb(114, 151, 230);
   // display: flex;
   // align-items: center;
   // justify-content: center;
@@ -123,16 +147,23 @@ header {
 section {
   display: flex;
   height: calc(100vh - 40px);
+  overflow-y: hidden;
   aside {
-    min-width:200px;
-    background-color: #DCDFE6;
+    width:230px;
+    background-color: #cccfff;
     .el-tree{
-      background-color: #DCDFE6 !important;
+      background-color: #cccfff !important;
     }
   }
   content {
+    width:calc(100vw - 230px);
     flex-grow: 1;
-    // background: $color-theme;
+
+    // background-color:#DCDFE6;
+    background-color:#fff;
+    // padding:10px;
+     height:100%;
+    //overflow-y:scroll;
   }
 }
 </style>
