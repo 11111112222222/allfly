@@ -97,7 +97,7 @@
                 <el-option v-for="item in validityTimeOpt" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select>
-              <el-date-picker size="mini" v-model="propertyReleDate" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="propertyReleDateOpt">
+              <el-date-picker size="mini" v-model="propertyReleDate" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="propertyPickerOpt">
               </el-date-picker>
             </div>
             <div class="row insuranceType">
@@ -155,10 +155,33 @@
         <div class="button-wrapper">
           <el-button type="primary">查询</el-button>
         </div>
-        
+
       </el-tab-pane>
       <el-tab-pane label="列表">
-
+        <el-table :data="tableData3" height="450" border style="width: 95%;max-width:1000px">
+          <el-table-column prop="date" label="保单号码" width="100" heigt="50">
+          </el-table-column>
+          <el-table-column prop="name" label="保险公司" width="100" heigt="50">
+          </el-table-column>
+          <el-table-column prop="name" label="保单状态" width="100" heigt="50">
+          </el-table-column>
+          <el-table-column prop="name" label="投保人" width="100" heigt="50">
+          </el-table-column>
+          <el-table-column prop="name" label="承揽人" width="100" heigt="50">
+          </el-table-column>
+          <el-table-column prop="name" label="承揽人姓名" width="100" heigt="50">
+          </el-table-column>
+          <el-table-column prop="name" label="受理日期" width="100" heigt="50">
+          </el-table-column>
+          <el-table-column prop="name" label="生效日期" width="100" heigt="50">
+          </el-table-column>
+          <el-table-column prop="name" label="年华收益" width="100" heigt="50">
+          </el-table-column>
+          <el-table-column prop="name" label="险种代码" width="100" heigt="50">
+          </el-table-column>
+          <el-table-column prop="address" label="地址">
+          </el-table-column>
+        </el-table>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -168,6 +191,7 @@
 export default {
     data() {
         return {
+            // 查询数据
             companyChecked: true,
             numberChecked: true,
             statusChecked: true,
@@ -512,8 +536,47 @@ export default {
             accpeterSel: "不区分",
             accpeterNameSel: "姓名",
             accpeterVal: "",
-            staffSel: '姓名',
-            staffVal: ''
+            staffSel: "姓名",
+            staffVal: "",
+
+            // 列表数据
+            tableData3: [
+                {
+                    date: "2016-05-03",
+                    name: "王小虎",
+                    address: "上海市普陀区金沙江路 1518 弄"
+                },
+                {
+                    date: "2016-05-02",
+                    name: "王小虎",
+                    address: "上海市普陀区金沙江路 1518 弄"
+                },
+                {
+                    date: "2016-05-04",
+                    name: "王小虎",
+                    address: "上海市普陀区金沙江路 1518 弄"
+                },
+                {
+                    date: "2016-05-01",
+                    name: "王小虎",
+                    address: "上海市普陀区金沙江路 1518 弄"
+                },
+                {
+                    date: "2016-05-08",
+                    name: "王小虎",
+                    address: "上海市普陀区金沙江路 1518 弄"
+                },
+                {
+                    date: "2016-05-06",
+                    name: "王小虎",
+                    address: "上海市普陀区金沙江路 1518 弄"
+                },
+                {
+                    date: "2016-05-07",
+                    name: "王小虎",
+                    address: "上海市普陀区金沙江路 1518 弄"
+                }
+            ]
         };
     },
     methods: {}
@@ -555,8 +618,8 @@ legend {
     color: blue;
 }
 .button-wrapper {
-  margin-top: 10px;
-  text-align: center;
-  margin-left:-100px;
+    margin-top: 10px;
+    text-align: center;
+    margin-left: -100px;
 }
 </style>
