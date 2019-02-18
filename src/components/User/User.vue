@@ -50,25 +50,57 @@ export default {
             label: '车险',
             children: [{
               label: '车险受理作业'
+            },{
+              label: '车险新契约报表'
             }]
           }, {
             label: '非车险',
             children: [{
-              label: '续期应收自动化作业'
+              label: '非车险受理作业'
             }]
           }]
         }, {
-          label: '一级 3',
+          label: '人资',
           children: [{
-            label: '二级 3-1',
-            children: [{
-              label: '三级 3-1-1'
-            }]
+            label: '二级 3-1'
+          }]
+        }, {
+          label: '理赔',
+          children: [{
+            label: '理赔受理作业'
+          }]
+        }, {
+          label: '客户',
+          children: [{
+            label: '客户关系管理'
+          }]
+        }, {
+          label: '报表',
+          children: [{
+            label: '二级 3-1'
+          }]
+        }, {
+          label: '结算',
+          children: [{
+            label: '理赔受理作业'
+          }]
+        }, {
+          label: '权限',
+          children: [{
+            label: '客户关系管理'
+          }]
+        }, {
+          label: '费率',
+          children: [{
+            label: '代理险种费用率管理'
           }, {
-            label: '二级 3-2',
-            children: [{
-              label: '三级 3-2-1'
-            }]
+            label: '核保规则管理'
+          }, {
+            label: '车险费率管理'
+          }, {
+            label: '结算费率参数'
+          }, {
+            label: '代理险种费用率查询/导入'
           }]
         }],
         defaultProps: {
@@ -97,6 +129,18 @@ export default {
             break;
           case "车险受理作业":
             this.$router.push({ path: '/user/carInsurAccept' });
+            break;
+          case "车险新契约报表":
+            this.$router.push({ path: '/user/carNewOrder' });
+            break;
+          case "理赔受理作业":
+            this.$router.push({ path: '/user/claimAccept' });
+            break;
+          case "客户关系管理":
+            this.$router.push({ path: '/user/clientRelation' });
+            break;
+          case "代理险种费用率管理":
+            this.$router.push({ path: '/user/agencyManage' });
             break;
           default:
             break;
