@@ -8,15 +8,15 @@
         <table class="firstTable">
          <tr>
              <td>受理的保险公司</td>
-             <td></td>
+             <td>{{findOrderItem.company}}</td>
              <td>对象范围</td>
-             <td></td>
+             <td>{{findOrderItem.random}}</td>
          </tr>
          <tr>
              <td>日期区间</td>
-             <td></td>
+             <td>{{findOrderItem.date}}</td>
              <td>保单状态、回执</td>
-             <td></td>
+             <td>{{findOrderItem.orderStaus}}</td>
          </tr>
         </table>
        

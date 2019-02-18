@@ -59,12 +59,25 @@ export default {
               label: '非车险受理作业'
             }]
           }]
-        }, {
+        },{
           label: '人资',
           children: [{
-            label: '二级 3-1'
+            label: '人事信息/职级管理',
+          },{
+            label: '业绩数据重新组织',
+          },{
+            label: '动态晋升考核管理', 
+          },{
+            label: '个人绩效预警',
+          },{
+            label: '车险动态晋升考核',
+          },{
+            label: '车险个人绩效预警',
+          },{
+            label: '人事组织结构',
           }]
-        }, {
+        
+         }, {
           label: '理赔',
           children: [{
             label: '理赔受理作业'
@@ -101,8 +114,8 @@ export default {
             label: '结算费率参数'
           }, {
             label: '代理险种费用率查询/导入'
-          }]
-        }],
+          }] 
+          }],
         defaultProps: {
           children: 'children',
           label: 'label'
@@ -142,14 +155,36 @@ export default {
           case "代理险种费用率管理":
             this.$router.push({ path: '/user/agencyManage' });
             break;
+
+          case "人事信息/职级管理":
+          this.$router.push({ path: '/user/HumanResource0' });
+          break;
+          case "业绩数据重新组织":
+          this.$router.push({ path: '/user/HumanResource1' });
+          break;
+          case "动态晋升考核管理":
+          this.$router.push({ path: '/user/HumanResource2' });
+          break;
+          case "个人绩效预警":
+          this.$router.push({ path: '/user/HumanResource3' });
+          break;
+           case "车险动态晋升考核":
+          this.$router.push({ path: '/user/HumanResource4' });
+          break;
+           case "车险个人绩效预警":
+          this.$router.push({ path: '/user/HumanResource5' });
+          break;
+           case "人事组织结构":
+          this.$router.push({ path: '/user/HumanResource6' });
+          break;
           default:
             break;
         }
          
     },
-    pushToOrderData(findOrderItem){
-      this.$router.push({name:'neworderdata',query:{findOrderItem:findOrderItem}})
-    }
+    // pushToOrderData(findOrderItem){
+    //   this.$router.push({name:'neworderdata',query:{findOrderItem:findOrderItem}})
+    // }
 
   },
 
@@ -162,7 +197,7 @@ export default {
   },
 
   mounted() {
-    this.$root.eventHub.$on('pushToOrderData', this.pushToOrderData)
+    // this.$root.eventHub.$on('pushToOrderData', this.pushToOrderData)
   },
 
   destroyed() {}
@@ -207,8 +242,7 @@ section {
     // background-color:#DCDFE6;
     background-color:#fff;
     // padding:10px;
-     height:100%;
-    //overflow-y:scroll;
+    height:100%;
   }
 }
 </style>

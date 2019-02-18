@@ -91,7 +91,57 @@ export default new Router({
           path: 'agencyManage',
           name: 'agencyManage',
           component: AgencyManage
-        }
+        },{
+          path: 'humanResource0',
+          name: 'humanResource0',
+          component: resolve=>require(["components/humanResource/HumanResource0.vue"], resolve)
+        },{
+          path: 'humanResource1',
+          name: 'humanResource1',
+          component: resolve=>require(["components/humanResource/HumanResource1.vue"], resolve)
+        },
+        {
+          path: 'humanResource2',
+          name: 'humanResource2',
+          component: resolve=>require(["components/humanResource/HumanResource2.vue"], resolve)
+        },
+        {
+          path: 'humanResource3',
+          name: 'humanResource3',
+          component: resolve=>require(["components/humanResource/HumanResource3.vue"], resolve)
+        },
+        {
+          path: 'humanResource4',
+          name: 'humanResource4',
+          component: resolve=>require(["components/humanResource/HumanResource4.vue"], resolve)
+        },
+        {
+          path: 'humanResource5',
+          name: 'humanResource5',
+          component: resolve=>require(["components/humanResource/HumanResource5.vue"], resolve)
+        },
+        {
+          path: 'humanResource6',
+          name: 'humanResource6',
+          component: resolve=>require(["components/humanResource/HumanResource6.vue"], resolve)
+        },
+        // {
+        //   path: 'humanResource',
+        //   name:'humanResource',
+        //   component: HumanResource,
+        //   children:[
+        //   {
+        //     path: 'plan',
+        //     name: 'plan',
+        //     component: Plan
+        //   },
+        //   {
+        //     path: 'findpeople',
+        //     name: 'findpeople',
+        //     component: FindPeople
+        //   },
+        //   ]
+        // }
       ]
     }
 
