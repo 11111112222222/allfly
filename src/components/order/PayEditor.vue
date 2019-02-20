@@ -105,6 +105,76 @@
                     label="地址"
                     sortable>
                     </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
                 </el-table>
             </div>
             <el-button type="primary" size="mini" id="reMake">重新整理</el-button>
@@ -206,6 +276,38 @@ export default {
         date: '2016-05-04',
         name: '小虎',
         address: '北京市普陀区金沙江路 1517 弄'
+    },{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+    }, {
+        date: '2016-05-04',
+        name: '小虎',
+        address: '北京市普陀区金沙江路 1517 弄'
+    },{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+    }, {
+        date: '2016-05-04',
+        name: '小虎',
+        address: '北京市普陀区金沙江路 1517 弄'
+    },{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+    }, {
+        date: '2016-05-04',
+        name: '小虎',
+        address: '北京市普陀区金沙江路 1517 弄'
+    },{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+    }, {
+        date: '2016-05-04',
+        name: '小虎',
+        address: '北京市普陀区金沙江路 1517 弄'
     }]
  }
  },
@@ -251,9 +353,12 @@ header span:first-child{
 }
 section{
     // height:100%;
+    //width:90%;
     position: absolute;
     top:30px;
     bottom: 0px;
+    left:0;
+    right:0;
     overflow-y: scroll;
     padding:0 45px;
 
@@ -287,6 +392,8 @@ section{
     }
     .listTable{
         margin-bottom:20px;
+        width:100%;
+        // overflow-x: scroll;
     }
     fieldset {
         padding: 20px 0 10px 10px;
