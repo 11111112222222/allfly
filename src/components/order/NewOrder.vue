@@ -7,7 +7,7 @@
       </dl>
     </header>
     <!-- onsubmit="return formValidator" -->
-    <form  action="" method="get">
+    <form  action="" method="">
     <fieldset>
         <legend>受理的保险公司</legend>
         <el-radio-group v-model="radio" @change='selectedRadio'> 
@@ -21,6 +21,7 @@
                   :value="item.value">
                   </el-option>
                   </el-select>&nbsp;&nbsp;
+<<<<<<< Updated upstream
                 <el-select v-model="selectedComp" :disabled="compDisabled2" size="mini" style="margin-left: 10px;" placeholder="请选择">
                   <el-option
                   v-for="item in options2"
@@ -28,6 +29,19 @@
                   :value="item.value">
                   </el-option>
                   </el-select> 
+=======
+                
+                    <el-select v-model="selectedComp" multiple collapse-tags style="margin-left: 10px;" size="mini"
+                    @change="SelectComChange"
+                    :disabled="compDisabled2"
+                    >
+                    <el-option
+                      v-for="item in options2"
+                      :key="item.value"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+>>>>>>> Stashed changes
                   </li>
               <li><el-radio  :label="'allLifeComp'" class="elradio">所有寿险公司</el-radio></li>
               <li><el-radio  :label="'allMoneyComp'" class="elradio">所有财险公司</el-radio></li>
@@ -47,8 +61,11 @@
           <span>
             <el-date-picker
             v-model="selectedTime1"
+            @change="saveTime1"
             type="date"
             size="mini"
+            format="yyyy 年 MM 月 dd 日"
+            value-format="yyyy-MM-dd"
             placeholder="选择日期">
           </el-date-picker>
           </span>
@@ -56,8 +73,11 @@
           <span>
             <el-date-picker
             v-model="selectedTime2"
+            @change="saveTime2"
             type="date"
             size="mini"
+            format="yyyy 年 MM 月 dd 日"
+            value-format="yyyy-MM-dd"
             placeholder="选择日期">
           </el-date-picker>
           </span>  
@@ -66,8 +86,11 @@
           <span>
             <el-date-picker
               v-model="selectedTime1"
+              @change="saveTime1"
               type="month"
               size="mini"
+              format="yyyy 年 MM 月"
+              value-format="yyyy-MM"
               placeholder="选择月">
             </el-date-picker>
           </span>
@@ -75,8 +98,11 @@
           <span>
             <el-date-picker
               v-model="selectedTime2"
+              @change="saveTime2"
               type="month"
               size="mini"
+              format="yyyy 年 MM 月"
+              value-format="yyyy-MM"
               placeholder="选择月">
             </el-date-picker>
           </span>  
@@ -93,7 +119,7 @@
             collapse-tags
             style="margin-left: 10px;"
             size="mini"
-            @change="handleSelectChange"
+            @change="SelectJGChange"
             :disabled="insitDisabled"
             >
             <el-option
@@ -104,7 +130,7 @@
           </el-select>
           </li>
           <li><el-radio :label="'fanchou'" class="elradio">范畴</el-radio>
-          <el-select v-model="valuerandom" :disabled="fcDisabled1" size="mini" style="margin-left: 10px;">
+          <el-select v-model="valuerandom" @change='SelectFCChange' :disabled="fcDisabled1" size="mini" style="margin-left: 10px;">
             <el-option
               v-for="item in options4"
               :key="item.value"
@@ -209,7 +235,7 @@
           multiple
           collapse-tags
           size="mini"
-          @change="handleSelectChange"
+          @change="SelectOrderChange"
           style="margin-left: 10px;"
           placeholder="请选择">
           <el-option
@@ -223,6 +249,7 @@
         <span>
           <el-select
             v-model="huizhidan"
+            @change="SelectOrderChange"
             collapse-tags                            
             size="mini"
             placeholder="请选择">
@@ -246,9 +273,10 @@
         </span>
     </fieldset>
     <div class="subutton">
-      <input type="submit" id="btn" value="报表数据查询预览" @click="linkToOrderData"/>
+      <input type="text" id="btn" value="报表数据查询预览" @click="linkToOrderData"/>
      </div>
     </form>
+    
  </div>
 </template>
 
@@ -265,17 +293,11 @@ export default {
           value: '寿险公司',
         }, {
           value: '产险公司',
-        },{
-      value: '工银安盛(寿)',
-    }, {
-      value: '光大永明(寿)',
-    }, {
-      value: '和谐健康(产)',
-    }, {
-      value: '恒大人寿(产)',
-    }],
+        }],
     insurCompany:'指定保险公司',
     options2: [{
+      value: '不区分',
+    }, {
       value: '工银安盛(寿)',
     }, {
       value: '光大永明(寿)',
@@ -379,7 +401,7 @@ export default {
       value: '已交',
     }],
     value6:'',
-    findOrderItem:'我是新契约数据报表查找的数据'
+    findOrderItem:{company:'不区分',date:'受理日期：',random:'机构：',orderStaus:'保单状态、回执：全部'}
  }
  },
  methods:{
@@ -394,14 +416,38 @@ export default {
      }else if(value==='selectedComp'){
         this.compDisabled1=false;
         this.compDisabled2=false;
+        
      }
+   },
+    //处理传过去的保险公司
+   SelectComChange(value){
+      this.handleSelectChange(value);
+        this.findOrderItem.company='指定保险公司：';
+        for(var i=0,l=this.selectedComp.length;i<l;i++){
+          if(i==l-1){
+            this.findOrderItem.company+=this.selectedComp[i]
+          }else{
+            this.findOrderItem.company+=this.selectedComp[i]+','
+          }
+        }
    },
    selectedTime(value){
      if(value==='dealDate'){
         this.showDate=true;
-     }else if(value==='dealMonth'||value==='countMonth'){
+        this.findOrderItem.date='受理日期：';
+     }else if(value==='dealMonth'){
         this.showDate=false;
+        this.findOrderItem.date='受理月份：';
+     }else if(value==='countMonth'){
+        this.showDate=false;
+        this.findOrderItem.date='绩效月份：';
      }
+   },
+   saveTime1(){
+      this.findOrderItem.date+=this.selectedTime1;
+   },
+   saveTime2(){
+      this.findOrderItem.date+='至'+this.selectedTime2;
    },
    selectedRandom(value){
      if(value==='institute'){
@@ -414,8 +460,41 @@ export default {
        this.fcDisabled1=false;
        this.fcDisabled2=false;
        this.selectedInstit=['不区分'];
+       this.findOrderItem.random='范畴：个人';
      }
    },
+   //处理传过去的对象范围
+   SelectJGChange(value){
+      this.handleSelectChange(value);
+      this.findOrderItem.random='机构：'
+      for(var i=0,l=this.selectedInstit.length;i<l;i++){
+          if(i==l-1){
+            this.findOrderItem.random+=this.selectedInstit[i]
+          }else{
+            this.findOrderItem.random+=this.selectedInstit[i]+','
+          }
+      }
+   },
+   SelectFCChange(){
+     this.findOrderItem.random='范畴：';
+     this.findOrderItem.random+=this.valuerandom;
+   },
+   SelectOrderChange(value){
+     this.handleSelectChange(value);
+     this.findOrderItem.orderStaus='保单状态:';
+     for(var i=0,l=this.insureDan.length;i<l;i++){
+          if(i==l-1){
+            this.findOrderItem.orderStaus+=this.insureDan[i]+';'
+          }else{
+            this.findOrderItem.orderStaus+=this.insureDan[i]+','
+          }
+      }
+      this.findOrderItem.orderStaus+='回执：';
+      this.findOrderItem.orderStaus+=this.huizhidan;
+   },
+  //  saveHuiZhi(){
+  //     this.findOrderItem.orderStaus=''
+  //  },
    handleSelectChange(value){
     if(value[value.length-1]=="不区分"){
       value.splice(0,value.length-1)
@@ -424,7 +503,7 @@ export default {
     }
     },
     linkToOrderData(){
-      this.$root.eventHub.$emit('pushToOrderData',this.findOrderItem)
+      this.$router.push({path: '/user/neworderdata',query:{findOrderItem:this.findOrderItem}})
     },
     onSubmit() {
         console.log('submit!');
@@ -454,7 +533,8 @@ export default {
 .page{
   padding: 10px 30px 0 30px;
   // height:100%;
-  // overflow-y:scroll;
+  height:100%;
+  overflow-y:scroll;
 }
 dt{
   font-size:1.5em;
@@ -486,8 +566,12 @@ fieldset:first-child ul li,fieldset:nth-child(2) div,fieldset:nth-child(3) li{
 fieldset:nth-child(4) span{
   margin-left:10px;
 }
+.subutton{
+  margin-bottom:20px;
+}
 #btn{
   margin-top:20px;
+  width:110px;
   height: 35px;
   background-color:#409EFF;
   border:none;
@@ -510,4 +594,8 @@ fieldset:nth-child(4) span{
   width:60%;
   padding:0 5px 0 10px;
 }
+.el-dialog__body{
+  padding:10px !important;
+}
+
 </style>

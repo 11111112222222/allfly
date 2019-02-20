@@ -7,23 +7,28 @@
      </header>
         <table class="firstTable">
          <tr>
-             <td>受理的保险公司</td>
-             <td>{{findOrderItem.company}}</td>
+             <td>保险公司</td>
+             <td></td>
              <td>对象范围</td>
-             <td>{{findOrderItem.random}}</td>
+             <td></td>
          </tr>
          <tr>
              <td>日期区间</td>
-             <td>{{findOrderItem.date}}</td>
-             <td>保单状态、回执</td>
-             <td>{{findOrderItem.orderStaus}}</td>
+             <td></td>
+             <td>保单状态</td>
+             <td></td>
          </tr>
         </table>
        
         <div class="secondTable">
             <div class="tabnav">
                 <span>记录标识：</span>
-                <span>总保费：</span>
+                <div>
+                    <span>交强险总保费：</span>
+                    <span>商业险总保费：</span>
+                    <span>车船税总保费：</span>
+                </div>
+                
             </div>
             <el-table
             :data="tableData3"
@@ -32,7 +37,10 @@
             size="mini"
             height="350">
                 <el-table-column
-                fixed
+                type="index"
+                width="50">
+                </el-table-column>
+                <el-table-column
                 prop="date"
                 label="日期"
                 width="150">
@@ -62,12 +70,15 @@
                 label="邮编"
                 width="120">
                 </el-table-column>
+                 <el-table-column
+                prop="zip"
+                label="邮编"
+                width="120">
+                </el-table-column>
             </el-table>
         </div>
         <div class="footer">
          <button>导出excel</button>
-         <button>A4水晶报表</button>
-         <button>excel分类汇总</button>
         </div>
         
  </div>
@@ -230,19 +241,16 @@ header span:nth-child(3){
 }
 .secondTable .tabnav{
 //    background-color:rgba(#ebeef5,0.5); 
-   background-color:#409EFF;
+   background-color:rgb(136, 195, 255);
+    height: 30px;
+    line-height: 30px;
+    padding:0 10px;
 }
-.secondTable .tabnav span{
-    height: 20px;
-    line-height: 20px;
-    padding:5px;
-}
-.secondTable .tabnav span:first-child{
+.secondTable .tabnav>span:first-child{
     float:left;
 }
-.secondTable .tabnav span:nth-child(2){
+.secondTable .tabnav>div{
     float:right;
-    margin-right:5px;
 
 }
 .footer{
