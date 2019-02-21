@@ -213,10 +213,11 @@
                 <div class="totalCost">总保费：{{totalCost}}</div>
                 <div class="listTable">
                     <el-table
+                        class="table"
                         ref="recordTable"
                         size="mini"
                         border
-                        height="440px"
+                        height="840px"
                         :data="recordList"
                         highlight-current-row
                         @row-click="setOrderNum">
@@ -403,7 +404,95 @@ export default {
           orderNum: '576542526',
           name: '小虎',
           address: '北京市普陀区金沙江路 1517 弄'
-    }],
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        }],
     orderNum:'',
     recordListIndex:0
  }
@@ -552,5 +641,9 @@ export default {
         float: right;
         margin-top:20px;
     }
-
+    @media screen and (max-width: 1480px) {
+        .table {
+        height:440px !important
+        }
+    }
 </style>
