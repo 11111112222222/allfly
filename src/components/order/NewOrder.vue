@@ -21,15 +21,6 @@
                   :value="item.value">
                   </el-option>
                   </el-select>&nbsp;&nbsp;
-<<<<<<< Updated upstream
-                <el-select v-model="selectedComp" :disabled="compDisabled2" size="mini" style="margin-left: 10px;" placeholder="请选择">
-                  <el-option
-                  v-for="item in options2"
-                  :key="item.value"
-                  :value="item.value">
-                  </el-option>
-                  </el-select> 
-=======
                 
                     <el-select v-model="selectedComp" multiple collapse-tags style="margin-left: 10px;" size="mini"
                     @change="SelectComChange"
@@ -41,7 +32,6 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
->>>>>>> Stashed changes
                   </li>
               <li><el-radio  :label="'allLifeComp'" class="elradio">所有寿险公司</el-radio></li>
               <li><el-radio  :label="'allMoneyComp'" class="elradio">所有财险公司</el-radio></li>
