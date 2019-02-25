@@ -24,6 +24,12 @@ import ChangePerRankCurVi from "components/report/ChangePerRankCurVi.vue";
 import PrePolDetBefSettle from "components/report/PrePolDetBefSettle.vue";
 import AgentCostRatePrint from "components/report/AgentCostRatePrint.vue";
 import SystemUsageAccManange from "components/Authority/SystemUsageAccManange.vue";
+import AccountIncrease from "components/Authority/AccountIncrease.vue";
+import AccountLook from "components/Authority/AccountLook.vue";
+import Password from "components/Authority/Password.vue";
+import PolicyCusDataImp from "components/Order/PolicyCusDataImp.vue";
+import GroupCorresAuthorityManage from "components/Authority/GroupCorresAuthorityManage.vue";
+import PermModuleConfDefi from "components/Authority/PermModuleConfDefi.vue";
 
 Vue.use(Router)
 
@@ -203,6 +209,42 @@ export default new Router({
           name: "SystemUsageAccManange",
           component: resolve =>
             require(["components/Authority/SystemUsageAccManange.vue"], resolve)
+        },
+        {
+          path: "AccountIncrease",
+          name: "AccountIncrease",
+          component: resolve =>
+            require(["components/Authority/AccountIncrease.vue"], resolve)
+        },
+        {
+          path: "AccountLook",
+          name: "AccountLook",
+          component: resolve =>
+            require(["components/Authority/AccountLook.vue"], resolve)
+        },
+        {
+          path: "Password",
+          name: "Password",
+          component: resolve =>
+            require(["components/Authority/Password.vue"], resolve)
+        },
+        {
+          path: "PolicyCusDataImp",
+          name: "PolicyCusDataImp",
+          component: resolve =>
+            require(["components/Order/PolicyCusDataImp.vue"], resolve)
+        },
+        {
+          path: "GroupCorresAuthorityManage",
+          name: "GroupCorresAuthorityManage",
+          component: resolve =>
+            require(["components/Authority/GroupCorresAuthorityManage.vue"], resolve)
+        },
+        {
+          path: "PermModuleConfDefi",
+          name: "PermModuleConfDefi",
+          component: resolve =>
+            require(["components/Authority/PermModuleConfDefi.vue"], resolve)
         }
       ]
     }

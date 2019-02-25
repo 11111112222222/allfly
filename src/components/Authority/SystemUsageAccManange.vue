@@ -220,10 +220,12 @@
             <el-button
               type="primary"
               size="mini"
+              @click="jumpToLook"
             >查看 / 编辑</el-button>
             <el-button
               type="success"
               size="mini"
+              @click="jumpToIncrease"
             >新增一笔</el-button>
           </div>
         </div>
@@ -611,6 +613,12 @@ export default {
   methods: {
     handleToggleTab() {
       this.activeTab = "listTab";
+    },
+    jumpToIncrease(){
+       this.$router.push({ path: '/user/AccountIncrease' });
+    },
+    jumpToLook(){
+       this.$router.push({ path: '/user/AccountLook' });
     }
   }
 };

@@ -60,6 +60,7 @@
             </el-option>
           </el-select>
         </div>
+        <div class="blank-space"></div>
         <div class="line"></div>
         <div class="button-wrapper">
           <el-button
@@ -694,9 +695,10 @@ legend {
   }
 }
 .line {
-  border:1px solid #ddd
+  border:1px solid #ddd;
+  margin-left:100px;
 }
 .blank-space {
-  height: 20px;
+  height: 50px;
 } 
 </style>

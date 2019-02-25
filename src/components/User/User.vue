@@ -185,6 +185,9 @@ export default {
           case "保单交费记录查询":
             this.$router.push({ path: '/user/payRecord' });
             break;
+          case "保单及客户数据导入":
+          this.$router.push({ path: '/user/PolicyCusDataImp' });
+          break;
           case "车险受理作业":
             this.$router.push({ path: '/user/carInsurAccept' });
             break;
@@ -248,6 +251,15 @@ export default {
           break;
           case "系统使用账号管理":
           this.$router.push({ path: '/user/SystemUsageAccManange' });
+          break;
+          case "更改我的密码":
+          this.$router.push({ path: '/user/Password' });
+          break;
+          case "群组相应权限管理":
+          this.$router.push({ path: '/user/GroupCorresAuthorityManage' });
+          break;
+          case "权限模组配置定义":
+          this.$router.push({ path: '/user/PermModuleConfDefi' });
           break;
           default:
             break;
