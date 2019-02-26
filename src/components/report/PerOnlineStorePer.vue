@@ -1,390 +1,155 @@
+<!-- 个人网店绩效日报表 -->
 <template>
   <div class="page">
-    <el-tabs type="border-card" v-model="activeTab">
-      <el-tab-pane label="查询" name="searchTab">
-        <div class="row company">
-          <div class="title">
-            <span>保险公司</span>
-          </div>
-          <el-checkbox v-model="companyChecked"></el-checkbox>
-          <el-select
-            size="mini"
-            v-model="companyTypeSel"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in companyTypeOpt"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-          <el-select
-            size="mini"
-            v-model="companySel"
-            placeholder="请选择"
-            multiple
-            collapse-tags
-          >
-            <el-option
-              v-for="item in companyOpt"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="row policyNumber">
-          <div class="title">
-            <span>保单相关号码/投被保人</span>
-          </div>
-          <el-checkbox v-model="numberChecked"></el-checkbox>
-          <el-select
-            size="mini"
-            v-model="numberSel"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in numberOpt"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-          <el-input
-            size="mini"
-            style="width:20%"
-            placeholder="请输入内容"
-            v-model="numberVal"
-            clearable
-          >
-          </el-input>
-        </div>
-        <div class="row policyStatus">
-          <div class="title">
-            <span>保单状态</span>
-          </div>
-          <el-checkbox v-model="statusChecked"></el-checkbox>
-          <el-select
-            size="mini"
-            v-model="statusSel"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in statusOpt"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="row dateIndex">
-          <div class="title">
-            <span>日期索引</span>
-          </div>
-          <el-checkbox v-model="dateChecked"></el-checkbox>
-          <el-select
-            size="mini"
-            v-model="dateSel"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in dateOpt"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-          <el-date-picker
-            size="mini"
-            v-model="IndexDate"
-            type="daterange"
-            align="right"
-            unlink-panels
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :picker-options="datepickerOpt"
-          >
-          </el-date-picker>
-        </div>
-        <div class="row policyReceipt">
-          <div class="title">
-            <span>保单回执</span>
-          </div>
-          <el-checkbox v-model="receiptChecked"></el-checkbox>
-          <el-select
-            size="mini"
-            v-model="receiptSel"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in receiptOpt"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-          <el-date-picker
-            size="mini"
-            v-model="receiptDate"
-            type="daterange"
-            align="right"
-            unlink-panels
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :picker-options="receiptPickerOpt"
-          >
-          </el-date-picker>
-        </div>
+    <el-tabs
+      type="border-card"
+      v-model="activeTab"
+    >
+      <el-tab-pane
+        label="查询"
+        name="searchTab"
+      >
 
         <fieldset>
-          <legend>高级查询</legend>
-          <div class="wrapper">
-            <div class="row property">
-              <div class="title">
-                <span>保单记录属性</span>
-              </div>
-              <el-checkbox v-model="propertyChecked"></el-checkbox>
-              <el-select
-                size="mini"
-                v-model="propertySel"
-                placeholder="请选择"
-                style="width:8%;marginRight:2px"
-              >
-                <el-option
-                  v-for="item in propertyOpt"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <el-select
-                size="mini"
-                v-model="propertyReleSel"
-                placeholder="请选择"
-                style="width:9%"
-              >
-                <el-option
-                  v-for="item in propertyReleOpt"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <el-select
-                size="mini"
-                v-model="IndexDate"
-                placeholder="请选择"
-                style="width:10%"
-              >
-                <el-option
-                  v-for="item in propertyExiOpt"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <el-input
-                size="mini"
-                style="width:20%"
-                placeholder="请输入内容"
-                v-model="propertyVal"
-                clearable
-              >
-              </el-input>
+          <legend>数据范畴区分条件</legend>
+          <div class="row policyStatus">
+            <div class="title">
+              <span>保险公司区分</span>
             </div>
-            <div class="row propertyRele">
-              <div class="title">
-                <span></span>
-              </div>
-              <!-- el-checkbox占位 -->
-              <el-checkbox style="display:none;"></el-checkbox>
-              <el-checkbox v-model="propertyReleChecked"></el-checkbox>
-              <el-select
-                size="mini"
-                v-model="validityTimeSel"
-                placeholder="请选择"
-                style="width:15%;"
+
+            <el-select
+              size="mini"
+              v-model="statusSel"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in statusOpt"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
               >
-                <el-option
-                  v-for="item in validityTimeOpt"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <el-date-picker
-                size="mini"
-                v-model="propertyReleDate"
-                type="daterange"
-                align="right"
-                unlink-panels
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                :picker-options="propertyPickerOpt"
-              >
-              </el-date-picker>
-            </div>
-            <div class="row insuranceType">
-              <div class="title">
-                <span>投保险种</span>
-              </div>
-              <el-checkbox v-model="insuTypeChecked"></el-checkbox>
-              <el-select
-                size="mini"
-                v-model="insuTypeSel"
-                placeholder="请选择"
-              >
-                <el-option
-                  v-for="item in insuTypeOpt"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-            <div class="row bracket">
-              <div class="title">
-                <span>年期/分档</span>
-              </div>
-              <el-checkbox v-model="bracketChecked"></el-checkbox>
-              <el-select
-                size="mini"
-                v-model="bracketSel"
-                placeholder="请选择"
-                style="width:9%;marginRight:2px"
-              >
-                <el-option
-                  v-for="item in bracketOpt"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <el-input-number
-                size="mini"
-                v-model="bracketLowVal"
-                controls-position="right"
-                :min="1"
-                :max="10"
-                style="width:8%;marginRight:2px"
-              ></el-input-number>至
-              <el-input-number
-                size="mini"
-                v-model="bracketHigVal"
-                controls-position="right"
-                :min="1"
-                :max="10"
-                style="width:8%;"
-              ></el-input-number>
-            </div>
-            <div class="row accpeter">
-              <div class="title">
-                <span>承揽人</span>
-              </div>
-              <el-checkbox v-model="accpeterChecked"></el-checkbox>
-              <el-select
-                size="mini"
-                v-model="accpeterSel"
-                placeholder="请选择"
-                style="width:8%;marginRight:2px"
-              >
-                <el-option
-                  v-for="item in accpeterOpt"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <el-select
-                size="mini"
-                v-model="accpeterNameSel"
-                placeholder="请选择"
-                style="width:9%"
-              >
-                <el-option
-                  v-for="item in accpeterNameOpt"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <el-input
-                size="mini"
-                style="width:20%"
-                placeholder="请输入内容"
-                v-model="accpeterVal"
-                clearable
-              >
-              </el-input>
-            </div>
-            <div class="row staff">
-              <div class="title">
-                <span>录单人员/单位</span>
-              </div>
-              <el-checkbox v-model="staffChecked"></el-checkbox>
-              <el-select
-                size="mini"
-                v-model="staffSel"
-                placeholder="请选择"
-              >
-                <el-option
-                  v-for="item in staffOpt"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <el-input
-                size="mini"
-                style="width:20%"
-                placeholder="请输入内容"
-                v-model="staffVal"
-                clearable
-              >
-              </el-input>
-            </div>
+              </el-option>
+            </el-select>
           </div>
+          <div class="row policyNumber">
+            <div class="title">
+              <span>当月日报期间到</span>
+            </div>
+            <el-date-picker
+              size="mini"
+              v-model="IndexDate"
+              type="datetime"
+              placeholder="选择日期时间">
+            </el-date-picker>
+            <!-- <el-date-picker
+              size="mini"
+              v-model="IndexDate"
+              type="daterange"
+              align="right"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="datepickerOpt"
+            >
+            </el-date-picker> -->
+          </div>
+          
+          <div class="row dateIndex">
+            <div class="title">
+              <span>承揽类型</span>
+            </div>
+
+            <el-checkbox v-model="checked">渠道网点</el-checkbox>
+
+          </div>
+          <div class="row company">
+            <div class="title">
+              <span>银行渠道区分</span>
+            </div>
+
+            <el-input
+              size="mini"
+              style="width:18%"
+              disabled
+              v-model="numberVal"
+              clearable
+            >
+            </el-input>
+            <el-button
+            type="mini"
+         
+          >...</el-button>
+          </div>
+          <div class="row company">
+            <div class="title">
+              <span>理财人员区分</span>
+            </div>
+
+            <el-input
+              size="mini"
+              style="width:18%"
+              disabled
+              v-model="numberVal"
+              clearable
+            >
+            </el-input>
+            <el-button
+            type="mini"
+         
+          >...</el-button>
+          </div>
+           <div class="row policyStatus">
+            <div class="title">
+              <span>绩效区分</span>
+            </div>
+
+            <el-select
+              size="mini"
+              v-model="statusSel"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in statusOpt"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+          
+
         </fieldset>
         <div class="button-wrapper">
-          <el-button type="primary" @click="handleToggleTab">查询</el-button>
+          <el-button
+            type="primary"
+            @click="handleToggleTab"
+          >查询</el-button>
         </div>
 
       </el-tab-pane>
-      <el-tab-pane label="列表" name="listTab">
+      <el-tab-pane
+        label="列表"
+        name="listTab"
+      >
         <div class="tabContent">
           <div class="totalCost">总保费：{{totalCost}}</div>
           <div class="listTable">
             <el-table
+              class="table"
               :data="tableData3"
               size="mini"
-              height="440px"
+              height="840px"
               highlight-current-row
               border
             >
-            <el-table-column
-            fixed
-                        type="index"
-                        width="50">
-                        </el-table-column>
+              <el-table-column
+                fixed
+                type="index"
+                width="50"
+              >
+              </el-table-column>
               <el-table-column
                 prop="date"
                 label="保单号码"
@@ -474,15 +239,18 @@
               </el-table-column>
             </el-table>
           </div>
-          <div class="inBtn">
-                    <el-button type="primary" size="mini">导出Excel</el-button>
-                    <!-- <el-button type="primary" size="mini">理赔报表导出</el-button> -->
-                </div>
-                <div class="oprateBtn">
-                    <el-button type="danger" size="mini">删除</el-button>
-                    <el-button type="primary" size="mini">查看 / 编辑</el-button>
-                    <el-button type="success" size="mini">新增一笔</el-button>
-                </div>
+          
+          <div class="oprateBtn">
+            <el-button
+              type="primary"
+              size="mini"
+            >导出Excel</el-button>
+            
+            <el-button
+              type="success"
+              size="mini"
+            >分类汇总</el-button>
+          </div>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -494,7 +262,7 @@ export default {
   data() {
     return {
       // 查询数据
-      activeTab:'searchTab',
+      activeTab: "searchTab",
       companyChecked: true,
       numberChecked: true,
       statusChecked: true,
@@ -551,7 +319,7 @@ export default {
       statusOpt: [
         {
           value: "选项1",
-          label: "预收件"
+          label: "不区分"
         },
         {
           value: "选项2",
@@ -803,7 +571,7 @@ export default {
       companySel: [],
       numberSel: "保单号码",
       numberVal: "",
-      statusSel: "预收件",
+      statusSel: "不区分",
       dateSel: "受理日期",
       IndexDate: "",
       receiptSel: "未交回",
@@ -860,15 +628,56 @@ export default {
           date: "2016-05-07",
           name: "王小虎",
           address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
         }
       ],
-      totalCost: 0
+      totalCost: 0,
+      checked: true
     };
   },
   methods: {
-    handleToggleTab(){
-         this.activeTab="listTab"
-     },
+    handleToggleTab() {
+      this.activeTab = "listTab";
+    }
   }
 };
 </script>
@@ -912,13 +721,13 @@ legend {
   text-align: center;
   margin-left: -100px;
 }
-.tabContent{
-        position: relative;
-        text-align: left;
-        padding:0 30px;
-        // height: 100%;
-        // overflow: scroll;
-    }
+.tabContent {
+  position: relative;
+  text-align: left;
+  padding: 0 30px;
+  // height: 100%;
+  // overflow: scroll;
+}
 .oprateBtn {
   //    position: fixed;;
   //    bottom:25px;
@@ -926,13 +735,18 @@ legend {
   float: right;
   margin-top: 20px;
 }
-.totalCost{
-        float:right;
-        height: 30px;
-    }
-    .inBtn{
+.totalCost {
+  float: right;
+  height: 30px;
+}
+.inBtn {
   position: fixed;
   left: 275px;
   bottom: 25px;
+}
+@media screen and (max-width: 1480px) {
+    .table {
+      height:440px !important
+    }
 }
 </style>

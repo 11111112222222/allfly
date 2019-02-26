@@ -90,7 +90,44 @@ export default {
         }, {
           label: '报表',
           children: [{
-            label: '二级 3-1'
+            label: '业绩数据重新组织'
+          }, {
+            label: '银行渠道',
+             children: [{
+              label: '渠道绩效日报表'
+            },{
+              label: '个人网店绩效日报表'
+            }]
+          }, {
+            label: '保监会',
+            children: [{
+              label: '电子文档管理'
+            }]
+          }, {
+            label: '保单',
+            children: [{
+              label: '新契约受理报表'
+            }]
+          }, {
+            label: '人资',
+            children: [{
+              label: '人事基本信息报表'
+            },{
+              label: '人事组织信息列表'
+            },
+            {
+              label: '人事职级履历变迁表'
+            }]
+          },{
+            label: '结算',
+            children: [{
+              label: '结算前保单明细预校'
+            }]
+          },{
+            label: '费率',
+            children: [{
+              label: '代理险种费用率打印'
+            }]
           }]
         }, {
           label: '结算',
@@ -101,6 +138,14 @@ export default {
           label: '权限',
           children: [{
             label: '客户关系管理'
+          },{
+            label: '系统使用账号管理'
+          },{
+            label: '群组相应权限管理'
+          },{
+            label: '权限模组配置定义'
+          },{
+            label: '更改我的密码'
           }]
         }, {
           label: '费率',
@@ -140,6 +185,9 @@ export default {
           case "保单交费记录查询":
             this.$router.push({ path: '/user/payRecord' });
             break;
+          case "保单及客户数据导入":
+          this.$router.push({ path: '/user/PolicyCusDataImp' });
+          break;
           case "车险受理作业":
             this.$router.push({ path: '/user/carInsurAccept' });
             break;
@@ -188,6 +236,42 @@ export default {
            case "人事组织结构":
           this.$router.push({ path: '/user/HumanResource6' });
           break;
+          case "渠道绩效日报表":
+          this.$router.push({ path: '/user/DailyChannelPer' });
+          break;
+          case "个人网店绩效日报表":
+          this.$router.push({ path: '/user/PerOnlineStorePer' });
+          break;
+          case "电子文档管理":
+          this.$router.push({ path: '/user/EleDocManage' });
+          break;
+          case "人事基本信息报表":
+          this.$router.push({ path: '/user/PersBasInfReport' });
+          break;
+          case "人事组织信息列表":
+          this.$router.push({ path: '/user/PersOrgInfList' });
+          break;
+          case "人事职级履历变迁表":
+          this.$router.push({ path: '/user/ChangePerRankCurVi' });
+          break;
+          case "结算前保单明细预校":
+          this.$router.push({ path: '/user/PrePolDetBefSettle' });
+          break;
+          case "代理险种费用率打印":
+          this.$router.push({ path: '/user/AgentCostRatePrint' });
+          break;
+          case "系统使用账号管理":
+          this.$router.push({ path: '/user/SystemUsageAccManange' });
+          break;
+          case "更改我的密码":
+          this.$router.push({ path: '/user/Password' });
+          break;
+          case "群组相应权限管理":
+          this.$router.push({ path: '/user/GroupCorresAuthorityManage' });
+          break;
+          case "权限模组配置定义":
+          this.$router.push({ path: '/user/PermModuleConfDefi' });
+          break;
           default:
             break;
         }
@@ -233,7 +317,6 @@ header {
     right: 20px;
     transform: translateY(-50%);
   }
-  
 }
 section {
   display: flex;
