@@ -91,7 +91,23 @@ export default new Router({
           path: 'agencyManage',
           name: 'agencyManage',
           component: AgencyManage
-        },{
+        }, {
+          path: 'ruleManage',
+          name: 'ruleManage',
+          component: resolve => require(["components/feilv/RuleManage.vue"], resolve)
+        }, {
+          path: 'carManage',
+          name: 'carManage',
+          component: resolve => require(["components/feilv/CarManage.vue"], resolve)
+        }, {
+          path: 'rateParam',
+          name: 'rateParam',
+          component: resolve => require(["components/feilv/RateParam.vue"], resolve)
+        }, {
+          path: 'rateSearch',
+          name: 'rateSearch',
+          component: resolve => require(["components/feilv/RateSearch.vue"], resolve)
+        }, {
           path: 'humanResource0',
           name: 'humanResource0',
           component: resolve=>require(["components/humanResource/HumanResource0.vue"], resolve)

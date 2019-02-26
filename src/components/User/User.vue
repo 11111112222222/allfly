@@ -129,10 +129,10 @@ export default {
        
     },
     handleNodeClick(data) {
-        // console.log(data.label);
+        //console.log(data.$treeNodeId);
         switch (data.label) {
           case "保单受理作业":
-            this.$router.push({ path: '/user/orderAccept' });
+            this.$router.push({ path: '/user/orderAccept' });  
             break;
           case "新契约受理报表":
             this.$router.push({ path: '/user/newOrder' });
@@ -155,7 +155,18 @@ export default {
           case "代理险种费用率管理":
             this.$router.push({ path: '/user/agencyManage' });
             break;
-
+          case "核保规则管理":
+            this.$router.push({ path: '/user/ruleManage' });
+            break;
+          case "车险费率管理":
+            this.$router.push({ path: '/user/carManage' });
+            break;
+          case "结算费率参数":
+            this.$router.push({ path: '/user/rateParam' });
+            break;
+          case "代理险种费用率查询/导入":
+            this.$router.push({ path: '/user/rateSearch' });
+            break;
           case "人事信息/职级管理":
           this.$router.push({ path: '/user/HumanResource0' });
           break;
@@ -230,7 +241,9 @@ section {
   overflow-y: hidden;
   aside {
     width:230px;
+    overflow-y: auto;
     background-color: #cccfff;
+    padding-bottom: 30px;
     .el-tree{
       background-color: #cccfff !important;
     }
