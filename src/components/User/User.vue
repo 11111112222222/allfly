@@ -160,7 +160,16 @@ export default {
           }, {
             label: '代理险种费用率查询/导入'
           }] 
-          }],
+          },{
+          label: '继续率',
+          children: [{
+            label: '继续率重新组织'
+          },{
+            label: '继续率查询统计'
+          },{
+            label: '保险公司继续率查询统计'
+          },]
+        }, ],
         defaultProps: {
           children: 'children',
           label: 'label'
@@ -260,6 +269,15 @@ export default {
           break;
           case "权限模组配置定义":
           this.$router.push({ path: '/user/PermModuleConfDefi' });
+          break;
+          case "继续率重新组织":
+          this.$router.push({ path: '/user/ContinueRateReorg' });
+          break;
+          case "继续率查询统计":
+          this.$router.push({ path: '/user/ContinueQueryStatistics' });
+          break;
+          case "保险公司继续率查询统计":
+          this.$router.push({ path: '/user/InsurCompanyContinueRateQueryStatistics' });
           break;
           default:
             break;

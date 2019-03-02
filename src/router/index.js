@@ -30,6 +30,9 @@ import Password from "components/Authority/Password.vue";
 import PolicyCusDataImp from "components/Order/PolicyCusDataImp.vue";
 import GroupCorresAuthorityManage from "components/Authority/GroupCorresAuthorityManage.vue";
 import PermModuleConfDefi from "components/Authority/PermModuleConfDefi.vue";
+import ContinueQueryStatistics from "components/ContinueRate/ContinueQueryStatistics.vue";
+import ContinueRateReorg from "components/ContinueRate/ContinueRateReorg.vue";
+import InsurCompanyContinueRateQuerystatistics from "components/ContinueRate/InsurCompanyContinueRateQuerystatistics.vue";
 
 Vue.use(Router)
 
@@ -245,7 +248,25 @@ export default new Router({
           name: "PermModuleConfDefi",
           component: resolve =>
             require(["components/Authority/PermModuleConfDefi.vue"], resolve)
-        }
+        },
+        {
+          path: "ContinueQueryStatistics",
+          name: "ContinueQueryStatistics",
+          component: resolve =>
+            require(["components/ContinueRate/ContinueQueryStatistics.vue"], resolve)
+        },
+        {
+          path: "ContinueRateReorg",
+          name: "ContinueRateReorg",
+          component: resolve =>
+            require(["components/ContinueRate/ContinueRateReorg.vue"], resolve)
+        },
+        {
+          path: "InsurCompanyContinueRateQuerystatistics",
+          name: "InsurCompanyContinueRateQuerystatistics",
+          component: resolve =>
+            require(["components/ContinueRate/InsurCompanyContinueRateQuerystatistics.vue"], resolve)
+        },
       ]
     }
   ]
