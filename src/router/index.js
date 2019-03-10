@@ -387,6 +387,41 @@ export default new Router({
           name: "PermModuleConfDefi",
           component: resolve =>
             require(["components/Authority/PermModuleConfDefi.vue"], resolve)
+        },
+        {
+          path: 'addInformation',
+          name: 'addInformation',
+          component: resolve=>require(["components/humanResource/AddInformation.vue"], resolve)
+        },
+        {
+          path: 'updateCard',
+          name: 'updateCard',
+          component: resolve=>require(["components/SingleCard/UpdateCard.vue"], resolve)
+        },
+        {
+          path: 'enterRepertory',
+          name: 'enterRepertory',
+          component: resolve=>require(["components/SingleCard/EnterRepertory.vue"], resolve)
+        },
+        {
+          path: 'outRepertory',
+          name: 'outRepertory',
+          component: resolve=>require(["components/SingleCard/OutRepertory.vue"], resolve)
+        },
+        {
+          path: 'panku',
+          name: 'panku',
+          component: resolve=>require(["components/SingleCard/Panku.vue"], resolve)
+        },
+        {
+          path: 'addSingleCard',
+          name: 'addSingleCard',
+          component: resolve=>require(["components/SingleCard/AddSingleCard.vue"], resolve)
+        },
+        {
+          path: 'changeSingleCard',
+          name: 'changeSingleCard',
+          component: resolve=>require(["components/SingleCard/ChangeSingleCard.vue"], resolve)
         }
       ]
     }

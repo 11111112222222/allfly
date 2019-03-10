@@ -522,7 +522,6 @@ export default {
 <style scoped lang="scss">
 .page{
   padding: 10px 30px 0 30px;
-  // height:100%;
   height:100%;
   overflow-y:scroll;
 }

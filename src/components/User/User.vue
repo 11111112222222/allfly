@@ -169,7 +169,18 @@ export default {
           }, {
             label: '代理险种费用率查询/导入'
           }] 
-          }],
+          },{
+          label: '单证',
+          children: [{
+            label: '单证状态更新/结存'
+          },{
+            label: '新增入库及查询管理'
+          },{
+            label: '新增交接及查询管理'
+          },{
+            label: '单证盘库'
+          }]
+        }],
         defaultProps: {
           children: 'children',
           label: 'label'
@@ -293,6 +304,17 @@ export default {
           break;
           case "权限模组配置定义":
           this.$router.push({ path: '/user/PermModuleConfDefi' });
+          case "单证状态更新/结存":
+          this.$router.push({ path: '/user/updateCard' });
+          break;
+          case "新增入库及查询管理":
+          this.$router.push({ path: '/user/enterRepertory' });
+          break;
+          case "新增交接及查询管理":
+          this.$router.push({ path: '/user/outRepertory' });
+          break;
+          case "单证盘库":
+          this.$router.push({ path: '/user/panku' });
           break;
           default:
             break;
