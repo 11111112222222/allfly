@@ -253,13 +253,13 @@
         </el-tab-pane>
         <el-tab-pane label="列表" name="listTab">
             <div class="tabContent">
-                <div class="totalCost">0/0</div>
                 <div class="listTable">
                     <el-table
+                        class="table"
                         ref="recordTable"
                         size="mini"
                         border
-                        height="440px"
+                        height="780px"
                         :data="recordList"
                         highlight-current-row
                         @row-click="setOrderNum">
@@ -268,28 +268,71 @@
                         width="50">
                         </el-table-column>
                         <el-table-column
-                        property="orderNum"
-                        label="保单号码"
-                        sortable
-                        width="120">
+                        property="clientName"
+                        label="客户姓名"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
                         </el-table-column>
                         <el-table-column
                         property="name"
-                        label="姓名"
-                        sortable
-                        width="120">
+                        label="身份证号"
+                        sortable :show-overflow-tooltip="true"
+                        width="110">
                         </el-table-column>
                         <el-table-column
                         property="address"
-                        label="地址"
-                        sortable>
+                        label="性别"
+                        sortable :show-overflow-tooltip="true"
+                        width="80">
+                        </el-table-column>
+                         <el-table-column
+                        property="orderNum"
+                        label="联系电话"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="联系邮箱"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="联系地址"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="出生日期"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="客户类别"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        label="操作"
+                        width="150">
+                        <template slot-scope="scope">
+                            <el-button @click.native.prevent="deleteInfo(scope.$index,recordList)" type="danger" size="mini">删除</el-button>
+                            <el-button type="primary" size="mini" @click="editorBtn(scope.row)">编辑</el-button>
+                        </template>
                         </el-table-column>
                     </el-table>
                 </div>
+                <div class="pageBtn">
+                    <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="1000">
+                    </el-pagination>
+                </div>
                 <div class="oprateBtn">
                         <el-button type="primary" size="mini">导出Excel</el-button>
-                        <el-button type="danger" size="mini" @click="delateInfo">删除</el-button>
-                        <el-button type="primary" size="mini" @click="editorBtn">查看 / 编辑</el-button>
                         <el-button type="primary" size="mini" @click="addBtn">新增客户</el-button>
                 </div>
             </div>
@@ -535,11 +578,11 @@ export default {
     indexDateValue:'',
     totalCost:0,
     recordList: [{
-          orderNum: '345345345',
+          clientName: '李玉翠',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1518 弄'
         }, {
-          orderNum: '576542526',
+          clientName: '胡文捷',
           name: '小虎',
           address: '北京市普陀区金沙江路 1517 弄'
     }],
@@ -572,24 +615,19 @@ export default {
      handleToggleTab(){
          this.activeTab="listTab"
      },
-     editorBtn(){
-         this.$router.push({path:"/user/payEditor",query:{orderNum:this.orderNum}})
+     editorBtn(row){
+         this.$router.push({path:"/user/clientEditor",query:{editor:true,clientName:row.clientName}})
      },
      addBtn(){
-         this.$router.push({path:"/user/clientEditor"})
+         this.$router.push({path:"/user/clientEditor",query:{editor:false,clientName:''}})
      },
-     delateInfo(){
+     deleteInfo(index,table){
          this.$confirm('确定删除该条数据吗?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            for(var i=0;i<this.recordList.length;i++){
-                if(this.recordList[i].orderNum==this.orderNum){
-                    this.recordList.splice(i,1);
-                    break;
-                }
-            }
+            table.splice(index,1)
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -690,12 +728,20 @@ export default {
         //max-width:1000px;
         width:100%;
     }
+     .pageBtn{
+         float: left;
+        margin-top:10px;
+    }
     .oprateBtn{
     //    position: fixed;;
     //    bottom:25px;
     //    right:45px;
         float: right;
-        margin-top:20px;
+        margin-top:10px;
     }
-
+ @media screen and (max-width: 1480px) {
+    .table {
+    height:470px !important
+    }
+  }
 </style>

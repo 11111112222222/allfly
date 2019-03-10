@@ -127,10 +127,11 @@
             <div class="tabContent">
                 <div class="listTable">
                     <el-table
+                        class="table"
                         ref="recordTable"
                         size="mini"
                         border
-                        height="440px"
+                        height="780px"
                         :data="recordList"
                         highlight-current-row
                         @row-click="setOrderNum">
@@ -145,21 +146,95 @@
                         <el-table-column
                         property="orderNum"
                         label="标题"
-                        sortable
+                        sortable :show-overflow-tooltip="true"
                         width="500">
                         </el-table-column>
                         <el-table-column
                         property="name"
                         label="发布日期"
-                        sortable>
+                        sortable :show-overflow-tooltip="true">
                         </el-table-column>
                     </el-table>
                 </div>
-                <div class="oprateBtn">
-                    <el-button type="primary" size="mini" @click="editorBtn">查询结果导出excel</el-button>
-                    <el-button type="danger" size="mini" @click="delateInfo">批量删除选中费率</el-button>
-                    <el-button type="primary" size="mini" @click="editorBtn">批量修改选中费率</el-button>
+                <div class="pageBtn">
+                    <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="1000">
+                    </el-pagination>
                 </div>
+                <div class="oprateBtn">
+                    <el-button type="primary" size="mini">查询结果导出excel</el-button>
+                    <el-button type="danger" size="mini" @click="delateInfo">批量删除选中费率</el-button>
+                    <el-button type="primary" size="mini" @click="dialogVisible = true">批量修改选中费率</el-button>
+                </div>
+                 <el-dialog
+                        title="代理险种费用率批量修改"
+                        :visible.sync="dialogVisible"
+                        width="50%">
+                        <div class="dialogMsg">
+                            <div>
+                                <div class="title">
+                                    <el-checkbox v-model="startChecked" class="checkbox"></el-checkbox>    
+                                    费率有效期起
+                                </div>
+                                <div class="content">
+                                    <el-date-picker
+                                    size="mini"
+                                    v-model="startDate"
+                                    type="date"
+                                    placeholder="选择日期">
+                                    </el-date-picker>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="title">
+                                    <el-checkbox v-model="endChecked" class="checkbox"></el-checkbox>    
+                                    费率有效期止
+                                </div>
+                                <div class="content">
+                                    <el-date-picker
+                                     size="mini"
+                                    v-model="endDate"
+                                    type="date"
+                                    placeholder="选择日期">
+                                    </el-date-picker>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="title">
+                                    <el-checkbox v-model="rateChecked" class="checkbox"></el-checkbox>    
+                                    险种费用率
+                                </div>
+                                <div class="yearTable">
+                                   <el-table
+                                        ref="recordTable"
+                                        size="mini"
+                                        border
+                                        height="200px"
+                                        :data="yearList"
+                                        highlight-current-row
+                                        @row-click="setOrderNum">
+                                        <el-table-column
+                                        property="year"
+                                        label="年度"
+                                        width="100">
+                                        </el-table-column>
+                                        <el-table-column
+                                        label="费率">
+                                         <template slot-scope="scope">
+                                             <el-input v-model="scope.row.rate" size="mini" style="width:100%"></el-input>
+                                        </template>
+                                        </el-table-column>
+                                    </el-table>
+                                </div>
+                            </div>
+                        </div>
+                        <span slot="footer" class="dialog-footer">
+                            <el-button size="mini" @click="dialogVisible = false" type="danger">取 消</el-button>
+                            <el-button size="mini" type="primary">确 定</el-button>
+                        </span>
+                    </el-dialog>
             </div>
         </el-tab-pane>
     </el-tabs>
@@ -171,6 +246,7 @@ export default {
  data() {
  return {
     activeTab:'searchTab',
+    dialogVisible:false,
     fileList: [],
     insurChecked:true,
      sortOpt:[{
@@ -239,6 +315,30 @@ export default {
         }, {
           value: '有效期止',
         }],
+    startChecked:false,
+    startDate:'',
+    endChecked:false,
+    endDate:'',
+    rateChecked:false,
+    yearList:[{
+        year:'1',
+        rate:'1'
+    },{
+        year:'2',
+        rate:'0'
+    },{
+        year:'3',
+        rate:'0'
+    },{
+        year:'1',
+        rate:'0'
+    },{
+        year:'2',
+        rate:'0'
+    },{
+        year:'3',
+        rate:'0'
+    }],
     recordList: [{
           orderNum: '345345345',
           name: '王小虎',
@@ -247,7 +347,55 @@ export default {
           orderNum: '576542526',
           name: '小虎',
           address: '北京市普陀区金沙江路 1517 弄'
-    }],
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        },{
+          orderNum: '345345345',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          orderNum: '576542526',
+          name: '小虎',
+          address: '北京市普陀区金沙江路 1517 弄'
+        }],
     orderNum:'',
     recordListIndex:0
  }
@@ -347,6 +495,19 @@ export default {
            height:100px;
             border: 1px solid #d6dbe7;
          }
+          .dialogMsg{
+                width:80%;
+                margin:auto;
+                padding:10px 20px;
+                border:1px solid #d4d8e4;
+                .title{
+                    text-align: left;
+                }
+                .yearTable{
+                    width:200px;
+                    margin-left:100px;
+                }
+            }
     }
     .title{
         display: inline-block;
@@ -380,12 +541,18 @@ export default {
         //max-width:1000px;
         width:100%;
     }
-    .oprateBtn{
-    //    position: fixed;;
-    //    bottom:25px;
-    //    right:45px;
-        float: right;
-        margin-top:20px;
+      .pageBtn{
+         float: left;
+        margin-top:10px;
     }
+    .oprateBtn{
+        float: right;
+        margin-top:10px;
+    }
+    @media screen and (max-width: 1480px) {
+    .table {
+    height:470px !important
+    }
+  }
 
 </style>

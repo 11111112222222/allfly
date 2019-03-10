@@ -55,10 +55,11 @@
             <div class="tabContent">
                 <div class="listTable">
                     <el-table
+                        class="table"
                         ref="recordTable"
                         size="mini"
                         border
-                        height="440px"
+                        height="780px"
                         :data="recordList"
                         highlight-current-row
                         @row-click="setOrderNum">
@@ -69,30 +70,43 @@
                         <el-table-column
                         property="orderNum"
                         label="标题"
-                        sortable
-                        width="500">
+                        sortable :show-overflow-tooltip="true"
+                        width="400">
                         </el-table-column>
                         <el-table-column
                         property="name"
                         label="有效期起"
-                        sortable>
+                        sortable :show-overflow-tooltip="true">
                         </el-table-column>
                         <el-table-column
                         property="name"
                         label="有效期止"
-                        sortable>
+                        sortable :show-overflow-tooltip="true">
                         </el-table-column>
                         <el-table-column
                         property="name"
                         label="是否审核"
-                        sortable>
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        label="操作"
+                        width="160">
+                        <template slot-scope="scope">
+                            <el-button @click.native.prevent="deleteInfo(scope.$index,recordList)" type="danger" size="mini">删除</el-button>
+                            <el-button type="primary" size="mini" @click="editorBtn(scope.row)">编辑</el-button>
+                        </template>
                         </el-table-column>
                     </el-table>
                 </div>
+                <div class="pageBtn">
+                    <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="1000">
+                    </el-pagination>
+                </div>
                 <div class="oprateBtn">
-                    <el-button type="danger" size="mini" @click="delateInfo">删除</el-button>
-                    <el-button type="primary" size="mini" @click="editorBtn">查看 / 编辑</el-button>
-                    <el-button type="primary" size="mini" @click="editorBtn">新增一笔</el-button>
+                    <el-button type="primary" size="mini" @click="addBtn">新增一笔</el-button>
                 </div>
             </div>
         </el-tab-pane>
@@ -174,20 +188,18 @@ export default {
          this.activeTab="listTab"
      },
      editorBtn(){
-         this.$router.push({path:"/user/claimEditor",query:{claimOrderNum:this.claimOrderNum}})
+         this.$router.push({path:"/user/carRateEditor",query:{editor:true}})
      },
-     delateInfo(){
+     addBtn(){
+         this.$router.push({path:"/user/carRateEditor",query:{editor:false}})
+     },
+      deleteInfo(index,table){
          this.$confirm('确定删除该条数据吗?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            for(var i=0;i<this.recordList.length;i++){
-                if(this.recordList[i].orderNum==this.orderNum){
-                    this.recordList.splice(i,1);
-                    break;
-                }
-            }
+            table.splice(index,1)
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -277,12 +289,18 @@ export default {
         //max-width:1000px;
         width:100%;
     }
+     .pageBtn{
+         float: left;
+        margin-top:10px;
+    }
     .oprateBtn{
-    //    position: fixed;;
-    //    bottom:25px;
-    //    right:45px;
         float: right;
-        margin-top:20px;
+        margin-top:10px;
+    }
+    @media screen and (max-width: 1480px) {
+        .table {
+        height:470px !important
+        }
     }
 
 </style>

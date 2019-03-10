@@ -11,8 +11,9 @@
       </aside>
       <content>
         <keep-alive>
-          <router-view/>
+          <router-view v-if="$route.meta.keepAlive"/>
         </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"/>
         <!-- <div>展示第一个组件</div>
         <div>展示第二个组件</div>
         <div>展示第三个组件</div> -->
@@ -52,11 +53,17 @@ export default {
               label: '车险受理作业'
             },{
               label: '车险新契约报表'
+            },{
+              label: '车险保单导入'
             }]
           }, {
             label: '非车险',
             children: [{
               label: '非车险受理作业'
+            },{
+              label: '非车险新契约报表'
+            },{
+              label: '非车险保单导入'
             }]
           }]
         },{
@@ -151,9 +158,11 @@ export default {
           label: '费率',
           children: [{
             label: '代理险种费用率管理'
-          }, {
+          }, 
+          {
             label: '核保规则管理'
-          }, {
+          },
+           {
             label: '车险费率管理'
           }, {
             label: '结算费率参数'
@@ -174,6 +183,7 @@ export default {
        
     },
     handleNodeClick(data) {
+      
         //console.log(data.$treeNodeId);
         switch (data.label) {
           case "保单受理作业":
@@ -189,10 +199,22 @@ export default {
           this.$router.push({ path: '/user/PolicyCusDataImp' });
           break;
           case "车险受理作业":
-            this.$router.push({ path: '/user/carInsurAccept' });
+            this.$router.push({ path: '/user/carInsurAccept',query:{carOrder:true} });
             break;
           case "车险新契约报表":
-            this.$router.push({ path: '/user/carNewOrder' });
+            this.$router.push({ path: '/user/carNewOrder',query:{carOrder:true} });
+            break;
+          case "车险保单导入":
+            this.$router.push({ path: '/user/carOrderLeadin',query:{carOrder:true} });
+            break;
+          case "非车险受理作业":
+            this.$router.push({ path: '/user/nocarInsurAccept',query:{carOrder:false} });
+            break;
+          case "非车险新契约报表":
+            this.$router.push({ path: '/user/nocarNewOrder',query:{carOrder:false} });
+            break;
+          case "非车险保单导入":
+            this.$router.push({ path: '/user/nocarOrderLeadin',query:{carOrder:false} });
             break;
           case "理赔受理作业":
             this.$router.push({ path: '/user/claimAccept' });

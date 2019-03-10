@@ -1,7 +1,7 @@
 <template>
  <div class="page" style="height:100%">
     <el-tabs type="border-card" v-model="activeTab" style="height:100%;overflow-y:auto;">
-        <el-tab-pane label="查询" name="searchTab">
+        <el-tab-pane label="代理险种费用率查询" name="searchTab">
             <div class="tabContent">
                 <form action="">
                 <div>
@@ -17,7 +17,7 @@
                         </el-select>&nbsp;&nbsp;
                         <el-select
                             size="mini"
-                            v-model="compSel"
+                            v-model="compSel" 
                             multiple
                             collapse-tags
                             @change="handleSelectChange">
@@ -118,10 +118,11 @@
             <div class="tabContent">
                 <div class="listTable">
                     <el-table
+                        class="table"
                         ref="recordTable"
                         size="mini"
                         border
-                        height="440px"
+                        height="780px"
                         :data="recordList"
                         highlight-current-row
                         @row-click="setOrderNum">
@@ -131,29 +132,73 @@
                         </el-table-column>
                         <el-table-column
                         property="orderNum"
-                        label="保单号码"
-                        sortable
-                        width="120">
+                        label="保险公司"
+                        sortable :show-overflow-tooltip="true"
+                        width="110">
                         </el-table-column>
                         <el-table-column
                         property="name"
-                        label="姓名"
-                        sortable
-                        width="120">
+                        label="险种代码"
+                        sortable :show-overflow-tooltip="true"
+                        width="110">
                         </el-table-column>
                         <el-table-column
                         property="address"
-                        label="地址"
-                        sortable>
+                        label="险种名称"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="险种简称"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="主附约"
+                        sortable :show-overflow-tooltip="true"
+                        width="90">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="险种类别"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                         <el-table-column
+                        property="name"
+                        label="起售日"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="停售日"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                         fixed="right"
+                        label="操作"
+                        width="160">
+                        <template slot-scope="scope">
+                            <el-button @click.native.prevent="deleteInfo(scope.$index,recordList)" type="danger" size="mini">删除</el-button>
+                            <el-button type="primary" size="mini" @click="editorBtn(scope.row)">编辑</el-button>
+                        </template>
                         </el-table-column>
                     </el-table>
+                </div>
+                 <div class="pageBtn">
+                    <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="1000">
+                    </el-pagination>
                 </div>
                 <div class="oprateBtn">
                     <el-button type="primary" size="mini">导出险种Excel</el-button>
                     <el-button type="primary" size="mini">导出费率Excel</el-button>
-                    <el-button type="danger" size="mini" @click="delateInfo">删除</el-button>
-                    <el-button type="primary" size="mini" @click="editorBtn">查看 / 编辑</el-button>
-                    <el-button type="primary" size="mini" @click="editorBtn">新增一笔</el-button>
+                    <el-button type="primary" size="mini" @click="addBtn">新增一笔</el-button>
                 </div>
             </div>
         </el-tab-pane>
@@ -272,20 +317,19 @@ export default {
          this.activeTab="listTab"
      },
      editorBtn(){
-         this.$router.push({path:"/user/claimEditor",query:{claimOrderNum:this.claimOrderNum}})
+         this.$router.push({path:"/user/insuranceDetail",query:{editor:true}})
+         // console.log(this.$route.meta.keepAlive+"编辑",this.$route);
      },
-     delateInfo(){
+      addBtn(){
+         this.$router.push({path:"/user/insuranceDetail",query:{editor:false}})
+     },
+     deleteInfo(index,table){
          this.$confirm('确定删除该条数据吗?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            for(var i=0;i<this.recordList.length;i++){
-                if(this.recordList[i].orderNum==this.orderNum){
-                    this.recordList.splice(i,1);
-                    break;
-                }
-            }
+            table.splice(index,1)
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -384,12 +428,18 @@ export default {
         //max-width:1000px;
         width:100%;
     }
-    .oprateBtn{
-    //    position: fixed;;
-    //    bottom:25px;
-    //    right:45px;
-        float: right;
-        margin-top:20px;
+     .pageBtn{
+         float: left;
+        margin-top:10px;
     }
+    .oprateBtn{
+        float: right;
+        margin-top:10px;
+    }
+    @media screen and (max-width: 1480px) {
+    .table {
+    height:470px !important
+    }
+  }
 
 </style>

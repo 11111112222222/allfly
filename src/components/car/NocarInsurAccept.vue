@@ -1,7 +1,7 @@
 <template>
   <div class="page" style="height:100%">
     <el-tabs type="border-card" v-model="activeTab" style="height:100%">
-        <el-tab-pane label="车险受理查询" name="searchTab">
+        <el-tab-pane label="非车险受理查询" name="searchTab">
            <div class="tabContent">
                 <form action="">
                 <div>
@@ -69,13 +69,6 @@
                         start-placeholder="开始日期"
                         end-placeholder="结束日期">
                         </el-date-picker>
-                    </div>
-                </div>
-                <div>
-                    <div class="title">车牌号码</div>
-                    <div class="content">
-                        <el-checkbox v-model="carNumChecked" class="checkbox"></el-checkbox> 
-                        <el-input v-model="carNumInput" size="mini" placeholder="请输入号码" style="width:250px"></el-input>
                     </div>
                 </div>
                 <div>
@@ -186,17 +179,12 @@
         </el-tab-pane>
         <el-tab-pane label="列表" name="listTab">
             <div class="tabContent">
-                <div class="totalCost">
-                  <span>交强险总保费：{{Number(trafficFee).toFixed(2).toLocaleString()}}</span>
-                  <span>&nbsp;&nbsp;&nbsp;&nbsp;商业险总保费：{{Number(businessFee).toFixed(2).toLocaleString()}}</span>
-                  <span>&nbsp;&nbsp;&nbsp;&nbsp;车船税总保费：{{Number(taxFee).toFixed(2).toLocaleString()}}</span>
-                </div>
                 <div class="listTable">
                     <el-table
                         class="table"
                         size="mini"
                         border
-                        height="780px"
+                        height="800px"
                         :data="carInsurList"
                         highlight-current-row>
                         <el-table-column
@@ -205,14 +193,8 @@
                         width="50">
                         </el-table-column>
                         <el-table-column
-                        property="compulsoryNumbers"
-                        label="交强险保单号"
-                        sortable :show-overflow-tooltip="true"
-                        width="120">
-                        </el-table-column>
-                        <el-table-column
-                        property="commerialNumbers"
-                        label="商业险保单号"
+                        property="orderNum"
+                        label="保单号码"
                         sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
@@ -220,7 +202,7 @@
                         property="otherNumbers"
                         label="其它号码"
                         sortable :show-overflow-tooltip="true"
-                        width="100">
+                        width="110">
                         </el-table-column>
                         <el-table-column
                         property="insureCompany"
@@ -250,7 +232,7 @@
                         property="dealDate"
                         label="承揽人（单位/编码）"
                         sortable :show-overflow-tooltip="true"
-                         width="160">
+                         width="170">
                         </el-table-column>
                         <el-table-column
                         property="valiDate"
@@ -460,16 +442,14 @@ export default {
       businessFee:'345234.00',
       taxFee:'3454323.10',
       carInsurList: [{
-          compulsoryNumbers: '2016-05-02',
-          commerialNumbers: '王小虎',
+          orderNum:'',
           otherNumbers: '上海市普陀区金沙江路 1518 弄',
           insureCompany: '上海市普陀区金沙江路 1518 弄',
           customerName: '上海市普陀区金沙江路 1518 弄',
           dealDate: '上海市普陀区金沙江路 1518 弄',
           valiDate: '上海市普陀区金沙江路 1518 弄',
         }, {
-          compulsoryNumbers: '2016-05-02',
-          commerialNumbers: '王小虎',
+          orderNum:'',
           otherNumbers: '上海市普陀区金沙江路 1518 弄',
           insureCompany: '上海市普陀区金沙江路 1518 弄',
           customerName: '上海市普陀区金沙江路 1518 弄',
@@ -515,10 +495,10 @@ export default {
         });
      },
      editorBtn(){
-       this.$router.push({path:"/user/carOrderEditor",query:{editor:true}})
+       this.$router.push({path:"/user/nocarOrderEditor",query:{editor:true}})
      },
      addBtn(){
-       this.$router.push({path:"/user/carOrderEditor",query:{editor:false}})
+       this.$router.push({path:"/user/nocarOrderEditor",query:{editor:false}})
      }
   },
 };
@@ -579,19 +559,18 @@ fieldset {
   left: 275px;
   bottom: 25px;
 }
-  .pageBtn{
-         float: left;
-        margin-top:10px;
+ .pageBtn{
+    float: left;
+    margin-top:10px;
+}
+ .oprateBtn{
+    float: right;
+    margin-top:10px;
+}
+ @media screen and (max-width: 1480px) {
+    .table {
+    height:480px !important
     }
-    .oprateBtn{
-        float: right;
-        margin-top:10px;
-    }
-     @media screen and (max-width: 1480px) {
-        .table {
-        height:440px !important
-        }
-    }
+  }
 </style>
 
-</style>

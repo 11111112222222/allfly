@@ -3,7 +3,7 @@
     <header>
         <div class="title">
             <span @click="goBack"><i class="el-icon-back"></i></span> 
-            <span>交费记录编辑[{{orderNum}}--{{clientName}}]</span>
+            <span>核保规则新增/编辑</span>
         </div>
     </header>
     <section>
@@ -14,7 +14,7 @@
                     <td rowspan="2">相关单据号码</td>
                     <td></td>
                     <td rowspan="2">投保人信息</td>
-                    <td rowspan="2"><div @click="openMsg" style="color:blue;cursor:pointer;">{{clientName}}</div></td>
+                    <td rowspan="2"></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -86,94 +86,94 @@
                     highlight-current-row>
                     <el-table-column
                     type="index"
-                    width="50"
-                    fixed="left">
+                    width="50">
                     </el-table-column>
                     <el-table-column
                     property="date"
-                    label="险种代码"
-                    sortable :show-overflow-tooltip="true"
-                    width="100"
-                    fixed="left">
+                    label="日期"
+                    sortable
+                    width="120">
                     </el-table-column>
                     <el-table-column
                     property="name"
-                    label="险种名称"
-                    sortable :show-overflow-tooltip="true"
-                    width="120"
-                    fixed="left">
+                    label="姓名"
+                    sortable
+                    width="120">
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="被保人"
-                    sortable :show-overflow-tooltip="true"
-                    width="100">
+                    label="地址"
+                    sortable>
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="受理日期"
-                    sortable :show-overflow-tooltip="true"
-                    width="100">
+                    label="地址"
+                    sortable>
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="生效日期"
-                    sortable :show-overflow-tooltip="true"
-                    width="100">
+                    label="地址"
+                    sortable>
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="年期/分档"
-                    sortable :show-overflow-tooltip="true"
-                    width="100">
+                    label="地址"
+                    sortable>
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="年度缴次"
-                    sortable :show-overflow-tooltip="true"
-                    width="100">
+                    label="地址"
+                    sortable>
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="保额"
-                    sortable :show-overflow-tooltip="true"
-                    width="100">
+                    label="地址"
+                    sortable>
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="单位"
-                    sortable :show-overflow-tooltip="true"
-                    width="100">
+                    label="地址"
+                    sortable>
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="保费"
-                    sortable :show-overflow-tooltip="true"
-                    width="100">
+                    label="地址"
+                    sortable>
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="标保"
-                    sortable :show-overflow-tooltip="true"
-                    width="100">
+                    label="地址"
+                    sortable>
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="首佣FYC"
-                    sortable :show-overflow-tooltip="true"
-                    width="100">
+                    label="地址"
+                    sortable>
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="续佣RYC"
-                    sortable :show-overflow-tooltip="true"
-                    width="100">
+                    label="地址"
+                    sortable>
                     </el-table-column>
                     <el-table-column
                     property="address"
-                    label="财佣CFYC"
-                    sortable :show-overflow-tooltip="true"
-                    width="110">
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
+                    </el-table-column>
+                    <el-table-column
+                    property="address"
+                    label="地址"
+                    sortable>
                     </el-table-column>
                 </el-table>
             </div>
@@ -246,7 +246,7 @@ export default {
  data() {
  return {
      orderNum:'454534',
-     clientName:'何静',
+     policyHolder:'何静',
      dealDate:'',
      calMonth:'',
      payType:'续期交费',
@@ -269,6 +269,34 @@ export default {
      timeNum:'',
      payDate:'',
     recordList: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+    }, {
+        date: '2016-05-04',
+        name: '小虎',
+        address: '北京市普陀区金沙江路 1517 弄'
+    },{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+    }, {
+        date: '2016-05-04',
+        name: '小虎',
+        address: '北京市普陀区金沙江路 1517 弄'
+    },{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+    }, {
+        date: '2016-05-04',
+        name: '小虎',
+        address: '北京市普陀区金沙江路 1517 弄'
+    },{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+    }, {
         date: '2016-05-04',
         name: '小虎',
         address: '北京市普陀区金沙江路 1517 弄'
@@ -297,9 +325,6 @@ export default {
     fetch(){
         this.orderNum=this.$route.query.orderNum;
         console.log(this.orderNum)
-    },
-    openMsg(){
-        this.$router.push({path:"/user/clientEditor",query:{clientName:this.clientName,editor:true}})
     }
  },
  beforeRouteEnter (to, from, next){

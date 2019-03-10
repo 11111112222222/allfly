@@ -19,17 +19,7 @@
              <td></td>
          </tr>
         </table>
-       
         <div class="secondTable">
-            <div class="tabnav">
-                <span>记录标识：</span>
-                <div>
-                    <span>交强险总保费：</span>
-                    <span>商业险总保费：</span>
-                    <span>车船税总保费：</span>
-                </div>
-                
-            </div>
             <el-table
             :data="tableData3"
             border
@@ -54,19 +44,13 @@
                 </el-table-column>
                 <el-table-column
                 prop="province"
-                label="交强险保单号码"
-                width="140"
-                sortable :show-overflow-tooltip="true">
-                </el-table-column>
-                <el-table-column
-                prop="city"
-                label="商业险保单号码"
+                label="保单号码"
                 width="140"
                 sortable :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column
                 prop="address"
-                label="车牌号码"
+                label="其他号码"
                 width="120"
                 sortable :show-overflow-tooltip="true">
                 </el-table-column>
@@ -102,13 +86,7 @@
                 </el-table-column>
                 <el-table-column
                 prop="city"
-                label="交强险保费"
-                width="120"
-                sortable :show-overflow-tooltip="true">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="商业险保费"
+                label="保费"
                 width="120"
                 sortable :show-overflow-tooltip="true">
                 </el-table-column>
@@ -131,7 +109,7 @@
                 sortable :show-overflow-tooltip="true">
                 </el-table-column>
             </el-table>
-            <div class="pageBtn">
+             <div class="pageBtn">
                 <el-pagination
                 background
                 layout="prev, pager, next"
@@ -142,7 +120,7 @@
                 <el-button type="primary" size="mini">导出Excel</el-button>
             </div>
         </div>
-         
+        
         
  </div>
 </template>
@@ -329,7 +307,7 @@ header span:nth-child(3){
     color:#fff;
     border-radius:5px;
 }
-  .pageBtn{
+.pageBtn{
          float: left;
         margin-top:10px;
     }

@@ -10,6 +10,9 @@ import PayEditor from 'components/Order/PayEditor.vue'
 import CarInsurAccept from 'components/Car/CarInsurAccept.vue'
 import CarNewOrder from 'components/Car/CarNewOrder.vue'
 import CarNewOrderData from 'components/Car/CarNewOrderData.vue'
+import NocarInsurAccept from 'components/Car/NocarInsurAccept.vue'
+import NocarNewOrder from 'components/Car/NocarNewOrder.vue'
+import NocarNewOrderData from 'components/Car/NocarNewOrderData.vue'
 import ClaimAccept from 'components/Claim/ClaimAccept.vue'
 import ClaimEditor from 'components/Claim/ClaimEditor.vue'
 import ClientRelation from 'components/Client/ClientRelation.vue'
@@ -52,7 +55,10 @@ export default new Router({
         {
           path: "orderAccept",
           name: "orderAccept",
-          component: OrderAccept
+          component: OrderAccept,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
         },
         {
           path: "neworderdata",
@@ -67,68 +73,180 @@ export default new Router({
         {
           path: "payRecord",
           name: "payRecord",
-          component: PayRecord
+          component: PayRecord,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
         },
         {
           path: "payEditor",
           name: "payEditor",
-          component: PayEditor
+          component: PayEditor,
+          meta: {
+            keepAlive: false // 需要缓存
+          }
         },
         {
           path: "carInsurAccept",
           name: "carInsurAccept",
-          component: CarInsurAccept
+          component: CarInsurAccept,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
         },
         {
           path: "carNewOrder",
           name: "carNewOrder",
-          component: CarNewOrder
+          component: CarNewOrder,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
         },
         {
           path: "carNewOrderData",
           name: "carNewOrderData",
-          component: CarNewOrderData
+          component: CarNewOrderData,
+          meta: {
+            keepAlive: false // 需要缓存
+          }
+        }, {
+          path: 'carOrderLeadin',
+          name: 'carOrderLeadin',
+          component: resolve => require(["components/car/carOrderLeadin.vue"], resolve),
+          meta: {
+            keepAlive: true // 需要缓存
+          }
+        }, {
+          path: 'carOrderEditor',
+          name: 'carOrderEditor',
+          component: resolve => require(["components/car/carOrderEditor.vue"], resolve),
+          meta: {
+            keepAlive: true // 不需要缓存
+          }
+        }, {
+          path: "nocarInsurAccept",
+          name: "nocarInsurAccept",
+          component: NocarInsurAccept,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
+        }, {
+          path: "nocarNewOrder",
+          name: "nocarNewOrder",
+          component: NocarNewOrder,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
+        }, {
+          path: "nocarNewOrderData",
+          name: "nocarNewOrderData",
+          component: NocarNewOrderData,
+          meta: {
+            keepAlive: false // 需要缓存
+          }
+        }, {
+          path: 'nocarOrderLeadin',
+          name: 'nocarOrderLeadin',
+          component: resolve => require(["components/car/nocarOrderLeadin.vue"], resolve),
+          meta: {
+            keepAlive: true // 需要缓存
+          }
+        }, {
+          path: 'nocarOrderEditor',
+          name: 'nocarOrderEditor',
+          component: resolve => require(["components/car/nocarOrderEditor.vue"], resolve),
+          meta: {
+            keepAlive: false // 不需要缓存
+          }
         },
         {
           path: "claimAccept",
           name: "claimAccept",
-          component: ClaimAccept
+          component: ClaimAccept,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
         },
         {
           path: "claimEditor",
           name: "claimEditor",
-          component: ClaimEditor
+          component: ClaimEditor,
+          meta: {
+            keepAlive: false // 需要缓存
+          }
         },
         {
           path: "clientRelation",
           name: "clientRelation",
-          component: ClientRelation
+          component: ClientRelation,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
         },
         {
           path: "clientEditor",
           name: "clientEditor",
-          component: ClientEditor
+          component: ClientEditor,
+          meta: {
+            keepAlive: false // 需要缓存
+          }
         },
         {
           path: "agencyManage",
           name: "agencyManage",
-          component: AgencyManage
+          component: AgencyManage,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
         }, {
           path: 'ruleManage',
           name: 'ruleManage',
-          component: resolve => require(["components/feilv/RuleManage.vue"], resolve)
+          component: resolve => require(["components/feilv/RuleManage.vue"], resolve),
+          meta: {
+            keepAlive: true // 需要缓存
+          }
         }, {
           path: 'carManage',
           name: 'carManage',
-          component: resolve => require(["components/feilv/CarManage.vue"], resolve)
+          component: resolve => require(["components/feilv/CarManage.vue"], resolve),
+          meta: {
+            keepAlive: true // 需要缓存
+          }
         }, {
           path: 'rateParam',
           name: 'rateParam',
-          component: resolve => require(["components/feilv/RateParam.vue"], resolve)
+          component: resolve => require(["components/feilv/RateParam.vue"], resolve),
+          meta: {
+            keepAlive: true // 需要缓存
+          }
         }, {
           path: 'rateSearch',
           name: 'rateSearch',
-          component: resolve => require(["components/feilv/RateSearch.vue"], resolve)
+          component: resolve => require(["components/feilv/RateSearch.vue"], resolve),
+          meta: {
+            keepAlive: true // 需要缓存
+          }
+        }, {
+          path: 'insuranceDetail',
+          name: 'insuranceDetail',
+          component: resolve => require(["components/feilv/InsuranceDetail.vue"], resolve),
+          meta: {
+            keepAlive: false // 不需要缓存
+          }
+        },  {
+          path: 'ruleEditor',
+          name: 'ruleEditor',
+          component: resolve => require(["components/feilv/ruleEditor.vue"], resolve),
+          meta: {
+            keepAlive: false // 不需要缓存
+          }
+        }, {
+          path: 'carRateEditor',
+          name: 'carRateEditor',
+          component: resolve => require(["components/feilv/carRateEditor.vue"], resolve),
+          meta: {
+            keepAlive: false // 不需要缓存
+          }
         }, {
           path: 'humanResource0',
           name: 'humanResource0',

@@ -96,7 +96,7 @@
                 <div class="oprateBtn">
                     <el-button type="danger" size="mini" @click="delateInfo">删除</el-button>
                     <el-button type="primary" size="mini" @click="editorBtn">查看 / 编辑</el-button>
-                    <el-button type="primary" size="mini" @click="editorBtn">新增一笔</el-button>
+                    <el-button type="primary" size="mini" @click="addBtn">新增一笔</el-button>
                 </div>
             </div>
         </el-tab-pane>
@@ -171,7 +171,10 @@ export default {
          this.activeTab="listTab"
      },
      editorBtn(){
-         this.$router.push({path:"/user/claimEditor",query:{claimOrderNum:this.claimOrderNum}})
+         this.$router.push({path:"/user/ruleEditor",query:{claimOrderNum:this.claimOrderNum}})
+     },
+     addBtn(){
+         this.$router.push({path:"/user/ruleEditor",query:{claimOrderNum:this.claimOrderNum}})
      },
      delateInfo(){
          this.$confirm('确定删除该条数据吗?', '提示', {

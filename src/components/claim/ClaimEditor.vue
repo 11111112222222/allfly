@@ -3,7 +3,7 @@
     <header>
         <div class="title">
             <span @click="goBack"><i class="el-icon-back"></i></span> 
-            <span>理赔查看 / 编辑</span>
+            <span>{{headerTitle}}</span>
         </div>
     </header>
     <section>
@@ -16,13 +16,13 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">保单号码</span>
-                                <el-input v-model="orderNum" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="orderNum" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">保险公司</span>
-                                <el-select size="mini" v-model="insurComp">
+                                <el-select size="mini" v-model="insurComp" :disabled="disabled">
                                     <el-option
                                     v-for="item in compOpt"
                                     :key="item.value"
@@ -36,7 +36,7 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">报案号</span>
-                                <el-input v-model="reportNum" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="reportNum" :disabled="disabled" size="mini" style="width:200px;" ></el-input>  
                             </div>
                         </el-col>
                         <el-col :span="8">
@@ -45,6 +45,7 @@
                                 <el-date-picker
                                 size="mini"
                                 v-model="reportDate"
+                                :disabled="disabled"
                                 type="datetime"
                                 placeholder="选择日期时间">
                                 </el-date-picker>
@@ -53,7 +54,7 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">任务类型</span>
-                                <el-select size="mini" v-model="taskType">
+                                <el-select size="mini" v-model="taskType" :disabled="disabled">
                                     <el-option
                                     v-for="item in taskOpt"
                                     :key="item.value"
@@ -67,20 +68,20 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">查勘地点</span>
-                                <el-input v-model="surveyAddr" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="surveyAddr" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">查勘员</span>
-                                <el-input v-model="surveyer" size="mini" style="width:150px;"></el-input> 
-                                <el-button style="margin-left: 5px;" size="mini">...</el-button> 
+                                <el-input v-model="surveyer" :disabled="disabled" size="mini" style="width:150px;"></el-input> 
+                                <el-button :disabled="disabled" style="margin-left: 5px;" size="mini">...</el-button> 
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">是否结案</span>
-                                <el-select size="mini" v-model="finalJudge">
+                                <el-select size="mini" v-model="finalJudge" :disabled="disabled" >
                                     <el-option
                                     v-for="item in finalOpt"
                                     :key="item.value"
@@ -94,20 +95,20 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">车牌号码</span>
-                                <el-input v-model="carNum" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="carNum" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">出单员</span>
-                                <el-input v-model="createPerson" size="mini" style="width:150px;"></el-input> 
-                                <el-button style="margin-left: 5px;" size="mini">...</el-button> 
+                                <el-input v-model="createPerson" :disabled="disabled" size="mini" style="width:150px;"></el-input> 
+                                <el-button :disabled="disabled" style="margin-left: 5px;" size="mini">...</el-button> 
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">被保险人</span>
-                                <el-input v-model="insuranceder" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="insuranceder" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
                             </div>
                         </el-col>
                     </el-row>
@@ -115,7 +116,7 @@
                         <el-col :span="24">
                             <div class="grid-content processBox">
                                 <span class="title claimProcess">出险经过</span>
-                                <el-input type="textarea" :rows="3" v-model="claimProcess" size="mini" style="width:85%;" class="processInput"></el-input>  
+                                <el-input type="textarea" :rows="3" v-model="claimProcess" :disabled="disabled" size="mini" style="width:85%;" class="processInput"></el-input>  
                             </div>
                         </el-col>
                     </el-row>
@@ -126,90 +127,56 @@
                 <legend>
                     追踪记录
                 </legend>
-                <div class="content">
-                    <el-row :gutter="20">
-                        <el-col :span="8">
-                            <div class="grid-content bg-purple">
-                                <span class="title">保险公司</span>
-                                <el-select size="mini" v-model="insurComp2">
-                                    <el-option
-                                    v-for="item in compOpt"
-                                    :key="item.value"
-                                    :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </div>
-                        </el-col>
-                        <el-col :span="8">
-                            <div class="grid-content bg-purple">
-                                <span class="title">时间</span>
-                                <el-date-picker
-                                size="mini"
-                                v-model="reportDate2"
-                                type="datetime"
-                                placeholder="选择日期时间">
-                                </el-date-picker>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="8">
-                            <div class="grid-content bg-purple">
-                                <span class="title">状态</span>
-                                <el-select size="mini" v-model="orderStatus">
-                                    <el-option
-                                    v-for="item in statusOpt"
-                                    :key="item.value"
-                                    :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </div>
-                        </el-col>
-                        <el-col :span="8">
-                            <div class="grid-content bg-purple">
-                                <span class="title">处理人</span>
-                                <el-input v-model="handlePerson" size="mini" style="width:150px;"></el-input> 
-                                <el-button style="margin-left: 5px;" size="mini">...</el-button> 
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="8">
-                            <div class="grid-content bg-purple">
-                                <span class="title">绩效支出</span>
-                                <el-input-number size="mini" v-model="jixiao" controls-position="right" :min="0" ></el-input-number>
-                            </div>
-                        </el-col>
-                        <el-col :span="8">
-                            <div class="grid-content bg-purple">
-                                <span class="title">公估费用</span>
-                                 <el-input-number size="mini" v-model="ggCost" controls-position="right" :min="0" ></el-input-number>
-                                 <el-checkbox v-model="openInvoice" class="checkbox" style="margin-left:15px;">是否开票</el-checkbox>    
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="8">
-                            <div class="grid-content processBox">
-                                <span class="title claimProcess">处理过程</span>
-                                <el-input type="textarea" :rows="3" v-model="handleProcess" size="mini" style="width:85%;" class="processInput"></el-input>  
-                            </div>
-                        </el-col>
-                        <el-col :span="8">
-                            <div class="grid-content" style="margin-left:30px;">
-                                <el-upload
-                                    class="upload-demo"
-                                    action="https://jsonplaceholder.typicode.com/posts/"
-                                    :before-remove="beforeRemove"
-                                    :on-change="handleChange"
-                                    multiple
-                                    :file-list="fileList">
-                                    <el-button size="mini" type="primary">添加附件</el-button>
-                                    <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
-                                </el-upload>
-                            </div>
-                        </el-col>
-                    </el-row>
+                <div class="content" v-if="!editor">
+                    <ClaimRecord></ClaimRecord>
+                </div>
+                <div class="content" v-if="editor">
+                    <el-button type="primary" size="mini" id="addRecord" @click="handleAddRecord">增加追踪记录</el-button>
+                    <el-dialog
+                        title="追踪记录新增"
+                        :visible.sync="dialogVisible"
+                        width="70%">
+                        <div class="dialogMsg">
+                            <ClaimRecord></ClaimRecord>
+                        </div>
+                        <span slot="footer" class="dialog-footer">
+                            <el-button size="mini" @click="dialogVisible = false" type="danger">取 消</el-button>
+                            <el-button size="mini" type="primary" @click="dialogConfirm">确 定</el-button>
+                        </span>
+                    </el-dialog>
+                    <table class="orderTable" v-for="item in recordArr" :key="item.index">
+                        <tr>
+                            <td>保险公司</td>
+                            <td colspan="3">{{item.company}}</td>
+                            <td>状态</td>
+                            <td>{{item.status}}</td>
+                        </tr>
+                        <tr>
+                            <td>处理人</td>
+                            <td colspan="3">{{item.dealPer}}</td>
+                            <td>时间</td>
+                            <td>{{item.date}}</td>
+                        </tr>
+                        <tr>
+                            <td>绩效支出</td>
+                            <td>{{item.cost}}</td>
+                            <td>公估费用</td>
+                            <td>{{item.fee}}</td>
+                            <td>是否开票</td>
+                            <td>{{item.ticket}}</td>
+                        </tr>
+                        <tr>
+                            <td>附件</td>
+                            <td colspan="5">{{item.file}}</td>
+                        </tr>
+                        <tr>
+                            <td>过程</td>
+                            <td colspan="5">
+                                <el-input type="textarea" :rows="3" v-model="item.process" size="mini"></el-input> 
+                                <el-button type="primary" size="mini" style="margin-top:5px;"   @click="editorRecord">编辑</el-button> 
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </fieldset>
             <fieldset>
@@ -221,20 +188,20 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">结案金额</span>
-                                 <el-input-number size="mini" v-model="finalMoney" controls-position="right" :min="0" ></el-input-number>
-                                 <el-checkbox v-model="openInvoice2" class="checkbox" style="margin-left:15px;">是否开票</el-checkbox>    
+                                 <el-input-number size="mini" v-model="finalMoney" :disabled="disabled" controls-position="right" :min="0" ></el-input-number>
+                                 <el-checkbox v-model="openInvoice2" :disabled="disabled" class="checkbox" style="margin-left:15px;">是否开票</el-checkbox>    
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">发票号</span>
-                                <el-input v-model="invoiceNum" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="invoiceNum" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">发票金额</span>
-                                <el-input v-model="invoiceMoney" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="invoiceMoney" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
                             </div>
                         </el-col>
                     </el-row>
@@ -242,13 +209,13 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">来款日期</span>
-                                <el-date-picker size="mini" v-model="getMoneyDate" type="date" placeholder="选择日期"></el-date-picker>
+                                <el-date-picker size="mini" v-model="getMoneyDate" :disabled="disabled" type="date" placeholder="选择日期"></el-date-picker>
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">来款金额</span>
-                                <el-input v-model="getMoney" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="getMoney" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
                             </div>
                         </el-col>
                     </el-row>
@@ -256,7 +223,7 @@
                         <el-col :span="24">
                             <div class="grid-content processBox">
                                 <span class="title claimProcess">备注说明</span>
-                                <el-input type="textarea" :rows="3" v-model="remark" size="mini" style="width:85%;" class="processInput"></el-input>  
+                                <el-input type="textarea" :rows="3" v-model="remark" :disabled="disabled" size="mini" style="width:85%;" class="processInput"></el-input>  
                             </div>
                         </el-col>
                     </el-row>
@@ -273,9 +240,27 @@
 </template>
 
 <script type="text/ecmascript-6">
+import ClaimRecord from './ClaimRecord.vue'
 export default {
  data() {
  return {
+     headerTitle:'',
+     editor:false,
+     processTd:'',
+     dialogVisible:false,
+     addRecord:false,
+     recordArr:[{
+         company:'太平洋财',
+         status:'正常',
+         dealPer:'hh',
+         date:'2017-09-23',
+         cost:'22',
+         fee:'33',
+         ticket:'是',
+         process:'巴拉',
+         file:'file1.doc'
+     }],
+     disabled:false,
      orderNum:'',
      compOpt:[{
           value: '长安财',
@@ -335,10 +320,10 @@ export default {
  }
  },
  components: {
-
+     ClaimRecord
  },
  mounted() {
-    // this.fetch();
+    this.fetch();
  },
  methods:{
     goBack(){
@@ -346,17 +331,40 @@ export default {
        //this.$root.eventHub.$emit("sendOrderNum",this.orderNum)
     },
     fetch(){
-        // this.orderNum=this.$route.query.orderNum;
-        // console.log(this.orderNum)
+        this.editor=this.$route.query.editor;
+        if(this.editor){
+            this.headerTitle="理赔编辑"
+        }else{
+            this.headerTitle="理赔新增"
+        }
+        //console.log(this.editor+'编辑')
     },
-    beforeRemove(file){
-        console.log(file);
-        return this.$confirm(`确定移除 ${ file.name }？`);
+    handleAddRecord(){
+        this.dialogVisible=true;
+        this.addRecord=true;
     },
-    handleChange(file,fileList){
-        console.log(file,fileList)
-         this.fileList= fileList.slice(-3);
-    }
+    editorRecord(){
+        this.dialogVisible=true;
+        this.addRecord=false;
+    },
+    dialogConfirm(){
+        if(this.addRecord){
+            var recordItem={
+         company:'太平洋财',
+         status:'正常',
+         dealPer:'hh',
+         date:'2017-09-23',
+         cost:'22',
+         fee:'33',
+         ticket:'是',
+         process:'巴拉',
+         file:'file1.doc'
+     };
+            this.recordArr.push(recordItem);
+        }
+        this.dialogVisible=false;
+    },
+  
  },
  beforeRouteEnter (to, from, next){
   //console.log("准备进入路由模板");
@@ -404,7 +412,7 @@ section{
 
     
     fieldset {
-        padding: 20px 0 10px 10px;
+        padding: 10px;
         margin:10px 0;
        // height: 90px;
         border: 1px solid #d6dbe7;
@@ -429,7 +437,34 @@ section{
                 .processInput{
                     position: absolute;
                     top:0;
-                    left:74px;
+                    left:70px;
+                }
+            }
+            #addRecord{
+                float: right;
+            }
+            .dialogMsg{
+                width:95%;
+                margin:auto;
+                padding:20px;
+                border:1px solid #d4d8e4;
+
+            }
+            .orderTable{
+                width:80%;
+                margin:10px 0;
+                td{
+                    border:1px solid #d4d8e4;
+                    border-collapse: collapse;
+                    height: 20px;
+                    padding:5px;
+                }
+                td:nth-of-type(odd){
+                    width:10%;
+                    font-weight: bold;
+                }
+                td:nth-of-type(even){
+                    width:20%;
                 }
             }
         }

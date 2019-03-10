@@ -3,7 +3,7 @@
     <header>
         <div class="title">
             <span @click="goBack"><i class="el-icon-back"></i></span> 
-            <span>客户添加</span>
+            <span>{{headerTitle}}</span>
         </div>
     </header>
     <section>
@@ -329,22 +329,39 @@
                         type="index"
                         width="50">
                         </el-table-column>
+                         <el-table-column
+                        property="orderNum"
+                        label="保险公司"
+                        sortable :show-overflow-tooltip="true"
+                        width="140">
+                        </el-table-column>
                         <el-table-column
                         property="orderNum"
                         label="保单号码"
-                        sortable
+                        sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
                         property="name"
-                        label="姓名"
-                        sortable
+                        label="投保人"
+                        sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
                         property="address"
-                        label="地址"
-                        sortable>
+                        label="保单生效日期"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="投保险种"
+                        sortable :show-overflow-tooltip="true"
+                        width="140">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="受益人"
+                        sortable :show-overflow-tooltip="true">
                         </el-table-column>
                     </el-table>
                     <div style="margin-top:10px;">
@@ -369,24 +386,59 @@
                         </el-table-column>
                         <el-table-column
                         property="orderNum"
-                        label="保单号码"
-                        sortable
-                        width="120">
+                        label="客户姓名"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
                         </el-table-column>
                         <el-table-column
                         property="name"
-                        label="姓名"
-                        sortable
+                        label="性别"
+                        sortable :show-overflow-tooltip="true"
+                        width="80">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="联系电话"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="出生日期"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="年龄"
+                        sortable :show-overflow-tooltip="true"
+                        width="80">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="证件号码"
+                        sortable :show-overflow-tooltip="true"
+                        width="130">
+                        </el-table-column>
+                         <el-table-column
+                        property="name"
+                        label="存在关系"
+                        sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
                         property="address"
-                        label="地址"
-                        sortable>
+                        label="关系说明"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        label="操作"
+                        width="100">
+                        <template slot-scope="scope">
+                            <el-button @click.native.prevent="deleteInfo(scope.$index,friendList)" type="danger" size="mini">移除</el-button>
+                        </template>
                         </el-table-column>
                     </el-table>
                     <div class="oprateBtn">
-                        <el-button type="danger" size="mini">移除关系人</el-button>
                         <el-button type="primary" size="mini">新增关系人</el-button>
                     </div>
                 </div>
@@ -408,25 +460,62 @@
                         </el-table-column>
                         <el-table-column
                         property="orderNum"
-                        label="保单号码"
-                        sortable
+                        label="记录属性"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="属性内容"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="有效期起"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="有效期止"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="附件"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="附件格式"
+                        sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
                         property="name"
-                        label="姓名"
-                        sortable
-                        width="120">
+                        label="大小(KB)"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
                         </el-table-column>
                         <el-table-column
                         property="address"
-                        label="地址"
-                        sortable>
+                        label="备注"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        fixed="right"
+                        label="操作"
+                        width="150">
+                        <template slot-scope="scope">
+                            <el-button @click.native.prevent="deleteInfo(scope.$index,msgList)" type="danger" size="mini">移除</el-button>
+                            <el-button type="primary" size="mini" @click="editorBtn(scope.row)">编辑</el-button>
+                        </template>
                         </el-table-column>
                     </el-table>
                     <div class="oprateBtn">
-                        <el-button type="danger" size="mini">移除</el-button>
-                        <el-button type="primary" size="mini">查看/编辑</el-button>
                         <el-button type="primary" size="mini">新增</el-button>
                     </div>
                 </div>
@@ -446,6 +535,8 @@ export default {
  data() {
  return {
      activeTab:'basicTab',
+     headerTitle:'客户添加',
+     editor:true,
      imageUrl:'',
      dialogVisible: false,
      height:'',
@@ -629,7 +720,7 @@ export default {
 
  },
  mounted() {
-    // this.fetch();
+     this.fetch();
  },
  methods:{
     goBack(){
@@ -637,9 +728,39 @@ export default {
        //this.$root.eventHub.$emit("sendOrderNum",this.orderNum)
     },
     fetch(){
-        // this.orderNum=this.$route.query.orderNum;
+        this.editor=this.$route.query.editor;
+        if(this.editor){
+            this.headerTitle="客户编辑"
+        }else{
+            this.headerTitle="客户添加"
+        }
+        this.clientName=this.$route.query.clientName;
         // console.log(this.orderNum)
     },
+     editorBtn(){
+        // this.$router.push({path:"/user/clientEditor",query:{editor:true}})
+     },
+     addBtn(){
+         //this.$router.push({path:"/user/clientEditor",query:{editor:false}})
+     },
+     deleteInfo(index,table){
+         this.$confirm('确定删除该条数据吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            table.splice(index,1)
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+     },
     beforeRemove(file){
         console.log(file);
         return this.$confirm(`确定移除 ${ file.name }？`);
@@ -815,7 +936,7 @@ section{
     width:80%;
     padding: 20px 0 10px 10px;
     margin:10px 0;
-    height: 170px;
+    //height: 170px;
     border: 1px solid #d6dbe7;
 }
     .compRow{

@@ -84,9 +84,9 @@
         </el-tab-pane>
         <el-tab-pane label="列表" name="listTab">
             <div class="tabContent">
-                <div class="totalData">共{{totalData}}条数据</div>
                 <div class="listTable">
                     <el-table
+                        class="table"
                         ref="recordTable"
                         size="mini"
                         border
@@ -101,27 +101,70 @@
                         <el-table-column
                         property="orderNum"
                         label="保单号码"
-                        sortable
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="报案时间"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="报案号"
+                        sortable :show-overflow-tooltip="true"
+                         width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="查勘地点"
+                        sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
                         property="name"
-                        label="姓名"
-                        sortable
-                        width="120">
+                        label="查勘员"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
                         </el-table-column>
                         <el-table-column
                         property="address"
-                        label="地址"
-                        sortable>
+                        label="出险经过"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="是否结案"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="任务类型"
+                        sortable :show-overflow-tooltip="true"
+                         width="100">
+                        </el-table-column>
+                        <el-table-column
+                        label="操作"
+                        width="150">
+                        <template slot-scope="scope">
+                            <el-button @click.native.prevent="deleteInfo(scope.$index,recordList)" type="danger" size="mini">删除</el-button>
+                            <el-button type="primary" size="mini" @click="editorBtn(scope.row)">编辑</el-button>
+                        </template>
                         </el-table-column>
                     </el-table>
                 </div>
+                <div class="pageBtn">
+                    <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="1000">
+                    </el-pagination>
+                </div>
                 <div class="oprateBtn">
                     <el-button type="primary" size="mini">理赔报表导出</el-button>
-                    <el-button type="danger" size="mini" @click="delateInfo">删除理赔记录</el-button>
-                    <el-button type="primary" size="mini" @click="editorBtn">编辑理赔记录</el-button>
-                    <el-button type="primary" size="mini" @click="editorBtn">新增理赔记录</el-button>
+                    <el-button type="primary" size="mini" @click="addBtn">新增理赔记录</el-button>
                 </div>
             </div>
         </el-tab-pane>
@@ -195,20 +238,18 @@ export default {
          this.activeTab="listTab"
      },
      editorBtn(){
-         this.$router.push({path:"/user/claimEditor",query:{claimOrderNum:this.claimOrderNum}})
+         this.$router.push({path:"/user/claimEditor",query:{claimOrderNum:this.claimOrderNum,editor:true}})
      },
-     delateInfo(){
+     addBtn(){
+         this.$router.push({path:"/user/claimEditor",query:{claimOrderNum:this.claimOrderNum,editor:false}})
+     },
+     deleteInfo(index,table){
          this.$confirm('确定删除该条数据吗?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            for(var i=0;i<this.recordList.length;i++){
-                if(this.recordList[i].orderNum==this.orderNum){
-                    this.recordList.splice(i,1);
-                    break;
-                }
-            }
+            table.splice(index,1)
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -307,12 +348,18 @@ export default {
         //max-width:1000px;
         width:100%;
     }
+    .pageBtn{
+         float: left;
+        margin-top:10px;
+    }
     .oprateBtn{
-    //    position: fixed;;
-    //    bottom:25px;
-    //    right:45px;
         float: right;
-        margin-top:20px;
+        margin-top:10px;
+    }
+    @media screen and (max-width: 1480px) {
+        .table {
+        height:470px !important
+        }
     }
 
 </style>

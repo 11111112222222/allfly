@@ -223,31 +223,125 @@
                         @row-click="setOrderNum">
                         <el-table-column
                         type="index"
-                        width="50">
+                        width="50"
+                        fixed="left">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="保单状态"
+                        sortable :show-overflow-tooltip="true"
+                        width="120">
                         </el-table-column>
                         <el-table-column
                         property="orderNum"
                         label="保单号码"
-                        sortable
+                        sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
                         property="name"
-                        label="姓名"
-                        sortable
+                        label="保险公司"
+                        sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
                         property="address"
-                        label="地址"
-                        sortable>
+                        label="交费型别"
+                        sortable :show-overflow-tooltip="true"
+                        width="120">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="年度缴次"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="主约年期/分档"
+                        sortable :show-overflow-tooltip="true"
+                        width="140">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="交费方式"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="交费类别"
+                        sortable :show-overflow-tooltip="true"
+                        width="120">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="实交保费"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="交费日期"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="保单生效日期"
+                        sortable :show-overflow-tooltip="true"
+                        width="120">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="主约生效日期"
+                        sortable :show-overflow-tooltip="true"
+                        width="120">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="计绩年月"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="是否核拥"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="承揽人A"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="承揽人B"
+                        width="100"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                         fixed="right"
+                        label="操作"
+                        width="160">
+                        <template slot-scope="scope">
+                            <el-button @click.native.prevent="deleteInfo(scope.$index,recordList)" type="danger" size="mini">移除</el-button>
+                            <el-button type="primary" size="mini" @click="editorBtn(scope.row)">编辑</el-button>
+                        </template>
                         </el-table-column>
                     </el-table>
                 </div>
+                <div class="pageBtn">
+                    <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="1000">
+                    </el-pagination>
+                </div>
                 <div class="oprateBtn">
-                        <el-button type="primary" size="mini">导出Excel</el-button>
-                        <el-button type="danger" size="mini" @click="delateInfo">删除</el-button>
-                        <el-button type="primary" size="mini" @click="editorBtn">查看 / 编辑</el-button>
+                    <el-button type="primary" size="mini">导出Excel</el-button>
                 </div>
             </div>
         </el-tab-pane>
@@ -522,21 +616,16 @@ export default {
      handleToggleTab(){
          this.activeTab="listTab"
      },
-     editorBtn(){
-         this.$router.push({path:"/user/payEditor",query:{orderNum:this.orderNum}})
+     editorBtn(row){
+         this.$router.push({path:"/user/payEditor",query:{orderNum:row.orderNum}})
      },
-     delateInfo(){
+     deleteInfo(index,table){
          this.$confirm('确定删除该条数据吗?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            for(var i=0;i<this.recordList.length;i++){
-                if(this.recordList[i].orderNum==this.orderNum){
-                    this.recordList.splice(i,1);
-                    break;
-                }
-            }
+            table.splice(index,1);
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -628,18 +717,19 @@ export default {
     .totalCost{
         float:right;
         height: 30px;
-    }
+    } 
     .listTable{
         clear: both;
         //max-width:1000px;
         width:100%;
     }
+    .pageBtn{
+         float: left;
+        margin-top:10px;
+    }
     .oprateBtn{
-    //    position: fixed;;
-    //    bottom:25px;
-    //    right:45px;
         float: right;
-        margin-top:20px;
+        margin-top:10px;
     }
     @media screen and (max-width: 1480px) {
         .table {
