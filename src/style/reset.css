@@ -1,0 +1,44 @@
+dt {
+  font-size: 1.5em;
+  color: #409EFF;
+  margin: 20px 0px 0px 20px;
+}
+
+dd {
+  margin: 10px 0px 5px 20px;
+}
+
+.lf{
+  float:left;
+}
+
+.rt{
+  float:right;
+}
+
+fieldset {
+  padding: .35em .625em .75em;
+  margin: 20px;
+  border: 1px solid #d9dce7;
+  padding: 10px;
+  text-align: left;
+}
+
+legend {
+  padding: .5em;
+  border: 0;
+  width: auto;
+}
+
+table {
+  border: solid 1px #d9dce7;
+  margin: 10px 30px;
+  text-align: left;
+}
+
+td {
+  border: 1px solid #d4d8e4;
+  border-collapse: collapse;
+  height: 20px;
+  padding: 5px;
+}

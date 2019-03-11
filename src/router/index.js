@@ -7,6 +7,9 @@ import NewOrder from 'components/Order/NewOrder.vue'
 import PayRecord from 'components/Order/PayRecord.vue'
 import NewOrderData from 'components/Order/NewOrderData.vue'
 import PayEditor from 'components/Order/PayEditor.vue'
+
+import AutoReceive from 'components/order/AutoReceive.vue'
+
 import CarInsurAccept from 'components/Car/CarInsurAccept.vue'
 import CarNewOrder from 'components/Car/CarNewOrder.vue'
 import CarNewOrderData from 'components/Car/CarNewOrderData.vue'
@@ -33,6 +36,38 @@ import Password from "components/Authority/Password.vue";
 import PolicyCusDataImp from "components/Order/PolicyCusDataImp.vue";
 import GroupCorresAuthorityManage from "components/Authority/GroupCorresAuthorityManage.vue";
 import PermModuleConfDefi from "components/Authority/PermModuleConfDefi.vue";
+
+import balanceRecordWork from 'components/balanceAccounts/inCheck/balanceRecordWork.vue'
+import carInsuranceLawCheck from 'components/balanceAccounts/inCheck/carInsuranceLawCheck.vue'
+import lawAutoCheck from 'components/balanceAccounts/inCheck/lawAutoCheck.vue'
+import carInsuranceEveryCheck from 'components/balanceAccounts/outCheck/carInsuranceEveryCheck.vue'
+import carInsuranceSomeCheck from 'components/balanceAccounts/outCheck/carInsuranceSomeCheck.vue'
+import everyCheck from 'components/balanceAccounts/outCheck/everyCheck.vue'
+import insuranceDetailCheck from 'components/balanceAccounts/outCheck/insuranceDetailCheck.vue'
+import lookEdit from 'components/balanceAccounts/outCheck/lookEdit.vue'
+import someCheck from 'components/balanceAccounts/outCheck/someCheck.vue'
+import someCheckNext from 'components/balanceAccounts/outCheck/someCheckNext.vue'
+import RateReorganisation from 'components/balanceAccounts/RateReorganisation.vue'
+import parameterDeploy from 'components/parameter/system/parameterDeploy.vue'
+import journalManage from 'components/parameter/system/journalManage.vue'
+import branchHandle from 'components/parameter/assignParameterDeploy/branchHandle.vue'
+import addFirstNode from 'components/parameter/assignParameterDeploy/addFirstNode.vue'
+import CooperateInsuranceCompanyManage from 'components/parameter/assignParameterDeploy/CooperateInsuranceCompanyManage.vue'
+import insuranceCompanyAdd from 'components/parameter/assignParameterDeploy/insuranceCompanyAdd.vue'
+import insuranceAssignParameter from 'components/parameter/moduleParameterConfiguration/insurance/insuranceAssignParameter.vue'
+import personnalityAssignParameter from 'components/parameter/moduleParameterConfiguration/personnality/personnalityAssignParameter.vue'
+import rankDefineDeploy from 'components/parameter/moduleParameterConfiguration/personnality/rankDefineDeploy.vue'
+import customerAssignParameter from 'components/parameter/moduleParameterConfiguration/customer/customerAssignParameter.vue'
+import agentInsuranceMoneyAdministrate from 'components/parameter/moduleParameterConfiguration/balance/agentInsuranceMoneyAdministrate.vue'
+import balanceMoneyParameter from 'components/parameter/moduleParameterConfiguration/balance/balanceMoneyParameter.vue'
+import agentInsuranceMoneyPrint from 'components/parameter/moduleParameterConfiguration/balance/agentInsuranceMoneyPrint.vue'
+import insuranceInfoEdit from 'components/parameter/moduleParameterConfiguration/balance/insuranceInfoEdit.vue'
+import insuranceMoneyEdit from 'components/parameter/moduleParameterConfiguration/balance/insuranceMoneyEdit.vue'
+import insuranceInfoAdd from 'components/parameter/moduleParameterConfiguration/balance/insuranceInfoAdd.vue'
+import authorityDeploy from 'components/parameter/moduleParameterConfiguration/authority/authorityDeploy.vue'
+import addChildNode from 'components/parameter/assignParameterDeploy/addChildNode.vue'
+import authorityAdministrate from 'components/parameter/moduleParameterConfiguration/authority/authorityAdministrate.vue'
+import employMoneyDetails from 'components/balanceAccounts/inCheck/employMoneyDetails.vue'
 
 Vue.use(Router)
 
@@ -87,28 +122,13 @@ export default new Router({
           }
         },
         {
-          path: "carInsurAccept",
-          name: "carInsurAccept",
-          component: CarInsurAccept,
-          meta: {
-            keepAlive: true // 需要缓存
-          }
-        },
-        {
-          path: "carNewOrder",
-          name: "carNewOrder",
-          component: CarNewOrder,
-          meta: {
-            keepAlive: true // 需要缓存
-          }
-        },
-        {
-          path: "carNewOrderData",
-          name: "carNewOrderData",
-          component: CarNewOrderData,
-          meta: {
-            keepAlive: false // 需要缓存
-          }
+          path: 'carInsurAccept',
+          name: 'carInsurAccept',
+          component: CarInsurAccept
+        }, {
+          path: 'carNewOrder',
+          name: 'carNewOrder',
+          component: CarNewOrder
         }, {
           path: 'carOrderLeadin',
           name: 'carOrderLeadin',
@@ -248,33 +268,37 @@ export default new Router({
             keepAlive: false // 不需要缓存
           }
         }, {
+          path: 'agencyManage',
+          name: 'agencyManage',
+          component: AgencyManage
+        }, {
           path: 'humanResource0',
           name: 'humanResource0',
-          component: resolve=>require(["components/humanResource/HumanResource0.vue"], resolve)
-        },{
+          component: resolve => require(["components/humanResource/HumanResource0.vue"], resolve)
+        }, {
           path: 'humanResource1',
           name: 'humanResource1',
-          component: resolve=>require(["components/humanResource/HumanResource1.vue"], resolve)
+          component: resolve => require(["components/humanResource/HumanResource1.vue"], resolve)
         },
         {
           path: 'humanResource2',
           name: 'humanResource2',
-          component: resolve=>require(["components/humanResource/HumanResource2.vue"], resolve)
+          component: resolve => require(["components/humanResource/HumanResource2.vue"], resolve)
         },
         {
           path: 'humanResource3',
           name: 'humanResource3',
-          component: resolve=>require(["components/humanResource/HumanResource3.vue"], resolve)
+          component: resolve => require(["components/humanResource/HumanResource3.vue"], resolve)
         },
         {
           path: 'humanResource4',
           name: 'humanResource4',
-          component: resolve=>require(["components/humanResource/HumanResource4.vue"], resolve)
+          component: resolve => require(["components/humanResource/HumanResource4.vue"], resolve)
         },
         {
           path: 'humanResource5',
           name: 'humanResource5',
-          component: resolve=>require(["components/humanResource/HumanResource5.vue"], resolve)
+          component: resolve => require(["components/humanResource/HumanResource5.vue"], resolve)
         },
         {
           path: 'humanResource6',
@@ -422,6 +446,157 @@ export default new Router({
           path: 'changeSingleCard',
           name: 'changeSingleCard',
           component: resolve=>require(["components/SingleCard/ChangeSingleCard.vue"], resolve)
+        }, {
+          path: 'balanceRecordWork',
+          name: 'balanceRecordWork',
+          component: balanceRecordWork
+        },
+        {
+          path: 'carInsuranceLawCheck',
+          name: 'carInsuranceLawCheck',
+          component: carInsuranceLawCheck
+        }, {
+          path: 'lawAutoCheck',
+          name: 'lawAutoCheck',
+          component: lawAutoCheck
+        }, {
+          path: 'carInsuranceEveryCheck',
+          name: 'carInsuranceEveryCheck',
+          component: carInsuranceEveryCheck
+        }, {
+          path: 'carInsuranceSomeCheck',
+          name: 'carInsuranceSomeCheck',
+          component: carInsuranceSomeCheck
+        },
+        {
+          path: 'everyCheck',
+          name: 'everyCheck',
+          component: everyCheck
+        }, {
+          path: 'insuranceDetailCheck',
+          name: 'insuranceDetailCheck',
+          component: insuranceDetailCheck
+        }, {
+          path: 'lookEdit',
+          name: 'lookEdit',
+          component: lookEdit
+        }, {
+          path: 'someCheck',
+          name: 'someCheck',
+          component: someCheck
+        }, {
+          path: 'RateReorganisation',
+          name: 'RateReorganisation',
+          component: RateReorganisation
+        }, {
+          path: 'AutoReceive',
+          name: 'AutoReceive',
+          component: AutoReceive
+        },
+        {
+          path: 'parameterDeploy',
+          name: 'parameterDeploy',
+          component: parameterDeploy
+        },
+        {
+          path: 'journalManage',
+          name: 'journalManage',
+          component: journalManage
+        },
+        {
+          path: 'branchHandle',
+          name: 'branchHandle',
+          component: branchHandle
+        },
+        {
+          path: 'addFirstNode',
+          name: 'addFirstNode',
+          component: addFirstNode
+        },
+        {
+          path: 'CooperateInsuranceCompanyManage',
+          name: 'CooperateInsuranceCompanyManage',
+          component: CooperateInsuranceCompanyManage
+        },
+        {
+          path: 'insuranceCompanyAdd',
+          name: 'insuranceCompanyAdd',
+          component: insuranceCompanyAdd
+        },
+        {
+          path: 'insuranceAssignParameter',
+          name: 'insuranceAssignParameter',
+          component: insuranceAssignParameter
+        },
+        {
+          path: 'personnalityAssignParameter',
+          name: 'personnalityAssignParameter',
+          component: personnalityAssignParameter
+        },
+        {
+          path: 'rankDefineDeploy',
+          name: 'rankDefineDeploy',
+          component: rankDefineDeploy
+        },
+        {
+          path: 'customerAssignParameter',
+          name: 'customerAssignParameter',
+          component: customerAssignParameter
+        },
+        {
+          path: 'agentInsuranceMoneyAdministrate',
+          name: 'agentInsuranceMoneyAdministrate',
+          component: agentInsuranceMoneyAdministrate
+        },
+        {
+          path: 'balanceMoneyParameter',
+          name: 'balanceMoneyParameter',
+          component: balanceMoneyParameter
+        },
+        {
+          path: 'agentInsuranceMoneyPrint',
+          name: 'agentInsuranceMoneyPrint',
+          component: agentInsuranceMoneyPrint
+        },
+        {
+          path: 'insuranceInfoEdit',
+          name: 'insuranceInfoEdit',
+          component: insuranceInfoEdit
+        },
+        {
+          path: 'insuranceMoneyEdit',
+          name: 'insuranceMoneyEdit',
+          component: insuranceMoneyEdit
+        },
+        {
+          path: 'insuranceInfoAdd',
+          name: 'insuranceInfoAdd',
+          component: insuranceInfoAdd
+        },
+        {
+          path: 'authorityDeploy',
+          name: 'authorityDeploy',
+          component: authorityDeploy
+        },
+        {
+          path: 'addChildNode',
+          name: 'addChildNode',
+          component: addChildNode
+        },
+        {
+          path: 'authorityAdministrate',
+          name: 'authorityAdministrate',
+          component: authorityAdministrate
+        },
+        {
+          path: 'someCheckNext',
+          name: 'someCheckNext',
+          component: someCheckNext
+        },
+        {
+          path: 'employMoneyDetails',
+          name: 'employMoneyDetails',
+          component: employMoneyDetails
         }
       ]
     }

@@ -7,6 +7,7 @@ module.exports = {
   },
   env: {
     browser: true,
+    jquery: true
   },
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
@@ -26,5 +27,13 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     "quotes": [1, "single"], //引号类型 `` "" ''
+    'indent': 'off',
+    'vue/script-indent': [
+      'error',
+      4,
+      {
+        'baseIndent': 1
+      }
+    ]
   }
 }
