@@ -24,7 +24,7 @@
             <el-select
               size="mini"
               style="width:20%"
-              v-model="form.region"
+              v-model="form.name"
               placeholder="请选择活动区域"
             >
               <el-option
@@ -130,7 +130,7 @@
               filterable
               :filter-method="filterMethod"
               filter-placeholder="请输入城市拼音"
-              v-model="value2"
+              v-model="form.name"
               :data="data2"
             >
             </el-transfer>
@@ -143,7 +143,7 @@
                   size="mini"
                   type="date"
                   placeholder="选择日期"
-                  v-model="form.date1"
+                  v-model="form.name"
                 ></el-date-picker>
               </el-col>
 
@@ -152,7 +152,7 @@
               <el-select
                 size="mini"
                 style="width:20%"
-                v-model="form.region"
+                v-model="form.name"
                 placeholder="请选择活动区域"
               >
                 <el-option
@@ -170,7 +170,7 @@
           <el-form-item>
             <el-button
               type="primary"
-              @click="onSubmit"
+              @click="add(form)"
               size="mini"
               style="width:20%"
             >立即创建</el-button>
@@ -192,11 +192,15 @@
         >取消</el-button>
       </div> -->
 
+
+
     </section>
   </div>
 </template>
 
+
 <script type="text/ecmascript-6">
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
 export default {
   data() {
     const generateData2 = _ => {
@@ -221,11 +225,6 @@ export default {
       return data;
     };
     return {
-      data2: generateData2(),
-      value2: [],
-      filterMethod(query, item) {
-        return item.pinyin.indexOf(query) > -1;
-      },
       form: {
         name: "",
         region: "",
@@ -236,6 +235,12 @@ export default {
         resource: "",
         desc: ""
       },
+      data2: generateData2(),
+      value2: [],
+      filterMethod(query, item) {
+        return item.pinyin.indexOf(query) > -1;
+      },
+      
       orderNum: "",
       compOpt: [
         {
@@ -321,13 +326,18 @@ export default {
       remark: ""
     };
   },
+  
   components: {},
   mounted() {
     // this.fetch();
+    console.log(this.form)
+  },
+   computed: {
+    ...mapState(['tableData3']),
   },
   methods: {
     onSubmit() {
-      console.log("submit!");
+     
     },
     goBack() {
       history.go(-1);
@@ -344,7 +354,23 @@ export default {
     handleChange(file, fileList) {
       console.log(file, fileList);
       this.fileList = fileList.slice(-3);
+    },
+    add(value){
+       console.log(value)
+       this.$store.commit('ADD', value)
+       this.form =  {
+        name: "",
+        region: "",
+        date1: "",
+        date2: "",
+        delivery: false,
+        type: [],
+        resource: "",
+        desc: ""
+      }
+       history.go(-1)
     }
+    // ...mapMutations(['ADD']),
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

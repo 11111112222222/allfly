@@ -114,6 +114,7 @@
               size="mini"
               height="440px"
               highlight-current-row
+              @row-click="setOrderNum"
               border
             >
               <el-table-column
@@ -216,6 +217,7 @@
             <el-button
               type="danger"
               size="mini"
+              @click.native.prevent="delateInfo()"
             >删除</el-button>
             <el-button
               type="primary"
@@ -235,6 +237,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
 export default {
   data() {
     return {
@@ -543,7 +546,7 @@ export default {
           }
         ]
       },
-
+      currentRow: null,
       companyTypeSel: "指定保险公司",
       companySel: [],
       numberSel: "保单号码",
@@ -570,45 +573,50 @@ export default {
       staffVal: "",
 
       // 列表数据
-      tableData3: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        }
-      ],
-      totalCost: 0
+      // tableData3: [
+      //   {
+      //     date: "2016-05-03",
+      //     name: "王小虎",
+      //     address: "上海市普陀区金沙江路 1518 弄"
+      //   },
+      //   {
+      //     date: "2016-05-02",
+      //     name: "王小虎2",
+      //     address: "上海市普陀区金沙江路 1518 弄"
+      //   },
+      //   {
+      //     date: "2016-05-04",
+      //     name: "王小虎",
+      //     address: "上海市普陀区金沙江路 1518 弄"
+      //   },
+      //   {
+      //     date: "2016-05-01",
+      //     name: "王小虎",
+      //     address: "上海市普陀区金沙江路 1518 弄"
+      //   },
+      //   {
+      //     date: "2016-05-08",
+      //     name: "王小虎",
+      //     address: "上海市普陀区金沙江路 1518 弄"
+      //   },
+      //   {
+      //     date: "2016-05-06",
+      //     name: "王小虎",
+      //     address: "上海市普陀区金沙江路 1518 弄"
+      //   },
+      //   {
+      //     date: "2016-05-07",
+      //     name: "王小虎",
+      //     address: "上海市普陀区金沙江路 1518 弄"
+      //   }
+      // ],
+      totalCost: 0,
+      date:'',
+      formData: null
     };
+  },
+  computed: {
+    ...mapState(['tableData3']),
   },
   methods: {
     handleToggleTab() {
@@ -618,8 +626,64 @@ export default {
        this.$router.push({ path: '/user/AccountIncrease' });
     },
     jumpToLook(){
-       this.$router.push({ path: '/user/AccountLook' });
-    }
+        if(this.date) {
+            for(let i=0;i<this.tableData3.length;i++){
+                if(this.tableData3[i].date===this.date){
+                    this.formData = this.tableData3[i]
+                    break;
+                }
+            }
+            this.$router.push({ path: '/user/AccountLook',query: { formData: this.formData } });
+       }else{
+         this.$message({
+            type: 'info',
+            message: '请选择需要查看的数据'
+          });    
+       }
+       
+    },
+    deleteRow(index, rows) {
+        rows.splice(index, 1);
+    },
+    handleCurrentChange(val) {
+        this.currentRow = val;
+    },
+    setOrderNum(row){  
+         console.log("当前行",row);
+         this.date=row.date;
+     },
+     delateInfo(){
+       if(this.date) {
+         this.$confirm('确定删除该条数据吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            for(let i=0;i<this.tableData3.length;i++){
+                if(this.tableData3[i].date==this.date){
+                    this.tableData3.splice(i,1);
+                    break;
+                }
+            }
+            this.date='';
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+       }else{
+         this.$message({
+            type: 'info',
+            message: '请选择需要删除的数据'
+          });    
+       }
+     },
+      
   }
 };
 </script>

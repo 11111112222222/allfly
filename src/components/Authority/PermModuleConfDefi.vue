@@ -37,7 +37,7 @@
           <div v-if="show === 1">
             <el-table
               size="mini"
-              height="calc(100vh - 40px)"
+              height="calc(100vh - 80px)"
               :data="tableData1"
               border
               style="width: 100%"
@@ -59,7 +59,7 @@
           </div>
           <div v-if="show === 2">
             <el-table
-              height="calc(100vh - 40px)"
+              height="calc(100vh - 80px)"
               size="mini"
               :data="tableData2"
               border
@@ -87,7 +87,7 @@
         <el-main style="border:1px solid #eee;border-right:0; width:100%;">
           <div v-if="show === 1">
             <el-table
-              height="calc(100vh - 40px)"
+              height="calc(100vh - 80px)"
               size="mini"
               :data="tableData3"
               border
@@ -110,12 +110,21 @@
                 label="状态"
               >
               </el-table-column>
+              <el-table-column
+
+      label="操作"
+      width="100">
+      <template slot-scope="scope">
+        <el-button @click="handleUseClick(scope.row)" type="text" size="small">启用</el-button>
+        <el-button @click="handleUnuseClick(scope.row)" type="text" size="small">禁用</el-button>
+      </template>
+    </el-table-column>
             </el-table>
           </div>
           <div v-if="show === 2">
             <el-table
               size="mini"
-              height="calc(100vh - 40px)"
+              height="calc(100vh - 80px)"
               :data="tableData4"
               border
               style="width: 100%"
@@ -137,6 +146,17 @@
                 label="状态"
               >
               </el-table-column>
+              
+    
+              <el-table-column
+
+      label="操作"
+      width="100">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row)" type="text" size="small">启用</el-button>
+        <el-button type="text" size="small">禁用</el-button>
+      </template>
+    </el-table-column>
             </el-table>
 
           </div>
@@ -302,8 +322,17 @@ export default {
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
-      }
-
+      },
+      handleUnuseClick(row){
+        if(row.address === '已启用'){
+          row.address = '禁用'
+        }
+    },
+    handleUseClick(row){
+        if(row.address === '禁用'){
+          row.address = '已启用'
+        }
+    }
   },
 
   computed: {},

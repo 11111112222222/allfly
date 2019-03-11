@@ -290,7 +290,7 @@ export default new Router({
           name: "InsurCompanyContinueRateQuerystatistics",
           component: resolve =>
             require(["components/ContinueRate/InsurCompanyContinueRateQuerystatistics.vue"], resolve)
-        },
+        }
       ]
     }
   ]

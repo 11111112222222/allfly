@@ -39,11 +39,10 @@
        
       </fieldset>
       <div class="inBtn">
-        <el-button type="primary" size="mini">导出Excel</el-button>
+        <el-button type="primary" size="mini" @click="jumpToQuery">继续率查询统计</el-button>
       </div>
       <div class="oprateBtn">
         <el-button type="primary" size="mini">重新计算</el-button>
-
         <el-button type="success" size="mini">取消</el-button>
       </div>
     </form>
@@ -52,6 +51,11 @@
 
 <script type="text/ecmascript-6">
 export default {
+  methods:{
+    jumpToQuery() {
+     this.$router.push({path:'/user/ContinueQueryStatistics'})
+    }
+  },
   data() {
     return { 
       insurCompany: "指定保险公司",

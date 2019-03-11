@@ -24,7 +24,7 @@
             <el-select
               size="mini"
               style="width:20%"
-              v-model="form.region"
+              v-model="form.name"
               placeholder="请选择活动区域"
             >
               <el-option
@@ -130,7 +130,7 @@
               filterable
               :filter-method="filterMethod"
               filter-placeholder="请输入城市拼音"
-              v-model="value2"
+              v-model="form.name"
               :data="data2"
             >
             </el-transfer>
@@ -143,7 +143,7 @@
                   size="mini"
                   type="date"
                   placeholder="选择日期"
-                  v-model="form.date1"
+                  v-model="form.name"
                 ></el-date-picker>
               </el-col>
 
@@ -152,7 +152,7 @@
               <el-select
                 size="mini"
                 style="width:20%"
-                v-model="form.region"
+                v-model="form.name"
                 placeholder="请选择活动区域"
               >
                 <el-option
@@ -173,9 +173,10 @@
               @click="onSubmit"
               size="mini"
               style="width:20%"
+              disabled
             >立即创建</el-button>
-            <el-button  size="mini">取消</el-button>
-            <el-button  type="primary"  size="mini" style="width:20%">应用</el-button>
+            <el-button  size="mini" disabled>取消</el-button>
+            <el-button disabled type="primary"  size="mini" style="width:20%">应用</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -197,6 +198,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+
 export default {
   data() {
     const generateData2 = _ => {
@@ -226,6 +228,7 @@ export default {
       filterMethod(query, item) {
         return item.pinyin.indexOf(query) > -1;
       },
+      formData: null,
       form: {
         name: "",
         region: "",
@@ -325,7 +328,14 @@ export default {
   mounted() {
     // this.fetch();
   },
+
+  watch:{
+    from(){
+      return this.$route.query.formData
+    }
+  },
   methods: {
+    
     onSubmit() {
       console.log("submit!");
     },
@@ -334,8 +344,7 @@ export default {
       //this.$root.eventHub.$emit("sendOrderNum",this.orderNum)
     },
     fetch() {
-      // this.orderNum=this.$route.query.orderNum;
-      // console.log(this.orderNum)
+      this.form = this.$route.query.formData
     },
     beforeRemove(file) {
       console.log(file);
@@ -344,7 +353,8 @@ export default {
     handleChange(file, fileList) {
       console.log(file, fileList);
       this.fileList = fileList.slice(-3);
-    }
+    },
+    
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
