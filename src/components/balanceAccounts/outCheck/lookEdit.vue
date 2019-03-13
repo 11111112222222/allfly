@@ -63,7 +63,9 @@
           <td>相关单据/号码</td>
           <td>/</td>
           <td>投保人信息</td>
-          <td>{{name}}</td>
+          <td id="insurancePeopleMessage">
+            <div @click="insurancePeopleMessage">{{name}}</div>
+          </td>
         </tr>
         <tr>
           <td>交费型别</td>
@@ -161,9 +163,48 @@
           </tr>
         </table>
         <div class="button1">
-          <el-button type="primary" size="mini">参数费率</el-button>
+          <el-button type="primary" size="mini" @click="dialogFormVisible = true">参数费率</el-button>
           <el-button type="primary" size="mini">重算</el-button>
         </div>
+        <!-- 参数费率按钮点击后的弹出框 -->
+        <el-dialog title="险种费率查看" :visible.sync="dialogFormVisible">
+          <el-form :model="form">
+            <el-form-item label="保单受理日" :label-width="formLabelWidth">
+              <el-input v-model="form.dealDate" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="险种名称" :label-width="formLabelWidth">
+              <el-input v-model="form.insuranceName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="年期" :label-width="formLabelWidth">
+              <el-input v-model="form.yearPeriod" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="参数费率名称" :label-width="formLabelWidth">
+              <el-select v-model="form.rateName" placeholder="请选择活动区域">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="佣金制度" :label-width="formLabelWidth">
+              <el-input v-model="form.employRule" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="费率类型" :label-width="formLabelWidth">
+              <el-select v-model="form.rateType" placeholder="请选择活动区域">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <el-table :data="tableData1" style="width: 100%" border height="200">
+            <el-table-column prop="yearDate" label="年期" width="180"></el-table-column>
+            <el-table-column prop="rate" label="费率"></el-table-column>
+          </el-table>
+<!-- 
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          </div> -->
+        </el-dialog>
+
         <fieldset style="margin-left:0px;margin-right:0px;">
           <legend>承揽型别
             <el-select size="mini" v-model="whoseSelect" placeholder="请选择">
@@ -251,11 +292,13 @@
           </tr>
         </table>
         <!-- <div class="link"> -->
-        <a href="#">创建</a>
-        <a href="#">更新</a>
+        <!-- <a href="#">创建</a>
+        <a href="#">更新</a> -->
         <!-- </div>   -->
       </div>
       <div class="button2">
+        <el-button type="success" size="mini">创建</el-button>
+        <el-button type="warning" size="mini">更新</el-button>
         <el-button type="success" size="mini">确定</el-button>
         <el-button type="warning" size="mini" @click="goBack">取消</el-button>
         <el-button type="primary" size="mini">应用</el-button>
@@ -336,7 +379,27 @@ export default {
         }
       ],
       whoseSelect: "个人件",
-      checkPerson: ""
+      checkPerson: "",
+      dialogFormVisible: false,
+      form: {
+        dealDate: "",
+        insuranceName: "",
+        yearPeriod: "",
+        rateName: "首/续年佣金",
+        employRule: "",
+        rateType: "纯保费部分费率",
+      },
+      formLabelWidth: "120px",
+      tableData1: [
+        {
+          yearDate: "2015-05-02",
+          rate: "200",
+        },
+        {
+          yearDate: "2016-05-02",
+          rate: "100",
+        }
+      ]
     };
   },
 
@@ -355,6 +418,9 @@ export default {
     },
     goBack() {
       history.go(-1);
+    },
+    insurancePeopleMessage() {
+      this.$router.push({ path: "/user/ClientEditor" });
     }
   }
 };
@@ -404,39 +470,39 @@ section {
   display: inline-block;
   table {
     display: inline;
-    text-align:center;
-    top:0px;
-    left:0px;
-    margin:10px;
-    border:0px; 
-    .tableCenter{
-      width:100px;
-      height:30px;
-      line-height:30px;
-    };
-    .buttonTable{
-      width:50px;
-      height:30px;
-      line-height:30px;
+    text-align: center;
+    top: 0px;
+    left: 0px;
+    margin: 10px;
+    border: 0px;
+    .tableCenter {
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+    }
+    .buttonTable {
+      width: 50px;
+      height: 30px;
+      line-height: 30px;
     }
   }
 }
 .bottomRight {
-  float:right;
+  float: right;
   table {
     display: inline;
-    text-align:center;
-    margin:10px;
-    border:0px;
-    .tableCenter{
-      width:100px;
-      height:30px;
-      line-height:30px;
-    };
-    .buttonTable{
-      width:50px;
-      height:30px;
-      line-height:30px;
+    text-align: center;
+    margin: 10px;
+    border: 0px;
+    .tableCenter {
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+    }
+    .buttonTable {
+      width: 50px;
+      height: 30px;
+      line-height: 30px;
     }
   }
 }
@@ -452,8 +518,8 @@ section {
 }
 .checkPerson table {
   width: 250px;
-  height:30px;
-  line-height:30px;
+  height: 30px;
+  line-height: 30px;
   display: inline-block;
   margin: 0;
   text-align: left;
@@ -465,7 +531,7 @@ section {
 .checkPerson a {
   display: inline-block;
   height: 30px;
-  line-height:30px;
+  line-height: 30px;
   // vertical-align: middle;
   margin-left: 10px;
 }
@@ -479,5 +545,11 @@ section {
   margin: 0 auto;
   text-align: right;
   margin-bottom: 40px;
+}
+#insurancePeopleMessage {
+  color: blue;
+}
+#insurancePeopleMessage:hover {
+  text-decoration: underline;
 }
 </style>

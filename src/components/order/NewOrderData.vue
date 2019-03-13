@@ -186,9 +186,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.page{
-//    padding:10px 30px;
-}
+// .page{
+//   //  padding:10px 30px;
+// }
 header{
     width:100%;
     background-color:#dddefe;

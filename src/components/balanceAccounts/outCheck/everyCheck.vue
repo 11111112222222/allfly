@@ -270,7 +270,7 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="列表" name="list">
-        <div style="margin:0 10px;">
+        <div style="margin:0 10px;display:block;">
           <div class="message">
             <span>{{whichNumber}}/{{wholeNumber}}</span>
             <span>
@@ -279,7 +279,7 @@
             <span>总保费:{{wholeInsuranceMoney}}</span>
           </div>
           <form>
-            <el-table :data="tableData" border stripe style="width: 100%" @row-dblclick="getDetails">
+            <!-- <el-table :data="tableData" border stripe style="width: 100%" @row-dblclick="getDetails">
               <el-table-column prop="AchievementMonth" label="计绩年月 /" width="180"></el-table-column>
               <el-table-column prop="chargeDate" label="交费日期" width="180"></el-table-column>
               <el-table-column prop="chargeMonth" label="应收月"></el-table-column>
@@ -291,11 +291,29 @@
                 <el-table-column property="chargeTime" label="年度缴次" width="200"></el-table-column>
                 <el-table-column property="ChargePeriod" label="缴费年期"></el-table-column>
               </el-table>
-            </el-dialog>
+            </el-dialog>-->
+            <el-table :data="tableData" style="width: 100%;" height="450">
+              <el-table-column type="expand">
+                <template slot-scope="props">
+                  <el-form label-position="left" inline class="demo-table-expand">
+                    <!-- <el-form-item label="商品名称"> -->
+                    <el-table :data="gridData" border>
+                      <el-table-column property="InsuranceType" label="险种名称 /" width="150"></el-table-column>
+                      <el-table-column property="chargeTime" label="年度缴次" width="200"></el-table-column>
+                      <el-table-column property="ChargePeriod" label="缴费年期"></el-table-column>
+                    </el-table>
+                    <!-- </el-form-item> -->
+                  </el-form>
+                </template>
+              </el-table-column>
+              <el-table-column label="商品 ID" prop="id"></el-table-column>
+              <el-table-column label="商品名称" prop="name"></el-table-column>
+              <el-table-column label="描述" prop="desc"></el-table-column>
+            </el-table>
 
             <div class="button">
               <el-button type="primary" size="mini">导出Excel</el-button>
-              <el-button type="primary" size="mini"  @click="look_edit">查看/编辑</el-button>
+              <el-button type="primary" size="mini" @click="look_edit">查看/编辑</el-button>
             </div>
           </form>
         </div>
@@ -518,11 +536,51 @@ export default {
         }
       ],
       dialogTableVisible: false,
-      gridData: [{
-          InsuranceType: '2016-05-02',
-          chargeTime: '王小虎',
-          ChargePeriod: '上海市普陀区金沙江路 1518 弄'
-        }],
+      gridData: [
+        {
+          InsuranceType: "2016-05-02",
+          chargeTime: "王小虎",
+          ChargePeriod: "上海市普陀区金沙江路 1518 弄"
+        }
+      ],
+      tableData: [
+        {
+          id: "12987122",
+          name: "好滋好味鸡蛋仔",
+          category: "江浙小吃、小吃零食",
+          desc: "荷兰优质淡奶，奶香浓而不腻",
+          address: "上海市普陀区真北路",
+          shop: "王小虎夫妻店",
+          shopId: "10333"
+        },
+        {
+          id: "12987123",
+          name: "好滋好味鸡蛋仔",
+          category: "江浙小吃、小吃零食",
+          desc: "荷兰优质淡奶，奶香浓而不腻",
+          address: "上海市普陀区真北路",
+          shop: "王小虎夫妻店",
+          shopId: "10333"
+        },
+        {
+          id: "12987125",
+          name: "好滋好味鸡蛋仔",
+          category: "江浙小吃、小吃零食",
+          desc: "荷兰优质淡奶，奶香浓而不腻",
+          address: "上海市普陀区真北路",
+          shop: "王小虎夫妻店",
+          shopId: "10333"
+        },
+        {
+          id: "12987126",
+          name: "好滋好味鸡蛋仔",
+          category: "江浙小吃、小吃零食",
+          desc: "荷兰优质淡奶，奶香浓而不腻",
+          address: "上海市普陀区真北路",
+          shop: "王小虎夫妻店",
+          shopId: "10333"
+        }
+      ]
     };
   },
 
@@ -553,7 +611,7 @@ export default {
       this.$router.push({ path: "/user/lookEdit" });
     },
     getDetails(row) {
-      this.dialogTableVisible = true
+      this.dialogTableVisible = true;
       //将Ajax查询到的数据循环赋值给表格
       // var data=[];
       // for(var k=0;k<row.length;k++){
@@ -564,13 +622,13 @@ export default {
       //   data[k]=obj;
       // }
       // this.gridData=data;
-      var data=[];
-      var obj={};
-      obj.InsuranceType=row.AchievementMonth;
-      obj.chargeTime=row.chargeDate;
-      obj.ChargePeriod=row.chargeMonth;
-      data[0]=obj;
-      this.gridData=data;
+      var data = [];
+      var obj = {};
+      obj.InsuranceType = row.AchievementMonth;
+      obj.chargeTime = row.chargeDate;
+      obj.ChargePeriod = row.chargeMonth;
+      data[0] = obj;
+      this.gridData = data;
       //这里实现末尾添加而不是覆盖原来的数据，是否需要将原来的数据写入到新数组，然后将新数组再赋给原数组？
       // console.log(row.AchievementMonth);
     }
@@ -629,5 +687,17 @@ span {
 form {
   margin-left: 20px;
   margin-right: 20px;
+}
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
 }
 </style>

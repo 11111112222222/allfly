@@ -217,7 +217,7 @@
                         ref="recordTable"
                         size="mini"
                         border
-                        height="840px"
+                        height="500px"
                         :data="recordList"
                         highlight-current-row
                         @row-click="setOrderNum">

@@ -1,4 +1,4 @@
-<!-- 权限模组配置定义 -->
+<!-- 分支协作机构管理 -->
 <template>
   <div id="main" @click="mainClick">
     <div id="parameter">
