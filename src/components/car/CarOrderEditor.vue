@@ -408,12 +408,77 @@
                                 label="操作">
                                     <template slot-scope="scope">
                                         <el-button @click.native.prevent="claimDelete(scope.$index,msgList)" type="danger" size="mini">移除</el-button>
-                                        <el-button type="primary" size="mini">编辑</el-button>
+                                        <el-button type="primary" size="mini" @click="dialogVisible = true">编辑</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
+                            <el-dialog
+                                title="险种编辑"
+                                :visible.sync="dialogVisible"
+                                width="50%">
+                                <div class="bodyMsg">
+                                        <div>
+                                            <div>
+                                                <div class="carTitle">投保险种/代码</div> 
+                                                <el-select v-model="insurNode" size="mini">
+                                                    <el-option
+                                                    v-for="item in insurNodeOpt"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                                    </el-option>
+                                                </el-select>
+                                            </div>
+                                            <div>
+                                                <div class="carTitle">保额/责任限额</div> 
+                                                <el-input v-model="insurLimit" size="mini"  style="width:200px"></el-input>
+                                            </div>
+                                            <div>
+                                                <div class="carTitle">保费</div> 
+                                                <el-input v-model="insurFee" size="mini"  style="width:200px"></el-input>
+                                            </div>
+                                            <div>
+                                                <div class="carTitle">保险期间起</div> 
+                                                <el-date-picker 
+                                                size="mini"
+                                                v-model="dialogStartDate"
+                                                type="date"
+                                                placeholder="选择日期">
+                                                </el-date-picker>
+                                            </div>
+                                            <div>
+                                                <div class="carTitle">保险期间止</div> 
+                                                <el-date-picker 
+                                                size="mini"
+                                                v-model="dialogEndDate"
+                                                type="date"
+                                                placeholder="选择日期">
+                                                </el-date-picker>
+                                            </div>
+                                        </div>
+                                    <fieldset>
+                                        <legend>
+                                            佣金费率
+                                        </legend>
+                                        <div>
+                                            <div>
+                                                <div class="carTitle">收</div> 
+                                                <el-input v-model="moneyIn" size="mini"  style="width:200px"></el-input>
+                                            </div>
+                                            <div>
+                                                <div class="carTitle">支</div> 
+                                                <el-input v-model="moneyOut" size="mini"  style="width:200px"></el-input>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <span slot="footer" class="dialog-footer">
+                                    <el-button size="mini" type="danger" @click="dialogVisible = false">取 消</el-button>
+                                    <el-button size="mini" type="primary" @click="dialogVisible = false">确 定</el-button>
+                                </span>
+                            </el-dialog>
                             <div style="margin-top:10px;">
-                                <el-button type="primary" size="mini">新增</el-button>
+                                <el-button type="primary" size="mini" @click="dialogVisible = true">新增</el-button>
                                 <el-button type="primary" size="mini">配置费率方案</el-button>
                             </div>
                         </div>
@@ -512,8 +577,76 @@
                         </el-table-column>
                     </el-table>
                     <div class="oprateBtn">
-                        <el-button type="primary" size="mini">新增附件</el-button>
+                        <el-button type="primary" size="mini" @click="fileDialogVisible = true">新增附件</el-button>
                     </div>
+                    <el-dialog
+                    title="车险保单记录附件"
+                    :visible.sync="fileDialogVisible"
+                    width="60%">
+                    <div class="bodyMsg">
+                        <div>
+                            <div class="carTitle">记录属性</div> 
+                            <el-select v-model="recordProperty" size="mini">
+                                <el-option
+                                v-for="item in propertyOpt"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                            <el-select v-model="recordProperty2" size="mini">
+                                <el-option
+                                v-for="item in propertyOpt2"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
+                        <div>
+                            <div class="carTitle">属性内容</div> 
+                            <el-input v-model="propertyContent" size="mini"  style="width:400px"></el-input>
+                        </div>
+                        <div>
+                            <div class="carTitle">有效期间</div> 
+                            <el-date-picker
+                            size="mini"
+                            v-model="effectiveDate"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                            </el-date-picker>
+                        </div>
+                        <div>
+                            <div class="grid-content processBox">
+                                <div class="carTitle claimProcess">备注</div>
+                                <el-input type="textarea" :rows="3" v-model="fileRemark" size="mini" class="processInput"></el-input>  
+                            </div>
+                        </div>
+                        <div>
+                            <div class="grid-content processBox">
+                            <div class="carTitle claimProcess">附加档案</div> 
+                            <el-upload
+                                class="upload-demo processInput"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                :before-remove="beforeRemove"
+                                :on-change="handleChange"
+                                multiple
+                                :limit="1"
+                                :on-exceed="handleExceed"
+                                :file-list="fileList">
+                                <el-button size="mini" type="primary">添加附件</el-button>
+                                <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+                            </el-upload>
+                            </div>
+                        </div>
+                    </div>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button size="mini" type="danger" @click="fileDialogVisible = false">取 消</el-button>
+                        <el-button size="mini" type="primary" @click="fileDialogVisible = false">确 定</el-button>
+                    </span>
+                </el-dialog>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="理赔" name="friendTab">
@@ -749,7 +882,36 @@ export default {
           name: '王小虎',
           address: '上海市'
         }],
-    
+    dialogVisible:false,
+    insurNode:'',
+    insurNodeOpt:[{
+        value:'交强险',
+    },{
+        value:'商业险',
+    }],
+    insurLimit:'',
+    insurFee:'',
+    dialogStartDate:'',
+    dialogEndDate:'',
+    moneyIn:'',
+    moneyOut:'',
+    fileDialogVisible:false,
+    recordProperty:'',
+    propertyOpt:[{
+        value:'单证信息', 
+    },{
+        value:'车辆信息',
+    }],
+    recordProperty2:'',
+    propertyOpt2:[{
+        value:'投保单',
+    },{
+        value:'保单',
+    }],
+    propertyContent:'',
+    effectiveDate:'',
+    fileRemark:'',
+    fileList: [{name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
  }
  },
  components: {
@@ -843,7 +1005,17 @@ export default {
       claimAdd(){
          this.$router.push({path:"/user/claimEditor",query:{editor:false}})
      },
-     
+      beforeRemove(file){
+        console.log(file);
+        return this.$confirm(`确定移除 ${ file.name }？`);
+        },
+        handleChange(file,fileList){
+            console.log(file,fileList)
+            this.fileList= fileList.slice(-3);
+        },
+         handleExceed(files, fileList) {
+        this.$message.warning(`当前限制上传 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
     // handleClose(done) {
     //     this.$confirm('确认关闭？')
     //       .then(_ => {
@@ -934,9 +1106,18 @@ section{
                 .processInput{
                     position: absolute;
                     top:0;
-                    left:120px;
+                    left:115px;
+                    width:70%;
                 }
             }
+        .bodyMsg{
+        width:90%;
+        margin:auto;
+        height:400px;
+        overflow: auto;
+        border:1px solid #d4d8e4;
+         padding:10px 30px;
+        }
     }
      .title{
         display: inline-block;

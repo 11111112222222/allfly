@@ -192,7 +192,7 @@ export default new Router({
           name: "claimEditor",
           component: ClaimEditor,
           meta: {
-            keepAlive: false // 需要缓存
+            keepAlive: false // 不需要缓存
           }
         },
         {
@@ -411,7 +411,7 @@ export default new Router({
           name: "PermModuleConfDefi",
           component: resolve =>
             require(["components/Authority/PermModuleConfDefi.vue"], resolve)
-        },
+        },   
         {
           path: 'addInformation',
           name: 'addInformation',

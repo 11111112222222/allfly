@@ -133,7 +133,7 @@
                 <div class="content" v-if="editor">
                     <el-button type="primary" size="mini" id="addRecord" @click="handleAddRecord">增加追踪记录</el-button>
                     <el-dialog
-                        title="追踪记录新增"
+                        title="追踪记录编辑"
                         :visible.sync="dialogVisible"
                         width="70%">
                         <div class="dialogMsg">

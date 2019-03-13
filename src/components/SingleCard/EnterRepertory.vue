@@ -276,7 +276,7 @@
                     <div class="footerItem">
                         <el-tooltip placement="bottom">
                         <div slot="content">
-                            <div v-for="(item,index) in createAccount" :key="item.name">
+                            <div v-for="(item) in createAccount" :key="item.name">
                                 <span>{{item.name}}：</span>
                                 <span>{{item.content}}</span>
                             </div>
@@ -285,7 +285,7 @@
                         </el-tooltip>
                         <el-tooltip placement="bottom">
                         <div slot="content">
-                            <div v-for="(item,index) in updateAccount" :key="item.name">
+                            <div v-for="(item) in updateAccount" :key="item.name">
                                 <span>{{item.name}}：</span>
                                 <span>{{item.content}}</span>
                             </div>

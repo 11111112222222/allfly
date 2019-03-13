@@ -87,10 +87,11 @@
 </template>
 <script type="text/ecmascript-6">
 export default {
+    name:"claimRecord",
     data(){
         return{
-             insurComp2:'长安财',
-             compOpt:[{
+        insurComp2:'长安财',
+        compOpt:[{
           value: '长安财',
         }, {
           value: '亚太财',

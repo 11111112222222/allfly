@@ -88,7 +88,7 @@
             <el-col :span="6"><div class="title">单证明细</div></el-col>
             <el-col :span="12">
               <el-button  size="mini" type="success" @click="dialogVisible1=true">添加单证</el-button>
-              <el-button  size="mini"type="success" @click="dialogVisible2=true">添加图片</el-button>
+              <el-button  size="mini" type="success" @click="dialogVisible2=true">添加图片</el-button>
             </el-col>
             </el-row>
             <el-row :gutter="20">

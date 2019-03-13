@@ -31,11 +31,12 @@
                 
             </div>
             <el-table
+            class="table"
             :data="tableData3"
             border
             style="width: 100%"
             size="mini"
-            height="350">
+            height="750">
                 <el-table-column
                 type="index"
                 width="50">
@@ -261,7 +262,9 @@ export default {
 
 <style scoped lang="scss">
 .page{
-//    padding:10px 30px;
+  //padding: 10px 30px 0 30px;
+  height:100%;
+  overflow-y:scroll;
 }
 header{
     width:100%;
@@ -336,5 +339,10 @@ header span:nth-child(3){
     .oprateBtn{
         float: right;
         margin-top:10px;
+    }
+      @media screen and (max-width: 1480px) {
+        .table {
+        height:370px !important
+        }
     }
 </style>
