@@ -30,7 +30,7 @@
 
           <el-date-picker
             size="mini"
-            v-model="value4"
+            v-model="value"
             type="month"
             placeholder="选择月"
           >
@@ -42,8 +42,8 @@
         <el-button type="primary" size="mini" @click="jumpToQuery">继续率查询统计</el-button>
       </div>
       <div class="oprateBtn">
-        <el-button type="primary" size="mini">重新计算</el-button>
-        <el-button type="success" size="mini">取消</el-button>
+        <el-button type="primary" size="mini" @click="clear">重新计算</el-button>
+        <el-button type="success" size="mini" @click="clear">取消</el-button>
       </div>
     </form>
   </div>
@@ -54,15 +54,16 @@ export default {
   methods:{
     jumpToQuery() {
      this.$router.push({path:'/user/ContinueQueryStatistics'})
+    },
+    clear(){
+      this.numberSel =  ''
+      this.value = ''
     }
   },
   data() {
     return { 
-      insurCompany: "指定保险公司",
       numberSel: "保单号码",
-      numberSel1: "保单",
-      input: "",
-      value4: "",
+      value: "",
       numberOpt: [
         {
           value: "选项1",

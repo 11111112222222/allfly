@@ -15,24 +15,6 @@ import ClaimEditor from 'components/Claim/ClaimEditor.vue'
 import ClientRelation from 'components/Client/ClientRelation.vue'
 import ClientEditor from 'components/Client/ClientEditor.vue'
 import AgencyManage from 'components/feilv/AgencyManage.vue'
-import DailyChannelPer from "components/report/DailyChannelPer.vue";
-import PerOnlineStorePer from "components/report/PerOnlineStorePer.vue";
-import EleDocManage from "components/report/EleDocManage.vue";
-import PersBasInfReport from "components/report/PersBasInfReport.vue";
-import PersOrgInfList from "components/report/PersOrgInfList.vue";
-import ChangePerRankCurVi from "components/report/ChangePerRankCurVi.vue";
-import PrePolDetBefSettle from "components/report/PrePolDetBefSettle.vue";
-import AgentCostRatePrint from "components/report/AgentCostRatePrint.vue";
-import SystemUsageAccManange from "components/Authority/SystemUsageAccManange.vue";
-import AccountIncrease from "components/Authority/AccountIncrease.vue";
-import AccountLook from "components/Authority/AccountLook.vue";
-import Password from "components/Authority/Password.vue";
-import PolicyCusDataImp from "components/Order/PolicyCusDataImp.vue";
-import GroupCorresAuthorityManage from "components/Authority/GroupCorresAuthorityManage.vue";
-import PermModuleConfDefi from "components/Authority/PermModuleConfDefi.vue";
-import ContinueQueryStatistics from "components/ContinueRate/ContinueQueryStatistics.vue";
-import ContinueRateReorg from "components/ContinueRate/ContinueRateReorg.vue";
-import InsurCompanyContinueRateQuerystatistics from "components/ContinueRate/InsurCompanyContinueRateQuerystatistics.vue";
 
 Vue.use(Router)
 
@@ -290,8 +272,14 @@ export default new Router({
           name: "InsurCompanyContinueRateQuerystatistics",
           component: resolve =>
             require(["components/ContinueRate/InsurCompanyContinueRateQuerystatistics.vue"], resolve)
+        },
+        {
+          path: "COSDetail",
+          name: "COSDetail",
+          component: resolve =>
+            require(["components/ContinueRate/COSDetail.vue"], resolve)
         }
-      ]
+      ] 
     }
   ]
 })

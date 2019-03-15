@@ -87,7 +87,13 @@
         </el-header>
         <div class="record-identifier">记录标识:1/180</div>
         <el-main>
-          <el-table :data="tableData" border max-height="440">
+          <el-table
+            :data="tableData1"
+            max-height="440"
+            highlight-current-row
+            @current-change="handleCurrentChange"
+             border
+          >
             <el-table-column type="index" label="序号" width="50">
             </el-table-column>
             <el-table-column prop="date" label="继续率发生月份">
@@ -95,57 +101,25 @@
             <el-table-column prop="name" label="单位"> </el-table-column>
             <el-table-column prop="name" label="职级"> </el-table-column>
             <el-table-column prop="name" label="员工编号"> </el-table-column>
-            <el-table-column prop="name" label="姓名"> </el-table-column>
+            <el-table-column prop="date" label="姓名"> </el-table-column>
             <el-table-column prop="name" label="应收继续保费">
             </el-table-column>
             <el-table-column prop="name" label="实收继续保费">
             </el-table-column>
             <el-table-column prop="address" label="R13"> </el-table-column>
           </el-table>
-          <el-dialog title="导出字段选择" :visible.sync="dialogFormVisible">
-            <!-- <el-form :model="form"> -->
-              <!-- <el-button size="mini" type="primary">全选</el-button>
-              <el-button size="mini" type="primary">反选</el-button> -->
-              <el-table
-                ref="multipleTable"
-                :data="tableData1"
-                tooltip-effect="dark"
-                style="width: 100%"
-                @selection-change="handleSelectionChange"
-                border
-              >
-                <el-table-column type="selection" width="100"> </el-table-column>
-                <el-table-column label="字段名称" >
-                  <template slot-scope="scope">{{ scope.row.name }}</template>
-                </el-table-column>
-                <!-- <el-table-column prop="name" label="姓名" width="120">
-                </el-table-column>
-                <el-table-column
-                  prop="address"
-                  label="地址"
-                  show-overflow-tooltip
-                >
-                </el-table-column> -->
-              </el-table>
-            <!-- </el-form> -->
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogFormVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogFormVisible = false"
-                >确 定</el-button
-              >
-            </div>
-          </el-dialog>
+          <Dialog :dialogFormVisible="dialogFormVisible" :tableData="tableData1" @change="change"></Dialog>
           <div class="inBtn">
-            <el-button type="primary" size="mini" @click="derive"
+            <el-button type="primary" size="mini" @click="derive"     
               >导出Excel</el-button
             >
-            <el-button type="primary" size="mini"
+            <el-button type="primary" size="mini" @click="simpleDerive"
               >所选机构保单明细导出</el-button
             >
           </div>
           <div class="oprateBtn">
             <!-- <el-button type="danger" size="mini">删除</el-button> -->
-            <el-button type="primary" size="mini">保单明细</el-button>
+            <el-button type="primary" size="mini" @click="jumpToDetail">保单明细</el-button>
             <!-- <el-button type="success" size="mini">新增一笔</el-button> -->
           </div>
         </el-main>
@@ -155,8 +129,11 @@
 </template>
 
 <script>
+import Dialog from 'base/dialog/dialog.vue'
 export default {
-  components: {},
+  components: {
+    Dialog
+  },
 
   data() {
     const item = {
@@ -254,36 +231,49 @@ export default {
         desc: ""
       },
       formLabelWidth: "120px",
-       tableData1: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
-        multipleSelection: []
+      tableData1: [
+        {
+          date: "2016-05-03",
+          name: "序号",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-02",
+          name: "继续率发生月份",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-04",
+          name: "单位",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-01",
+          name: "职级",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-08",
+          name: "员工编号",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-06",
+          name: "姓名",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "应收继续保费",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "R13",
+          address: "上海市普陀区金沙江路 1518 弄"
+        }
+      ],
+      multipleSelection: [],
     };
   },
 
@@ -291,9 +281,22 @@ export default {
     derive() {
       this.dialogFormVisible = true;
     },
-     handleSelectionChange(val) {
-        this.multipleSelection = val;
+    simpleDerive() {
+      if (!this.currentRow) {
+        this.$message("请选择需要查看的数据");
+      } else {
+        this.derive();
       }
+    },
+    handleCurrentChange(val) {
+      this.currentRow = val;
+    },
+    jumpToDetail(){
+      this.$router.push({path:"/user/COSDetail",query:{instance: this.tableData1}})
+    },
+    change() {
+      this.dialogFormVisible=false
+    }
   },
 
   computed: {},

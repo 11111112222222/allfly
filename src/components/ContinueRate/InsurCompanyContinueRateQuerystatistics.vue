@@ -112,14 +112,12 @@
             </el-table-column>
             <el-table-column prop="address" label="R13"> </el-table-column>
           </el-table>
+          <Dialog :dialogFormVisible="dialogFormVisible" :tableData="tableData1" @change="change"></Dialog>
           <div class="inBtn">
-            <el-button type="primary" size="mini">导出Excel</el-button>
-            <!-- <el-button type="primary" size="mini">所选机构保单明细导出</el-button> -->
+            <el-button type="primary" size="mini" @click="derive">导出Excel</el-button>
           </div>
           <div class="oprateBtn">
-            <!-- <el-button type="danger" size="mini">删除</el-button> -->
-            <el-button type="primary" size="mini">保单明细</el-button>
-            <!-- <el-button type="success" size="mini">新增一笔</el-button> -->
+            <el-button type="primary" size="mini"@click="jumpToDetail">保单明细</el-button>
           </div>
         </el-main>
       </el-container>
@@ -128,8 +126,11 @@
 </template>
 
 <script>
+import Dialog from 'base/dialog/dialog.vue'
 export default {
-  components: {},
+  components: {
+    Dialog
+  },
 
   data() {
     const item = {
@@ -138,7 +139,50 @@ export default {
       address: "上海市普陀区金沙江路 1518 弄"
     };
     return {
+      dialogFormVisible:false,
       tableData: Array(20).fill(item),
+      tableData1: [
+        {
+          date: "2016-05-03",
+          name: "序号",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-02",
+          name: "继续率发生月份",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-04",
+          name: "单位",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-01",
+          name: "职级",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-08",
+          name: "员工编号",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-06",
+          name: "姓名",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "应收继续保费",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "R13",
+          address: "上海市普陀区金沙江路 1518 弄"
+        }
+      ],
       numberSel: "自然周期",
       numberSel1: "工银安盛（寿）",
       numberSel2: "R13",
@@ -234,7 +278,17 @@ export default {
     };
   },
 
-  methods: {},
+  methods: {
+    change() {
+      this.dialogFormVisible=false
+    },
+    derive() {
+      this.dialogFormVisible = true;
+    },
+    jumpToDetail(){
+      this.$router.push({path:"/user/COSDetail",query:{instance: this.tableData1}})
+    },
+  },
 
   computed: {},
 

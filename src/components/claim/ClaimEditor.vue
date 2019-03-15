@@ -355,7 +355,7 @@ export default {
     },
     handleChange(file,fileList){
         console.log(file,fileList)
-         this.fileList= fileList.slice(-3);
+        this.fileList= fileList.slice(-3);
     }
  },
  beforeRouteEnter (to, from, next){

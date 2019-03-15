@@ -21,10 +21,11 @@
             :max="10000"
           ></el-input-number>
           
-          <el-button type="primary" size="mini">数据模版下载</el-button>
+          <el-button type="primary" size="mini" @click="showDialog">数据模版下载</el-button>
           <el-button style="display: inline" type="primary" size="mini" @click="dialogVisible = true"
             >模版更新
           </el-button>
+          <ModelDialog :dialogFormVisible="dialogFormVisible"  @change="change"></ModelDialog>
         </dd>
         <dt>
           <strong>步骤二：填入数据 </strong
@@ -240,6 +241,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import ModelDialog from 'base/model-dialog/ModelDialog.vue'
 export default {
   data() {
     return {
@@ -323,153 +325,31 @@ export default {
 
       selectedComp: "",
       time: "dealDate",
-      selectedTime1: "",
-      selectedTime2: "",
-      showDate: true,
-      random: "institute",
       numberSel: "保单号码",
       numberSel1: "保单",
 
       selectedInstit: ["不区分"],
       insitDisabled: false,
-      fcDisabled1: true,
-      fcDisabled2: true,
 
-      valuerandom: "个人",
       input: "",
       // dialogVisible: false,
       outerVisible: false,
       innerVisible: false,
-
-      addrposit: ""
+      dialogFormVisible:false
     };
   },
   methods: {
-    handleChange(file, fileList) {
-        this.fileList3 = fileList.slice(-3);
-      },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
+    change() {
+      this.dialogFormVisible=false
     },
-    selectedRadio(value) {
-      //如果选择的是第二项选择保险公司，则根据选择的保险公司选择向后台发送消息，
-      //后台再根据选择的保险公司发送第二个select展示什么数据
-      if (value !== "selectedComp") {
-        this.compDisabled1 = true;
-        this.compDisabled2 = true;
-        this.insurCompany = "指定保险公司";
-        this.selectedComp = "";
-      } else if (value === "selectedComp") {
-        this.compDisabled1 = false;
-        this.compDisabled2 = false;
-      }
+    showDialog() {
+      // this.$router.push({
+      //   path: "/user/modelDialog",
+      //   // query: { findOrderItem: this.findOrderItem }
+      // });
+      this.dialogFormVisible = true
     },
-    //处理传过去的保险公司
-    SelectComChange(value) {
-      this.handleSelectChange(value);
-      this.findOrderItem.company = "指定保险公司：";
-      for (var i = 0, l = this.selectedComp.length; i < l; i++) {
-        if (i == l - 1) {
-          this.findOrderItem.company += this.selectedComp[i];
-        } else {
-          this.findOrderItem.company += this.selectedComp[i] + ",";
-        }
-      }
-    },
-    selectedTime(value) {
-      if (value === "dealDate") {
-        this.showDate = true;
-        this.findOrderItem.date = "受理日期：";
-      } else if (value === "dealMonth") {
-        this.showDate = false;
-        this.findOrderItem.date = "受理月份：";
-      } else if (value === "countMonth") {
-        this.showDate = false;
-        this.findOrderItem.date = "绩效月份：";
-      }
-    },
-    saveTime1() {
-      this.findOrderItem.date += this.selectedTime1;
-    },
-    saveTime2() {
-      this.findOrderItem.date += "至" + this.selectedTime2;
-    },
-    selectedRandom(value) {
-      if (value === "institute") {
-        this.insitDisabled = false;
-        this.fcDisabled1 = true;
-        this.fcDisabled2 = true;
-        this.valuerandom = "个人";
-      } else if (value === "fanchou") {
-        this.insitDisabled = true;
-        this.fcDisabled1 = false;
-        this.fcDisabled2 = false;
-        this.selectedInstit = ["不区分"];
-        this.findOrderItem.random = "范畴：个人";
-      }
-    },
-    //处理传过去的对象范围
-    SelectJGChange(value) {
-      this.handleSelectChange(value);
-      this.findOrderItem.random = "机构：";
-      for (var i = 0, l = this.selectedInstit.length; i < l; i++) {
-        if (i == l - 1) {
-          this.findOrderItem.random += this.selectedInstit[i];
-        } else {
-          this.findOrderItem.random += this.selectedInstit[i] + ",";
-        }
-      }
-    },
-    SelectFCChange() {
-      this.findOrderItem.random = "范畴：";
-      this.findOrderItem.random += this.valuerandom;
-    },
-    SelectOrderChange(value) {
-      this.handleSelectChange(value);
-      this.findOrderItem.orderStaus = "保单状态:";
-      for (var i = 0, l = this.insureDan.length; i < l; i++) {
-        if (i == l - 1) {
-          this.findOrderItem.orderStaus += this.insureDan[i] + ";";
-        } else {
-          this.findOrderItem.orderStaus += this.insureDan[i] + ",";
-        }
-      }
-      this.findOrderItem.orderStaus += "回执：";
-      this.findOrderItem.orderStaus += this.huizhidan;
-    },
-    //  saveHuiZhi(){
-    //     this.findOrderItem.orderStaus=''
-    //  },
-    handleSelectChange(value) {
-      if (value[value.length - 1] == "不区分") {
-        value.splice(0, value.length - 1);
-      } else if (
-        value.indexOf("不区分") != -1 &&
-        value[value.length - 1] != "不区分"
-      ) {
-        value.splice(value.indexOf("不区分"), 1);
-      }
-    },
-    linkToOrderData() {
-      this.$router.push({
-        path: "/user/neworderdata",
-        query: { findOrderItem: this.findOrderItem }
-      });
-    },
-    onSubmit() {
-      console.log("submit!");
-    },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
-    },
+
     isClose() {
       console.log("是否要关闭弹框");
     }
@@ -477,7 +357,9 @@ export default {
     //   return true;
     // }
   },
-  components: {}
+  components: {
+    ModelDialog
+    }
 };
 </script>
 
