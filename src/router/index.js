@@ -251,7 +251,7 @@ export default new Router({
           name: 'insuranceDetail',
           component: resolve => require(["components/feilv/InsuranceDetail.vue"], resolve),
           meta: {
-            keepAlive: false // 不需要缓存
+            keepAlive: true // 需要缓存
           }
         },  {
           path: 'ruleEditor',

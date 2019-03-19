@@ -477,7 +477,7 @@ section{
         width:95%;
         margin:auto;
         height:400px;
-        overflow: auto;
+        overflow-y: auto;
         border:1px solid #d4d8e4;
          padding:20px 30px;
         // div{

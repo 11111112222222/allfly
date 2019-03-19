@@ -210,9 +210,6 @@ export default {
           label: "权限",
           children: [
             {
-              label: "客户关系管理"
-            },
-            {
               label: "系统使用账号管理"
             },
             {
@@ -529,6 +526,7 @@ export default {
           break;
         case "权限模组配置定义":
           this.$router.push({ path: "/user/PermModuleConfDefi" });
+          break;
         case "单证状态更新/结存":
           this.$router.push({ path: "/user/updateCard" });
           break;
