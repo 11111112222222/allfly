@@ -1,7 +1,7 @@
 <template>
   <div class="page" style="height:100%">
     <el-tabs type="border-card" v-model="activeTab" style="height:100%">
-        <el-tab-pane label="查询" name="searchTab">
+        <el-tab-pane label="车险受理查询" name="searchTab">
            <div class="tabContent">
                 <form action="">
                 <div>
@@ -184,14 +184,19 @@
             </form>
             </div>
         </el-tab-pane>
-
         <el-tab-pane label="列表" name="listTab">
             <div class="tabContent">
+                <div class="totalCost">
+                  <span>交强险总保费：{{Number(trafficFee).toFixed(2).toLocaleString()}}</span>
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;商业险总保费：{{Number(businessFee).toFixed(2).toLocaleString()}}</span>
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;车船税总保费：{{Number(taxFee).toFixed(2).toLocaleString()}}</span>
+                </div>
                 <div class="listTable">
                     <el-table
+                        class="table"
                         size="mini"
                         border
-                        height="440px"
+                        height="780px"
                         :data="carInsurList"
                         highlight-current-row>
                         <el-table-column
@@ -202,50 +207,79 @@
                         <el-table-column
                         property="compulsoryNumbers"
                         label="交强险保单号"
-                        sortable
-                        width="140">
+                        sortable :show-overflow-tooltip="true"
+                        width="120">
                         </el-table-column>
                         <el-table-column
                         property="commerialNumbers"
                         label="商业险保单号"
-                        sortable
-                        width="140">
+                        sortable :show-overflow-tooltip="true"
+                        width="120">
                         </el-table-column>
                         <el-table-column
                         property="otherNumbers"
                         label="其它号码"
-                        sortable>
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
                         </el-table-column>
                         <el-table-column
                         property="insureCompany"
                         label="保险公司"
-                        sortable>
+                        sortable :show-overflow-tooltip="true"
+                        width="120">
                         </el-table-column>
                         <el-table-column
                         property="customerName"
                         label="客户姓名"
-                        sortable>
+                        sortable :show-overflow-tooltip="true"
+                         width="100">
                         </el-table-column>
                         <el-table-column
                         property="dealDate"
                         label="受理日期"
-                        sortable>
+                        sortable :show-overflow-tooltip="true"
+                         width="100">
                         </el-table-column>
                         <el-table-column
                         property="valiDate"
                         label="生效日期"
-                        sortable>
+                        sortable :show-overflow-tooltip="true"
+                         width="100">
+                        </el-table-column>
+                         <el-table-column
+                        property="dealDate"
+                        label="承揽人（单位/编码）"
+                        sortable :show-overflow-tooltip="true"
+                         width="160">
+                        </el-table-column>
+                        <el-table-column
+                        property="valiDate"
+                        label="承揽人"
+                        sortable :show-overflow-tooltip="true"
+                         width="100">
+                        </el-table-column>
+                        <el-table-column
+                        fixed="right"
+                        label="操作"
+                         width="160">
+                          <template slot-scope="scope">
+                              <el-button @click.native.prevent="deleteBtn(scope.$index,carInsurList)" type="danger" size="mini">删除</el-button>
+                              <el-button type="primary" size="mini" @click="editorBtn(scope.row)">编辑</el-button>
+                          </template>
                         </el-table-column>
                     </el-table>
                 </div>
-                <div class="inBtn">
-                    <el-button type="primary" size="mini">导出Excel</el-button>
-                    <el-button type="primary" size="mini">理赔报表导出</el-button>
+                <div class="pageBtn">
+                    <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="1000">
+                    </el-pagination>
                 </div>
                 <div class="oprateBtn">
-                    <el-button type="danger" size="mini">删除</el-button>
-                    <el-button type="primary" size="mini">查看 / 编辑</el-button>
-                    <el-button type="success" size="mini">新增一笔</el-button>
+                   <el-button type="primary" size="mini">导出Excel</el-button>
+                    <el-button type="primary" size="mini">理赔报表导出</el-button>
+                    <el-button type="primary" size="mini" @click="addBtn">新增一笔</el-button>
                 </div>
             </div>
         </el-tab-pane>
@@ -259,7 +293,9 @@
 export default {
   data() {
     return {
+      tabTitle:'车险受理查询',
       activeTab: "searchTab",
+      carOrder:true,
       insurChecked: false,
       sortOpt: [
         {
@@ -420,6 +456,9 @@ export default {
           value: "编号"
         }],
       dutyMemberInput: '',
+      trafficFee:'1232343.56',
+      businessFee:'345234.00',
+      taxFee:'3454323.10',
       carInsurList: [{
           compulsoryNumbers: '2016-05-02',
           commerialNumbers: '王小虎',
@@ -437,11 +476,16 @@ export default {
           dealDate: '上海市普陀区金沙江路 1518 弄',
           valiDate: '上海市普陀区金沙江路 1518 弄',
         }]
-
     };
   },
   components: {},
+  mounted(){
+    //this.fetch();
+  },
   methods: {
+    fetch(){
+      
+    },
      handleSelectChange(value){
          if(value[value.length-1]=="不区分"){
             value.splice(0,value.length-1)
@@ -451,6 +495,30 @@ export default {
      },
     handleToggleTab(){
          this.activeTab="listTab"
+     },
+     deleteBtn(index,table){
+        this.$confirm('确定删除该条数据吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            table.splice(index,1);
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+     },
+     editorBtn(){
+       this.$router.push({path:"/user/carOrderEditor",query:{editor:true}})
+     },
+     addBtn(){
+       this.$router.push({path:"/user/carOrderEditor",query:{editor:false}})
      }
   },
 };
@@ -462,6 +530,10 @@ export default {
   text-align: left;
   padding: 0 30px;
   height: 100%;
+  .totalCost{
+        float:right;
+        height: 30px;
+    }
 }
 .title {
   display: inline-block;
@@ -507,11 +579,19 @@ fieldset {
   left: 275px;
   bottom: 25px;
 }
-.oprateBtn {
-  position: fixed;
-  bottom: 25px;
-  right: 45px;
-}
+  .pageBtn{
+         float: left;
+        margin-top:10px;
+    }
+    .oprateBtn{
+        float: right;
+        margin-top:10px;
+    }
+     @media screen and (max-width: 1480px) {
+        .table {
+        height:440px !important
+        }
+    }
 </style>
 
 </style>

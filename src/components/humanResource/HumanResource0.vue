@@ -255,8 +255,7 @@
                                     start-placeholder="开始日期"
                                     end-placeholder="结束日期">
                                     </el-date-picker>
-                                </div>
-                                
+                                </div> 
                             </div>
                         </div>
                     </div>
@@ -269,59 +268,35 @@
         <el-tab-pane label="列表" name="listTab" style="height:100%" class="bigtabs">
             <div class="tabContent">
                 <div class="listTable">
-                  <el-table
+                   <el-table
                     size="mini"
-                    :data="recordList"
+                    :data="recordList1"
                     border
                     style="width: 100%"
+                    height="400"
                     max-height="550">
-                    <el-table-column
-                    prop="date"
-                    label="日期"
-                    width="150">
-                    </el-table-column>
-                    <el-table-column
-                    prop="name"
-                    label="姓名"
-                    width="120">
-                    </el-table-column>
-                    <el-table-column
-                    prop="province"
-                    label="省份"
-                    width="120">
-                    </el-table-column>
-                    <el-table-column
-                    prop="city"
-                    label="市区"
-                    width="120">
-                    </el-table-column>
-                    <el-table-column
-                    prop="address"
-                    label="地址"
-                    width="300">
-                    </el-table-column>
-                    <el-table-column
-                    prop="zip"
-                    label="邮编"
-                    width="120">
-                    </el-table-column>
-                    <el-table-column
-                    fixed="right"
-                    label="操作"
-                    width="200">
-                    <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="danger" size="small">删除</el-button>
-                        <el-button  type="primary" size="small">查看/编辑</el-button>
-                    </template>
-                    </el-table-column>
-                </el-table>
+                    
+                     <el-table-column v-for="item in tableHead1" :key="item.property" :label="item.label" :property="item.property" :fixed="item.fixed" :width="item.width">
+                        <template slot-scope="scope">
+                            <div v-if="item.oper">
+                                 <!-- <el-button v-for="(o, key) in item.oper" :key="key" @click="o.clickFun(scope.row)" type="text" size="small">{{o.name}}</el-button>  -->
+                                 <el-button @click="deleteClick(scope.row)" type="danger" size="small">删除</el-button>
+                                <el-button  type="primary" size="small" @click="editInformation(scope.row.name)">查看/编辑</el-button> 
+                            </div>
+                            <div v-else>
+                                {{ scope.row[item.property]}}
+                            </div>
+                
+                        </template>
+                    </el-table-column>   
+                </el-table> 
                 </div>
                 <div class="oprateBtn">
                         <el-button type="primary" size="mini">导出Excel</el-button>
                         <!-- <el-button type="danger" size="mini">删除</el-button> -->
                         <el-button type="primary" size="mini" @click="addInformation()">新增一笔</el-button>
                 </div>
-                <v-dialog v-if="dialogVisible" :visible.sync="dialogVisible"></v-dialog>
+                <!-- <v-dialog v-if="dialogVisible" :visible.sync="dialogVisible"></v-dialog> -->
             </div>
         </el-tab-pane>
     </el-tabs>
@@ -329,9 +304,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-import Dialog from './Dialog.vue';
+// import Dialog from './Dialog.vue';
 export default {
- components: {'v-dialog': Dialog},
+//  components: {'v-dialog': Dialog},
  data() {
  return {
     activeTab:'searchTab',
@@ -399,20 +374,34 @@ export default {
     jobEffictiveChecked:false,
     jobEffictiveTime:'',
     
-    recordList: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+    tableHead1:[{label:'考核项目名称',property:'name',width:'100'},
+            {label:'范畴',property:'random',width:'100'},
+            {label:'对象职级',property:'rank',width:'100'},
+            {label:'期间',property:'duringTime',width:'100'},
+            {label:'条件',property:'contional',width:'200'},
+            {label:'标准值',property:'standerValue',width:''},
+            {label: '操作',property: 'oper', fixed: 'right', width:'200',minWidth: '140px',
+                oper: [
+                    { name: '删除'},
+                    { name: '查看/编辑'}
+                ]
+            }],
+    recordList1: [{
+          random: '2016-05-03',
+          name: '胡文捷',
+          rank: '上海',
+          duringTime: '普陀区',
+          contional: '上海市普陀区金沙江路 1518 弄',
+          standerValue: 200333,
+         
+        },{
+          random: '2016-05-03',
+          name: '唐美琪',
+          rank: '上海',
+          duringTime: '普陀区',
+          contional: '上海市普陀区金沙江路 1518 弄',
+          standerValue: 200333,
+          
         }],
     dialogVisible:false,
  }
@@ -423,9 +412,20 @@ export default {
          this.activeTab="listTab"
      },
     addInformation(){
-        this.dialogVisible=true;
+        // this.dialogVisible=true;
+        //与后台交互调接口
+        this.$router.push({ path: '/user/addInformation',query:{userId:''}});
+    },
+    editInformation(id){
+     console.log('id',id);
+     var userinfro=id;
+     this.$router.push({ path: '/user/addInformation',query:{userId:userinfro}});   
+    },
+    deleteClick(){
+
     }
- }
+ },
+ 
 }
 </script>
 
@@ -444,6 +444,7 @@ export default {
     right:0px;
     top:39px;
     bottom:0px;
+    padding:20px 30px;
 }
 .tabContent{
     width:100%;

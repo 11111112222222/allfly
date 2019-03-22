@@ -8,8 +8,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'common/fonts/iconfont.js'
 import 'common/scss/index.scss'
+import 'jquery'
 
-Vue.use(ElementUI)
+Vue.use(ElementUI, { size: 'small' })
 
 Vue.config.productionTip = false
 
@@ -20,7 +21,7 @@ new Vue({
   store,
   components: { App },
   template: '<App/>',
-  data:{
+  data: {
     eventHub: new Vue()
   }
 })

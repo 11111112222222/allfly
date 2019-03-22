@@ -183,8 +183,10 @@
     </fieldset>
     </form>
     <div class="subutton">
-      <input type="submit" id="btn" value="报表数据查询预览" @click="linkToOrderData"/>
-     </div>
+      <!-- <input type="submit" id="btn" value="报表数据查询预览" @click="linkToOrderData"/> -->
+      <el-button type="primary"  size="mini" @click="linkToOrderData">报表数据查询预览</el-button>
+    </div>
+    
  </div>
 </template>
 
@@ -320,8 +322,8 @@ export default {
 <style scoped lang="scss">
 .page{
   padding: 10px 30px 0 30px;
-  // height:100%;
-  // overflow-y:scroll;
+  height:100%;
+  overflow-y:scroll;
 }
 dt{
   font-size:1.5em;
@@ -352,6 +354,9 @@ fieldset:first-child ul li,fieldset:nth-child(2) div,fieldset:nth-child(3) li{
 }
 fieldset:nth-child(4) span{
   margin-left:10px;
+}
+.subutton{
+  margin-top:10px;
 }
 #btn{
   margin-top:20px;

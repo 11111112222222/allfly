@@ -1,9 +1,9 @@
 <template>
  <div class="page" style="height:100%;position:relative;">
     <header>
-        <div class="title">
+        <div class="headerTitle">
             <span @click="goBack"><i class="el-icon-back"></i></span> 
-            <span>客户添加</span>
+            <span>{{headerTitle}}</span>
         </div>
     </header>
     <section>
@@ -329,22 +329,39 @@
                         type="index"
                         width="50">
                         </el-table-column>
+                         <el-table-column
+                        property="orderNum"
+                        label="保险公司"
+                        sortable :show-overflow-tooltip="true"
+                        width="140">
+                        </el-table-column>
                         <el-table-column
                         property="orderNum"
                         label="保单号码"
-                        sortable
+                        sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
                         property="name"
-                        label="姓名"
-                        sortable
+                        label="投保人"
+                        sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
                         property="address"
-                        label="地址"
-                        sortable>
+                        label="保单生效日期"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="投保险种"
+                        sortable :show-overflow-tooltip="true"
+                        width="140">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="受益人"
+                        sortable :show-overflow-tooltip="true">
                         </el-table-column>
                     </el-table>
                     <div style="margin-top:10px;">
@@ -369,26 +386,139 @@
                         </el-table-column>
                         <el-table-column
                         property="orderNum"
-                        label="保单号码"
-                        sortable
-                        width="120">
+                        label="客户姓名"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
                         </el-table-column>
                         <el-table-column
                         property="name"
-                        label="姓名"
-                        sortable
+                        label="性别"
+                        sortable :show-overflow-tooltip="true"
+                        width="80">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="联系电话"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="出生日期"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="年龄"
+                        sortable :show-overflow-tooltip="true"
+                        width="80">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="证件号码"
+                        sortable :show-overflow-tooltip="true"
+                        width="130">
+                        </el-table-column>
+                         <el-table-column
+                        property="name"
+                        label="存在关系"
+                        sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
                         property="address"
-                        label="地址"
-                        sortable>
+                        label="关系说明"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        label="操作"
+                        width="100">
+                        <template slot-scope="scope">
+                            <el-button @click.native.prevent="deleteInfo(scope.$index,friendList)" type="danger" size="mini">移除</el-button>
+                        </template>
                         </el-table-column>
                     </el-table>
                     <div class="oprateBtn">
-                        <el-button type="danger" size="mini">移除关系人</el-button>
-                        <el-button type="primary" size="mini">新增关系人</el-button>
+                        <el-button type="primary" size="mini" @click="clientDialogVisible = true">新增关系人</el-button>
                     </div>
+                    <el-dialog
+                        title="新增关系客户"
+                        :visible.sync="clientDialogVisible"
+                        width="50%">
+                        <div class="bodyMsg">
+                            <div>
+                                <div class="dialogtitle">客户姓名</div> 
+                                <el-input v-model="dialogClientName" size="mini"  style="width:200px"></el-input>
+                            </div>
+                            <div>
+                                <div class="dialogtitle">身份证号</div> 
+                                <el-input v-model="dialogCardId" size="mini"  style="width:200px"></el-input>
+                            </div>
+                            <div>
+                                <div class="dialogtitle">关系应为</div> 
+                                <el-select v-model="dialogRelative" size="mini">
+                                    <el-option
+                                    v-for="item in dialogRelativeOpt"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </div>
+                            <el-button type="primary" size="mini" @click="showClient = true" class="searchBtn">查询</el-button>
+                            <!-- <div v-if="showClient">
+                                无此客户信息
+                            </div> -->
+                            <div >
+                                <el-table
+                                ref="recordTable"
+                                size="mini"
+                                border
+                                height="200px"
+                                :data="friendList"
+                                highlight-current-row
+                                style="width:500px">
+                                    <el-table-column
+                                    property="name"
+                                    label="姓名"
+                                    sortable :show-overflow-tooltip="true"
+                                    width="90">
+                                    </el-table-column>
+                                    <el-table-column
+                                    property="name"
+                                    label="身份证号"
+                                    sortable :show-overflow-tooltip="true"
+                                    width="120">
+                                    </el-table-column>
+                                    <el-table-column
+                                    property="name"
+                                    label="出生日期"
+                                    sortable :show-overflow-tooltip="true"
+                                    width="100">
+                                    </el-table-column>
+                                    <el-table-column
+                                    property="name"
+                                    label="联系电话"
+                                    sortable :show-overflow-tooltip="true"
+                                    width="100">
+                                    </el-table-column>
+                                    <el-table-column
+                                    label="选取"
+                                    sortable :show-overflow-tooltip="true"
+                                   >
+                                        <template slot-scope="scope">
+                                           <el-button size="mini" type="success" icon="el-icon-check" circle @click="clientDialogVisible = false"></el-button>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                                </div>
+                            
+                        </div>
+                        <!-- <span slot="footer" class="dialog-footer">
+                            <el-button size="mini" type="danger" @click="clientDialogVisible = false">取 消</el-button>
+                            <el-button size="mini" type="primary" @click="clientDialogVisible = false">确 定</el-button>
+                        </span> -->
+                    </el-dialog>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="相关信息" name="msgTab">
@@ -408,27 +538,124 @@
                         </el-table-column>
                         <el-table-column
                         property="orderNum"
-                        label="保单号码"
-                        sortable
+                        label="记录属性"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="属性内容"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="有效期起"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="orderNum"
+                        label="有效期止"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="name"
+                        label="附件"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="address"
+                        label="附件格式"
+                        sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
                         property="name"
-                        label="姓名"
-                        sortable
-                        width="120">
+                        label="大小(KB)"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
                         </el-table-column>
                         <el-table-column
                         property="address"
-                        label="地址"
-                        sortable>
+                        label="备注"
+                        sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                        <el-table-column
+                        fixed="right"
+                        label="操作"
+                        width="150">
+                        <template slot-scope="scope">
+                            <el-button @click.native.prevent="deleteInfo(scope.$index,msgList)" type="danger" size="mini">移除</el-button>
+                            <el-button type="primary" size="mini" @click="fileDialogVisible = true">编辑</el-button>
+                        </template>
                         </el-table-column>
                     </el-table>
                     <div class="oprateBtn">
-                        <el-button type="danger" size="mini">移除</el-button>
-                        <el-button type="primary" size="mini">查看/编辑</el-button>
-                        <el-button type="primary" size="mini">新增</el-button>
+                        <el-button type="primary" size="mini" @click="fileDialogVisible = true">新增</el-button>
                     </div>
+                     <el-dialog
+                    title="客户证件详细信息"
+                    :visible.sync="fileDialogVisible"
+                    width="60%">
+                    <div class="bodyMsg">
+                        <div>
+                            <div class="dialogtitle">记录属性</div> 
+                            <el-select v-model="recordProperty" size="mini">
+                                <el-option
+                                v-for="item in propertyOpt"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
+                        <div>
+                            <div class="dialogtitle">属性内容</div> 
+                            <el-input v-model="propertyContent" size="mini"  style="width:400px"></el-input>
+                        </div>
+                        <div>
+                            <div class="dialogtitle">有效期间</div> 
+                            <el-date-picker
+                            size="mini"
+                            v-model="effectiveDate"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                            </el-date-picker>
+                        </div>
+                        <div>
+                            <div class="grid-content processBox">
+                                <div class="dialogtitle claimProcess">备注</div>
+                                <el-input type="textarea" :rows="3" v-model="fileRemark" size="mini" class="processInput"></el-input>  
+                            </div>
+                        </div>
+                        <div>
+                            <div class="grid-content processBox">
+                            <div class="dialogtitle claimProcess">附加档案</div> 
+                            <el-upload
+                                class="upload-demo processInput"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                :before-remove="beforeRemove"
+                                :on-change="handleChange"
+                                multiple
+                                :limit="1"
+                                :on-exceed="handleExceed"
+                                :file-list="fileList">
+                                <el-button size="mini" type="primary">添加附件</el-button>
+                                <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+                            </el-upload>
+                            </div>
+                        </div>
+                    </div>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button size="mini" type="danger" @click="fileDialogVisible = false">取 消</el-button>
+                        <el-button size="mini" type="primary" @click="fileDialogVisible = false">确 定</el-button>
+                    </span>
+                </el-dialog>
                 </div>
             </el-tab-pane>
         </el-tabs>
@@ -446,6 +673,8 @@ export default {
  data() {
  return {
      activeTab:'basicTab',
+     headerTitle:'客户添加',
+     editor:true,
      imageUrl:'',
      dialogVisible: false,
      height:'',
@@ -597,6 +826,24 @@ export default {
           address: '上海市普陀区金沙江路 1518 弄'
         }],
     totalFee:'0',
+    clientDialogVisible:false,
+    dialogClientName:'',
+    dialogCardId:'',
+    dialogRelative:'',
+    dialogRelativeOpt:[{
+          value: '配偶',
+        }, {
+          value: '父母',
+        }, {
+          value: '子女',
+        }, {
+          value: '兄弟姐妹',
+        }, {
+          value: '其他',
+        }, {
+          value: '本人',
+        }],
+    showClient:true,
     friendList: [{
           orderNum: '345345345',
           name: '王小虎',
@@ -610,6 +857,23 @@ export default {
           name: '王小虎',
           address: '上海市普陀区金沙江路 1518 弄'
         }],
+    fileDialogVisible:false,
+    recordProperty:'',
+    propertyOpt:[{
+        value:'首期交费账号', 
+    },{
+        value:'续期交费账号',
+    },{
+        value:'身份证件', 
+    },{
+        value:'车辆信息',
+    },{
+        value:'客户分类', 
+    }],
+    propertyContent:'',
+    effectiveDate:'',
+    fileRemark:'',
+    fileList: [{name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
     msgList: [{
           orderNum: '345345345',
           name: '王小虎',
@@ -629,7 +893,7 @@ export default {
 
  },
  mounted() {
-    // this.fetch();
+     this.fetch();
  },
  methods:{
     goBack(){
@@ -637,13 +901,46 @@ export default {
        //this.$root.eventHub.$emit("sendOrderNum",this.orderNum)
     },
     fetch(){
-        // this.orderNum=this.$route.query.orderNum;
+        this.editor=this.$route.query.editor;
+        if(this.editor){
+            this.headerTitle="客户编辑"
+        }else{
+            this.headerTitle="客户添加"
+        }
+        this.clientName=this.$route.query.clientName;
         // console.log(this.orderNum)
     },
+     editorBtn(){
+        // this.$router.push({path:"/user/clientEditor",query:{editor:true}})
+     },
+     addBtn(){
+         //this.$router.push({path:"/user/clientEditor",query:{editor:false}})
+     },
+     deleteInfo(index,table){
+         this.$confirm('确定删除该条数据吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            table.splice(index,1)
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+     },
     beforeRemove(file){
         console.log(file);
         return this.$confirm(`确定移除 ${ file.name }？`);
     },
+     handleExceed(files, fileList) {
+        this.$message.warning(`当前限制上传 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
     handleChange(file,fileList){
         console.log(file,fileList)
          this.fileList= fileList.slice(-3);
@@ -688,8 +985,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-header .title{
-     width:100%;
+.headerTitle{
+    width:100%;
     height:30px;
     background-color:#dddefe;
 
@@ -748,26 +1045,53 @@ section{
             height: 120px;
             display: block;
         }
-        .clientImg{
-        display: inline-block;
-        border:1px solid #d4d8e4;
-        width:120px;
-        height: 120px;
-        }
+        // .clientImg{
+        // display: inline-block;
+        // border:1px solid #d4d8e4;
+        // width:120px;
+        // height: 120px;
+        // }
         #bodyBtn{
             position:absolute;
             bottom:-10px;
             right:-20px;
         }
-        .bodyMsg{
-            width:50%;
-            margin:auto;
-            div{
-                margin:5px;
-            }
-        }
+        
     }
+    .bodyMsg{
+        width:90%;
+        margin:auto;
+        div{
+            margin:5px;
+        }
+        .dialogtitle{
+            display: inline-block;
+            width:80px;
+            text-align: right;
+            padding:10px;
+        }
+        .searchBtn{
+            margin-left:170px;
+        }
+          .processBox{
+             margin-top:20px;
+                height:80px;
+                position:relative;
 
+                .claimProcess{
+                    position: absolute;
+                    top:0;
+                }
+                .processInput{
+                    position: absolute;
+                    top:0;
+                    left:90px;
+                    width:70%;
+                }
+            }
+
+    }
+     
     .orderTable{
         //display: inline-block;
         width:100%;
@@ -815,7 +1139,7 @@ section{
     width:80%;
     padding: 20px 0 10px 10px;
     margin:10px 0;
-    height: 170px;
+    //height: 170px;
     border: 1px solid #d6dbe7;
 }
     .compRow{

@@ -31,55 +31,119 @@
                 
             </div>
             <el-table
+            class="table"
             :data="tableData3"
             border
             style="width: 100%"
             size="mini"
-            height="350">
+            height="750">
                 <el-table-column
                 type="index"
                 width="50">
                 </el-table-column>
                 <el-table-column
                 prop="date"
-                label="日期"
-                width="150">
+                label="保险公司"
+                width="120"
+                sortable :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column
                 prop="name"
-                label="姓名"
-                width="120">
+                label="起保日期"
+                width="100"
+                sortable :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column
                 prop="province"
-                label="省份"
-                width="120">
+                label="交强险保单号码"
+                width="140"
+                sortable :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column
                 prop="city"
-                label="市区"
-                width="120">
+                label="商业险保单号码"
+                width="140"
+                sortable :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column
                 prop="address"
-                label="地址"
-                width="300">
+                label="车牌号码"
+                width="120"
+                sortable :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column
                 prop="zip"
-                label="邮编"
-                width="120">
+                label="保单类型"
+                width="120"
+                sortable :show-overflow-tooltip="true">
                 </el-table-column>
                  <el-table-column
                 prop="zip"
-                label="邮编"
-                width="120">
+                label="出单日期"
+                width="100"
+                sortable :show-overflow-tooltip="true">
+                </el-table-column>
+                <el-table-column
+                prop="date"
+                label="交费日期"
+                width="100"
+                sortable :show-overflow-tooltip="true">
+                </el-table-column>
+                <el-table-column
+                prop="name"
+                label="投保人"
+                width="100"
+                sortable :show-overflow-tooltip="true">
+                </el-table-column>
+                <el-table-column
+                prop="province"
+                label="投保人证件号码"
+                width="140"
+                sortable :show-overflow-tooltip="true">
+                </el-table-column>
+                <el-table-column
+                prop="city"
+                label="交强险保费"
+                width="120"
+                sortable :show-overflow-tooltip="true">
+                </el-table-column>
+                <el-table-column
+                prop="address"
+                label="商业险保费"
+                width="120"
+                sortable :show-overflow-tooltip="true">
+                </el-table-column>
+                <el-table-column
+                prop="zip"
+                label="承揽人A单位"
+                width="120"
+                sortable :show-overflow-tooltip="true">
+                </el-table-column>
+                 <el-table-column
+                prop="zip"
+                label="承揽人A部门"
+                width="120"
+                sortable :show-overflow-tooltip="true">
+                </el-table-column>
+                 <el-table-column
+                prop="zip"
+                label="承揽人A姓名"
+                width="120"
+                sortable :show-overflow-tooltip="true">
                 </el-table-column>
             </el-table>
+            <div class="pageBtn">
+                <el-pagination
+                background
+                layout="prev, pager, next"
+                :total="1000">
+                </el-pagination>
+            </div>
+            <div class="oprateBtn">
+                <el-button type="primary" size="mini">导出Excel</el-button>
+            </div>
         </div>
-        <div class="footer">
-         <button>导出excel</button>
-        </div>
+         
         
  </div>
 </template>
@@ -198,7 +262,9 @@ export default {
 
 <style scoped lang="scss">
 .page{
-//    padding:10px 30px;
+  //padding: 10px 30px 0 30px;
+  height:100%;
+  overflow-y:scroll;
 }
 header{
     width:100%;
@@ -266,4 +332,17 @@ header span:nth-child(3){
     color:#fff;
     border-radius:5px;
 }
+  .pageBtn{
+         float: left;
+        margin-top:10px;
+    }
+    .oprateBtn{
+        float: right;
+        margin-top:10px;
+    }
+      @media screen and (max-width: 1480px) {
+        .table {
+        height:370px !important
+        }
+    }
 </style>
