@@ -19,49 +19,25 @@
                 @click="jumpToDetail(item.name)"
                 v-for="(item,i) in navList"
                 :key="i"
-                :index="i"
+                :index="item.name"
               >
                 {{ item.navItem }}
               </el-menu-item>
             </el-submenu>
 
-            <!-- <el-menu-item-group>
-              <template slot="title">群04</template>
-              <el-menu-item index="4-1">&lt;群0401&gt;公司业务管理组&nbsp;保单信息录入 </el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group>
-              <template slot="title">群05</template>
-              <el-menu-item index="5-1">&lt;群0501&gt;公司业务管理组&nbsp;保单信息录入 </el-menu-item>
-              <el-menu-item index="5-2">&lt;群0502&gt;公司业务管理组&nbsp;保单信息录入</el-menu-item>
-              <el-menu-item index="5-3">&lt;群0503&gt;公司业务管理组&nbsp;保单信息录入</el-menu-item>
-              <el-menu-item index="5-4">&lt;群0504&gt;公司业务管理组&nbsp;保单信息录入</el-menu-item>
-              <el-menu-item index="5-5">&lt;群0505&gt;公司业务管理组&nbsp;保单信息录入</el-menu-item>
-              <el-menu-item index="5-6">&lt;群0506&gt;公司业务管理组&nbsp;保单信息录入</el-menu-item>
-              <el-menu-item index="5-7">&lt;群0507&gt;公司业务管理组&nbsp;保单信息录入</el-menu-item>
-            </el-menu-item-group> -->
+           
           </el-submenu>
 
         </el-menu>
       </el-aside>
 
       <el-container>
-        <!-- <el-header style="text-align: right; font-size: 12px">
-      <el-dropdown>
-        <i class="el-icon-setting" style="margin-right: 15px"></i>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>查看</el-dropdown-item>
-          <el-dropdown-item>新增</el-dropdown-item>
-          <el-dropdown-item>删除</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <span>王小虎</span>
-    </el-header> -->
 
         <el-main>
           <div v-if="show === 1">
             <el-table
               size="mini"
-              height="calc(100vh - 40px)"
+              height="calc(100vh - 80px)"
               :data="tableData1"
               border
               style="width: 100%"
@@ -83,7 +59,7 @@
           </div>
           <div v-if="show === 2">
             <el-table
-              height="calc(100vh - 40px)"
+              height="calc(100vh - 80px)"
               size="mini"
               :data="tableData2"
               border
@@ -111,7 +87,7 @@
         <el-main style="border:1px solid #eee;border-right:0; width:100%;">
           <div v-if="show === 1">
             <el-table
-              height="calc(100vh - 40px)"
+              height="calc(100vh - 80px)"
               size="mini"
               :data="tableData3"
               border
@@ -134,12 +110,21 @@
                 label="状态"
               >
               </el-table-column>
+              <el-table-column
+
+      label="操作"
+      width="100">
+      <template slot-scope="scope">
+        <el-button @click="handleUseClick(scope.row)" type="text" size="small">启用</el-button>
+        <el-button @click="handleUnuseClick(scope.row)" type="text" size="small">禁用</el-button>
+      </template>
+    </el-table-column>
             </el-table>
           </div>
           <div v-if="show === 2">
             <el-table
               size="mini"
-              height="calc(100vh - 40px)"
+              height="calc(100vh - 80px)"
               :data="tableData4"
               border
               style="width: 100%"
@@ -161,6 +146,17 @@
                 label="状态"
               >
               </el-table-column>
+              
+    
+              <el-table-column
+
+      label="操作"
+      width="100">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row)" type="text" size="small">启用</el-button>
+        <el-button type="text" size="small">禁用</el-button>
+      </template>
+    </el-table-column>
             </el-table>
 
           </div>
@@ -326,8 +322,17 @@ export default {
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
-      }
-
+      },
+      handleUnuseClick(row){
+        if(row.address === '已启用'){
+          row.address = '禁用'
+        }
+    },
+    handleUseClick(row){
+        if(row.address === '禁用'){
+          row.address = '已启用'
+        }
+    }
   },
 
   computed: {},
