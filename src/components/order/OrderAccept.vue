@@ -473,9 +473,10 @@
               >
               </el-table-column>
             </el-table>
+            <Dialog :dialogFormVisible="dialogFormVisible" :tableData="tableData3" @change="change"></Dialog>
           </div>
           <div class="inBtn">
-                    <el-button type="primary" size="mini">导出Excel</el-button>
+                    <el-button type="primary" size="mini" @click="showDialog">导出Excel</el-button>
                     <!-- <el-button type="primary" size="mini">理赔报表导出</el-button> -->
                 </div>
                 <div class="oprateBtn">
@@ -490,10 +491,13 @@
 </template>
 
 <script type="text/ecmascript-6">
+import Dialog from 'base/dialog/dialog.vue'
+
 export default {
   data() {
     return {
       // 查询数据
+      dialogFormVisible:false,
       activeTab:'searchTab',
       companyChecked: true,
       numberChecked: true,
@@ -869,6 +873,15 @@ export default {
     handleToggleTab(){
          this.activeTab="listTab"
      },
+     change() {
+       this.dialogFormVisible = false
+     },
+     showDialog() {
+       this.dialogFormVisible = true
+     }
+  },
+  components:{
+    Dialog
   }
 };
 </script>

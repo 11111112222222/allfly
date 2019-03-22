@@ -11,6 +11,9 @@ const mutations = {
     if ((state.count + 1) % 2 === 0) {
       state.count++
     }
+  },
+  [types.ADD] (state, payload) {
+    state.tableData3.push(payload)
   }
 }
 
