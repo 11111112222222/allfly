@@ -399,223 +399,133 @@ export default {
       this.$router.push({ path: "/" });
     },
     handleNodeClick(data) {
-      //console.log(data.$treeNodeId);
-      switch (data.label) {
-        case "保单受理作业":
-          this.$router.push({ path: "/user/orderAccept" });
+      
+        //console.log(data.$treeNodeId);
+        switch (data.label) {
+          case "保单受理作业":
+            this.$router.push({ path: '/user/orderAccept' });  
+            break;
+          case "新契约受理报表":
+            this.$router.push({ path: '/user/newOrder' });
+            break;
+          case "保单交费记录查询":
+            this.$router.push({ path: '/user/payRecord' });
+            break;
+          case "保单及客户数据导入":
+          this.$router.push({ path: '/user/PolicyCusDataImp' });
+          break;
+          case "车险受理作业":
+            this.$router.push({ path: '/user/carInsurAccept',query:{carOrder:true} });
+            break;
+          case "车险新契约报表":
+            this.$router.push({ path: '/user/carNewOrder',query:{carOrder:true} });
+            break;
+          case "车险保单导入":
+            this.$router.push({ path: '/user/carOrderLeadin',query:{carOrder:true} });
+            break;
+          case "非车险受理作业":
+            this.$router.push({ path: '/user/nocarInsurAccept',query:{carOrder:false} });
+            break;
+          case "非车险新契约报表":
+            this.$router.push({ path: '/user/nocarNewOrder',query:{carOrder:false} });
+            break;
+          case "非车险保单导入":
+            this.$router.push({ path: '/user/nocarOrderLeadin',query:{carOrder:false} });
+            break;
+          case "理赔受理作业":
+            this.$router.push({ path: '/user/claimAccept' });
+            break;
+          case "客户关系管理":
+            this.$router.push({ path: '/user/clientRelation' });
+            break;
+          case "代理险种费用率管理":
+            this.$router.push({ path: '/user/agencyManage' });
+            break;
+          case "核保规则管理":
+            this.$router.push({ path: '/user/ruleManage' });
+            break;
+          case "车险费率管理":
+            this.$router.push({ path: '/user/carManage' });
+            break;
+          case "结算费率参数":
+            this.$router.push({ path: '/user/rateParam' });
+            break;
+          case "代理险种费用率查询/导入":
+            this.$router.push({ path: '/user/rateSearch' });
+            break;
+          case "人事信息/职级管理":
+          this.$router.push({ path: '/user/HumanResource0' });
+          break;
+          // case "业绩数据重新组织":
+          // this.$router.push({ path: '/user/HumanResource1' });
+          // break;
+          case "动态晋升考核管理":
+          this.$router.push({ path: '/user/HumanResource2' });
+          break;
+          case "个人绩效预警":
+          this.$router.push({ path: '/user/HumanResource3' });
+          break;
+          //  case "车险动态晋升考核":
+          // this.$router.push({ path: '/user/HumanResource4' });
+          // break;
+          //  case "车险个人绩效预警":
+          // this.$router.push({ path: '/user/HumanResource5' });
+          // break;
+           case "人事组织结构":
+          this.$router.push({ path: '/user/HumanResource6' });
+          break;
+          case "渠道绩效日报表":
+          this.$router.push({ path: '/user/DailyChannelPer' });
+          break;
+          case "个人网店绩效日报表":
+          this.$router.push({ path: '/user/PerOnlineStorePer' });
+          break;
+          case "电子文档管理":
+          this.$router.push({ path: '/user/EleDocManage' });
+          break;
+          case "人事基本信息报表":
+          this.$router.push({ path: '/user/PersBasInfReport' });
+          break;
+          case "人事组织信息列表":
+          this.$router.push({ path: '/user/PersOrgInfList' });
+          break;
+          case "人事职级履历变迁表":
+          this.$router.push({ path: '/user/ChangePerRankCurVi' });
+          break;
+          case "结算前保单明细预校":
+          this.$router.push({ path: '/user/PrePolDetBefSettle' });
+          break;
+          case "代理险种费用率打印":
+          this.$router.push({ path: '/user/AgentCostRatePrint' });
+          break;
+          case "系统使用账号管理":
+          this.$router.push({ path: '/user/SystemUsageAccManange' });
           break;
-        case "新契约受理报表":
-          this.$router.push({ path: "/user/newOrder" });
+          case "更改我的密码":
+          this.$router.push({ path: '/user/Password' });
           break;
-        case "保单交费记录查询":
-          this.$router.push({ path: "/user/payRecord" });
+          case "群组相应权限管理":
+          this.$router.push({ path: '/user/GroupCorresAuthorityManage' });
           break;
-        case "保单及客户数据导入":
-          this.$router.push({ path: "/user/PolicyCusDataImp" });
+          case "权限模组配置定义":
+          this.$router.push({ path: '/user/PermModuleConfDefi' });
+          case "单证状态更新/结存":
+          this.$router.push({ path: '/user/updateCard' });
           break;
-        case "车险受理作业":
-          this.$router.push({
-            path: "/user/carInsurAccept",
-            query: { carOrder: true }
-          });
+          case "新增入库及查询管理":
+          this.$router.push({ path: '/user/enterRepertory' });
           break;
-        case "车险新契约报表":
-          this.$router.push({
-            path: "/user/carNewOrder",
-            query: { carOrder: true }
-          });
+          case "新增交接及查询管理":
+          this.$router.push({ path: '/user/outRepertory' });
           break;
-        case "车险保单导入":
-          this.$router.push({
-            path: "/user/carOrderLeadin",
-            query: { carOrder: true }
-          });
+          case "单证盘库":
+          this.$router.push({ path: '/user/panku' });
           break;
-        case "非车险受理作业":
-          this.$router.push({
-            path: "/user/nocarInsurAccept",
-            query: { carOrder: false }
-          });
-          break;
-        case "非车险新契约报表":
-          this.$router.push({
-            path: "/user/nocarNewOrder",
-            query: { carOrder: false }
-          });
-          break;
-        case "非车险保单导入":
-          this.$router.push({
-            path: "/user/nocarOrderLeadin",
-            query: { carOrder: false }
-          });
-          break;
-        case "理赔受理作业":
-          this.$router.push({ path: "/user/claimAccept" });
-          break;
-        case "客户关系管理":
-          this.$router.push({ path: "/user/clientRelation" });
-          break;
-        case "代理险种费用率管理":
-          this.$router.push({ path: "/user/agencyManage" });
-          break;
-        case "核保规则管理":
-          this.$router.push({ path: "/user/ruleManage" });
-          break;
-        case "车险费率管理":
-          this.$router.push({ path: "/user/carManage" });
-          break;
-        case "结算费率参数":
-          this.$router.push({ path: "/user/rateParam" });
-          break;
-        case "代理险种费用率查询/导入":
-          this.$router.push({ path: "/user/rateSearch" });
-          break;
-        case "人事信息/职级管理":
-          this.$router.push({ path: "/user/HumanResource0" });
-          break;
-        case "业绩数据重新组织":
-          this.$router.push({ path: "/user/HumanResource1" });
-          break;
-        case "动态晋升考核管理":
-          this.$router.push({ path: "/user/HumanResource2" });
-          break;
-        case "个人绩效预警":
-          this.$router.push({ path: "/user/HumanResource3" });
-          break;
-        case "车险动态晋升考核":
-          this.$router.push({ path: "/user/HumanResource4" });
-          break;
-        case "车险个人绩效预警":
-          this.$router.push({ path: "/user/HumanResource5" });
-          break;
-        case "人事组织结构":
-          this.$router.push({ path: "/user/HumanResource6" });
-          break;
-        case "渠道绩效日报表":
-          this.$router.push({ path: "/user/DailyChannelPer" });
-          break;
-        case "个人网店绩效日报表":
-          this.$router.push({ path: "/user/PerOnlineStorePer" });
-          break;
-        case "电子文档管理":
-          this.$router.push({ path: "/user/EleDocManage" });
-          break;
-        case "人事基本信息报表":
-          this.$router.push({ path: "/user/PersBasInfReport" });
-          break;
-        case "人事组织信息列表":
-          this.$router.push({ path: "/user/PersOrgInfList" });
-          break;
-        case "人事职级履历变迁表":
-          this.$router.push({ path: "/user/ChangePerRankCurVi" });
-          break;
-        case "结算前保单明细预校":
-          this.$router.push({ path: "/user/PrePolDetBefSettle" });
-          break;
-        case "代理险种费用率打印":
-          this.$router.push({ path: "/user/AgentCostRatePrint" });
-          break;
-        case "系统使用账号管理":
-          this.$router.push({ path: "/user/SystemUsageAccManange" });
-          break;
-        case "更改我的密码":
-          this.$router.push({ path: "/user/Password" });
-          break;
-        case "群组相应权限管理":
-          this.$router.push({ path: "/user/GroupCorresAuthorityManage" });
-          break;
-        case "权限模组配置定义":
-          this.$router.push({ path: "/user/PermModuleConfDefi" });
-          break;
-        case "单证状态更新/结存":
-          this.$router.push({ path: "/user/updateCard" });
-          break;
-        case "新增入库及查询管理":
-          this.$router.push({ path: "/user/enterRepertory" });
-          break;
-        case "新增交接及查询管理":
-          this.$router.push({ path: "/user/outRepertory" });
-          break;
-        case "单证盘库":
-          this.$router.push({ path: "/user/panku" });
-          break;
-        case "续期应收自动化作业":
-          this.$router.push({ path: "/user/AutoReceive" });
-          break;
-        case "结算备档作业":
-          this.$router.push({ path: "/user/balanceRecordWork" });
-          break;
-        case "车险标准基本法结算":
-          this.$router.push({ path: "/user/carInsuranceLawCheck" });
-          break;
-        case "标准基本法自动结算":
-          this.$router.push({ path: "/user/lawAutoCheck" });
-          break;
-        case "车险逐笔核佣检查":
-          this.$router.push({ path: "/user/carInsuranceEveryCheck" });
-          break;
-        case "车险批量核佣检查":
-          this.$router.push({ path: "/user/carInsuranceSomeCheck" });
-          break;
-        case "逐笔核佣检查":
-          this.$router.push({ path: "/user/everyCheck" });
-          break;
-        case "结算前保单明细预校":
-          this.$router.push({ path: "/user/insuranceDetailCheck" });
-          break;
-        case "逐笔核佣检查查看编辑":
-          this.$router.push({ path: "/user/lookEdit" });
-          break;
-        case "批量核佣检查":
-          this.$router.push({ path: "/user/someCheck" });
-          break;
-        case "继续率重新组织":
-          this.$router.push({ path: "/user/RateReorganisation" });
-          break;
-        case "参数配置":
-          this.$router.push({ path: "/user/parameterDeploy" });
-          break;
-        case "日志管理":
-          this.$router.push({ path: "/user/journalManage" });
-          break;
-        case "分支协作机构管理":
-          this.$router.push({ path: "/user/branchHandle" });
-          break;
-        case "协同保险公司管理":
-          this.$router.push({ path: "/user/CooperateInsuranceCompanyManage" });
-          break;
-        case "保单作业参数":
-          this.$router.push({ path: "/user/insuranceAssignParameter" });
-          break;
-        case "人资作业参数":
-          this.$router.push({ path: "/user/personnalityAssignParameter" });
-          break;
-        case "职级定义配置":
-          this.$router.push({ path: "/user/rankDefineDeploy" });
-          break;
-        case "客户作业参数":
-          this.$router.push({ path: "/user/customerAssignParameter" });
-          break;
-        case "代理险种费用率管理 ":
-          this.$router.push({ path: "/user/agentInsuranceMoneyAdministrate" });
-          break;
-        case "结算费率参数":
-          this.$router.push({ path: "/user/balanceMoneyParameter" });
-          break;
-        case "代理险种费用率打印":
-          this.$router.push({ path: "/user/agentInsuranceMoneyPrint" });
-          break;
-        case "权限模组配置定义":
-          this.$router.push({ path: "/user/authorityDeploy" });
-          break;
-        case "群组相应权限管理":
-          this.$router.push({ path: "/user/authorityAdministrate" });
-          break;
-        default:
-          break;
-      }
-    }
-
+          default:
+            break;
+        }
+         
+    },
     // pushToOrderData(findOrderItem){
     //   this.$router.push({name:'neworderdata',query:{findOrderItem:findOrderItem}})
     // }
