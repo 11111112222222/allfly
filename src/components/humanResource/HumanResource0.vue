@@ -275,7 +275,6 @@
                     style="width: 100%"
                     height="400"
                     max-height="550">
-                    
                      <el-table-column v-for="item in tableHead1" :key="item.property" :label="item.label" :property="item.property" :fixed="item.fixed" :width="item.width">
                         <template slot-scope="scope">
                             <div v-if="item.oper">
@@ -286,7 +285,6 @@
                             <div v-else>
                                 {{ scope.row[item.property]}}
                             </div>
-                
                         </template>
                     </el-table-column>   
                 </el-table> 

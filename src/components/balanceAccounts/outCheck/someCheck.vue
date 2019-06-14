@@ -80,8 +80,8 @@
       </div>
     </form>
     <div class="button">
-      <el-button type="warning" plain size="mini">取消</el-button>
-      <el-button type="primary" plain size="mini">上一步</el-button>
+      <el-button type="warning" plain size="mini" disabled>取消</el-button>
+      <el-button type="primary" plain size="mini" disabled>上一步</el-button>
       <el-button type="primary" plain size="mini" @click="next">下一步</el-button>
       <el-button type="success" plain size="mini">完成</el-button>
     </div>
@@ -133,7 +133,7 @@ export default {
   methods: {
     next() {
       this.$router.push({ path: "someCheckNext" });
-    }
+    },
   }
 };
 </script>

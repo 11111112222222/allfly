@@ -82,7 +82,7 @@
           </td>
           <td>交费受理日期</td>
           <td>
-            <el-date-picker size="mini" v-model="payDoTime" type="month" placeholder="选择月"></el-date-picker>
+            <el-date-picker size="mini" v-model="payDoTime" type="date" placeholder="选择日期"></el-date-picker>
           </td>
           <td>年度缴次</td>
           <td>
@@ -105,9 +105,9 @@
         <tr>
           <td>缴费方式/类别</td>
           <td>年交/银行划账</td>
-          <td>缴费日期</td>
+          <td>交费日期</td>
           <td>
-            <el-date-picker size="mini" v-model="payTime" type="month" placeholder="选择月"></el-date-picker>
+            <el-date-picker size="mini" v-model="payTime" type="date" placeholder="选择日期"></el-date-picker>
           </td>
           <td>回执日期</td>
           <td></td>
@@ -116,15 +116,54 @@
       <el-table
         border
         size="mini"
-        height="100"
+        height="200"
         :data="tableData2"
         style="margin: 5px auto;text-align:left;width:95%;"
         :row-class-name="tableRowClassName"
       >
-        <el-table-column prop="date" label="日期" width="180"></el-table-column>
-        <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-        <el-table-column prop="address" label="地址"></el-table-column>
+        <el-table-column type="index" sortable label="序号" width="50"></el-table-column>
+
+        <el-table-column
+          v-for="item of tableHead"
+          :key="item.property"
+          :property="item.property"
+          :label="item.label"
+          :width="item.width"
+          :fixed="item.fixed"
+          :sortable="item.sortable"
+        >
+          <template slot-scope="scope">
+            <div v-if="item.operate">
+              <el-button
+                type="primary"
+                size="small"
+                @click="dialogVisible = true"
+              >{{item.operate.name}}</el-button>
+            </div>
+            <div v-else>{{scope.row[item.property]}}</div>
+          </template>
+        </el-table-column>
+
+        <!-- <el-table-column prop="name" width="180" fixed="right" label="操作">
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="deleteInfo(scope.$index,tableData2)"
+              type="danger"
+              size="mini"
+            >删除</el-button>
+            <el-button type="primary" size="mini" @click="dialogVisible = true">编辑</el-button>
+          </template>
+        </el-table-column>-->
       </el-table>
+      <el-dialog :visible.sync="dialogVisible" title="交费记录编辑" width="60%">
+        <div class="bodyMsg">
+          <PayRecordEditor></PayRecordEditor>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button size="mini" type="danger" @click="dialogVisible = false">取 消</el-button>
+          <el-button size="mini" type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
       <div style="width:95%;margin:0 auto;">
         <table style="width:49%;float:left;margin-top:20px;" class="orderTable">
           <tr>
@@ -198,11 +237,11 @@
             <el-table-column prop="yearDate" label="年期" width="180"></el-table-column>
             <el-table-column prop="rate" label="费率"></el-table-column>
           </el-table>
-<!-- 
+          <!-- 
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
             <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-          </div> -->
+          </div>-->
         </el-dialog>
 
         <fieldset style="margin-left:0px;margin-right:0px;">
@@ -216,18 +255,26 @@
               ></el-option>
             </el-select>
           </legend>
+
+          <!-- 承揽人部分点击按钮后的弹出框 -->
+          <el-dialog :visible.sync="dialogVisible1" title="位置" width="60%">
+            <div class="main">
+              <location></location>
+            </div>
+          </el-dialog>
+
           <div class="bottomLeft">
             <table>
               <tr>
                 <td>A</td>
-                <td class="tableCenter">刘加文</td>
+                <td class="tableCenter">承揽人</td>
                 <td class="buttonTable">
-                  <el-button size="mini">...</el-button>
+                  <el-button size="mini" @click="dialogVisible1 = true">...</el-button>
                 </td>
               </tr>
               <tr>
                 <td colspan="3" class="empty">
-                  <a href="#">刘加文 2101101000002</a>
+                  <a href="#">{{contracter}}</a>
                 </td>
               </tr>
             </table>
@@ -235,7 +282,9 @@
               <tr>
                 <td>B</td>
                 <td class="tableCenter">承揽人</td>
-                <td class="buttonTable"></td>
+                <td class="buttonTable">
+                  <el-button size="mini">...</el-button>
+                </td>
               </tr>
               <tr>
                 <td colspan="3" class="empty"></td>
@@ -293,21 +342,41 @@
         </table>
         <!-- <div class="link"> -->
         <!-- <a href="#">创建</a>
-        <a href="#">更新</a> -->
+        <a href="#">更新</a>-->
         <!-- </div>   -->
       </div>
-      <div class="button2">
-        <el-button type="success" size="mini">创建</el-button>
-        <el-button type="warning" size="mini">更新</el-button>
-        <el-button type="success" size="mini">确定</el-button>
-        <el-button type="warning" size="mini" @click="goBack">取消</el-button>
-        <el-button type="primary" size="mini">应用</el-button>
+      <div>
+        <div class="oprateBtn">
+          <el-tooltip placement="top">
+            <div slot="content">
+              <div v-for="(item) in createAccount" :key="item.name">
+                <span>{{item.name}}：</span>
+                <span>{{item.content}}</span>
+              </div>
+            </div>
+            <el-button size="mini">创建</el-button>
+          </el-tooltip>
+          <el-tooltip placement="top">
+            <div slot="content">
+              <div v-for="(item) in updateAccount" :key="item.name">
+                <span>{{item.name}}：</span>
+                <span>{{item.content}}</span>
+              </div>
+            </div>
+            <el-button size="mini">更新</el-button>
+          </el-tooltip>
+          <el-button type="primary" size="mini" id="confirmBtn">确定</el-button>
+          <el-button type="danger" size="mini" @click="goBack()">取消</el-button>
+          <el-button type="primary" size="mini">应用</el-button>
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script>
+import PayRecordEditor from "components/Order/PayRecordEditor.vue";
+import location from "./location.vue";
 export default {
   data() {
     return {
@@ -348,26 +417,100 @@ export default {
       year: 1,
       times: 1,
       payTime: "",
+      tableHead: [
+        { label: "险种代码", property: "code", width: "100", sortable: "true" },
+        { label: "险种名称", property: "name", width: "100", sortable: "true" },
+        {
+          label: "被保人",
+          property: "protectedPerson",
+          width: "100",
+          sortable: "true"
+        },
+        {
+          label: "受理日期",
+          property: "dealDate",
+          width: "100",
+          sortable: "true"
+        },
+        { label: "生效日期", property: "effectDate", sortable: "true" },
+        {
+          label: "操作",
+          property: "operate",
+          fixed: "right",
+          width: "100",
+          operate: { name: "查看 / 编辑" }
+        }
+      ],
       tableData2: [
         {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          code: "GDGGS123",
+          name: "百年附高",
+          protectedPerson: "里斯",
+          dealDate: "2019-02-13",
+          effectDate: "2019-02-13"
         },
         {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          code: "GDGGS123",
+          name: "百年附加",
+          protectedPerson: "里斯",
+          dealDate: "2019-02-13",
+          effectDate: "2019-02-13"
         },
         {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          code: "GDGGS123",
+          name: "年附加高",
+          protectedPerson: "里斯",
+          dealDate: "2019-02-13",
+          effectDate: "2019-02-13"
         },
         {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          code: "GDGGS123",
+          name: "百附加高",
+          protectedPerson: "里斯",
+          dealDate: "2019-02-13",
+          effectDate: "2019-02-13"
+        },
+        {
+          code: "GDGGS123",
+          name: "百年加高",
+          protectedPerson: "里斯",
+          dealDate: "2019-02-13",
+          effectDate: "2019-02-13"
+        },
+        {
+          code: "GDGGS123",
+          name: "百年附",
+          protectedPerson: "里斯",
+          dealDate: "2019-02-13",
+          effectDate: "2019-02-13"
+        },
+        {
+          code: "GDGGS123",
+          name: "附加高",
+          protectedPerson: "里斯",
+          dealDate: "2019-02-13",
+          effectDate: "2019-02-13"
+        },
+        {
+          code: "GDGGS123",
+          name: "百年高",
+          protectedPerson: "里斯",
+          dealDate: "2019-02-13",
+          effectDate: "2019-02-13"
+        },
+        {
+          code: "GDGGS123",
+          name: "百高",
+          protectedPerson: "里斯",
+          dealDate: "2019-02-13",
+          effectDate: "2019-02-13"
+        },
+        {
+          code: "GDGGS123",
+          name: "百",
+          protectedPerson: "里斯",
+          dealDate: "2019-02-13",
+          effectDate: "2019-02-13"
         }
       ],
       whose: [
@@ -387,25 +530,58 @@ export default {
         yearPeriod: "",
         rateName: "首/续年佣金",
         employRule: "",
-        rateType: "纯保费部分费率",
+        rateType: "纯保费部分费率"
       },
       formLabelWidth: "120px",
       tableData1: [
         {
           yearDate: "2015-05-02",
-          rate: "200",
+          rate: "200"
         },
         {
           yearDate: "2016-05-02",
-          rate: "100",
+          rate: "100"
         }
+      ],
+      dialogVisible: false,
+      dialogVisible1: false,
+      contracter: "刘加文 2101101000002",
+      createAccount: [
+        { name: "员工码", content: "00000033" },
+        { name: "员工名称", content: "啦啦啦" },
+        { name: "单位部门", content: "总部-运营部" },
+        { name: "佣金制度", content: "基本法A制" },
+        { name: "目前职级", content: "HQ01-内勤人员" },
+        { name: "关系上属", content: "--" },
+        { name: "入司日期", content: "2018-10-11" },
+        { name: "手机", content: "" },
+        { name: "电子邮箱", content: "" },
+        { name: "创建日期", content: "2019-03-06" }
+      ],
+      updateAccount: [
+        { name: "员工码", content: "00000033" },
+        { name: "员工名称", content: "啦啦啦" },
+        { name: "单位部门", content: "总部-运营部" },
+        { name: "佣金制度", content: "基本法A制" },
+        { name: "目前职级", content: "HQ01-内勤人员" },
+        { name: "关系上属", content: "--" },
+        { name: "入司日期", content: "2018-10-11" },
+        { name: "手机", content: "" },
+        { name: "电子邮箱", content: "" },
+        { name: "更新日期", content: "2019-03-06" }
       ]
     };
   },
 
-  components: {},
+  components: { PayRecordEditor, location },
 
   computed: {},
+
+  mounted: function() {
+    this.month = this.$route.query.information.AchievementMonth;
+    this.payDoTime = this.$route.query.information.chargeDate;
+    console.log(this.$route.query.information.AchievementMonth);
+  },
 
   methods: {
     tableRowClassName({ row, rowIndex }) {
@@ -421,10 +597,34 @@ export default {
     },
     insurancePeopleMessage() {
       this.$router.push({ path: "/user/ClientEditor" });
+    },
+    deleteInfo(index, table) {
+      this.$confirm("确定删除该条数据吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          table.splice(index, 1);
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    editorBtn(row) {
+      this.$router.push({ path: "/user/PayRecordEditor" });
     }
   }
 };
 </script>
+
 <style lang='scss' scoped>
 @import "../../../style/reset.css";
 header .title {
@@ -476,7 +676,7 @@ section {
     margin: 10px;
     border: 0px;
     .tableCenter {
-      width: 100px;
+      width: 110px;
       height: 30px;
       line-height: 30px;
     }
@@ -484,6 +684,10 @@ section {
       width: 50px;
       height: 30px;
       line-height: 30px;
+    }
+    .empty {
+      height: 30px;
+      // line-height:30px;
     }
   }
 }
@@ -495,7 +699,7 @@ section {
     margin: 10px;
     border: 0px;
     .tableCenter {
-      width: 100px;
+      width: 110px;
       height: 30px;
       line-height: 30px;
     }
@@ -504,12 +708,32 @@ section {
       height: 30px;
       line-height: 30px;
     }
+    .empty {
+      height: 30px;
+      // line-height:30px;
+    }
   }
 }
-// .empty {
-//   // 表格为空时，仍然要显示将表格的高度显示
-//   height: 20px;
-// }
+.oprateBtn {
+  //    position: fixed;;
+  //    bottom:25px;
+  //    right:45px;
+  float: right;
+  margin: 10px 30px 10px 0;
+  a {
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+    margin: 0 10px;
+    &:hover {
+      color: red;
+    }
+  }
+  #confirmBtn {
+    margin-left: 50px;
+  }
+}
+
 .checkPerson {
   width: 95%;
   margin: 10px auto;
@@ -518,8 +742,7 @@ section {
 }
 .checkPerson table {
   width: 250px;
-  height: 30px;
-  line-height: 30px;
+
   display: inline-block;
   margin: 0;
   text-align: left;
@@ -540,16 +763,15 @@ section {
   margin: 0 auto;
   text-align: right;
 }
-.button2 {
-  width: 95%;
-  margin: 0 auto;
-  text-align: right;
-  margin-bottom: 40px;
-}
+
 #insurancePeopleMessage {
   color: blue;
 }
 #insurancePeopleMessage:hover {
   text-decoration: underline;
+}
+td:nth-of-type(odd) {
+  // background:#eee;
+  font-weight: bold;
 }
 </style>

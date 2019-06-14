@@ -37,18 +37,23 @@
       <!-- 自定义右键菜单 -->
       <div id="menu" class="skin">
         <ul id="ul1">
-          <li id="addItems" @mouseover="mouseOver" style="display:block;">
+          <li id="addItems" ref="addItems" @mouseover="mouseOver" style="display:block;">
             新增
             <i class="el-icon-caret-right" style="width:50px;text-align:right;"></i>
           </li>
-          <li id="remove" @click="Delete" @mouseover="mouseLeave">移除</li>
-          <li @click="dialogFormVisible = true" id="reName" @mouseover="mouseLeave">更名</li>
-          <li @click="changePicture" id="changePicture" @mouseover="mouseLeave">更改图标</li>
-          <li id="edit" @mouseover="mouseLeave" @click="edit">编辑</li>
+          <li id="remove" ref="remove" @click="Delete" @mouseover="mouseLeave">移除</li>
+          <li @click="dialogFormVisible = true" id="reName" ref="reName" @mouseover="mouseLeave">更名</li>
+          <li
+            @click="changePicture"
+            id="changePicture"
+            ref="changePicture"
+            @mouseover="mouseLeave"
+          >更改图标</li>
+          <li id="edit" ref="edit" @mouseover="mouseLeave" @click="edit">编辑</li>
         </ul>
         <ul id="ul2" style="visibility:hidden" @mouseleave="mouseLeave">
-          <li id="classify" @click="classify">权限模组分类</li>
-          <li id="useMoudle" @click="useMoudle">使用权限模组</li>
+          <li id="classify" ref="classify" @click="classify">权限模组分类</li>
+          <li id="useMoudle" ref="useMoudle" @click="useMoudle">使用权限模组</li>
         </ul>
       </div>
       <!-- 自定义右边列表右键菜单 -->
@@ -87,8 +92,8 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible1 = false">取 消</el-button>
-          <el-button @click="dialogFormVisible1 = false">上一步</el-button>
-          <el-button @click="dialogFormVisible1 = false">下一步</el-button>
+          <el-button disabled>上一步</el-button>
+          <el-button @click="dialogFormVisible1 = false;dialogTableVisible1=true">下一步</el-button>
           <el-button type="primary" @click="dialogFormVisible1 = false">完 成</el-button>
         </div>
       </el-dialog>
@@ -109,7 +114,13 @@
       </el-dialog>
       <!-- 加入窗体 / 浏览窗体 -->
       <el-dialog title="加入窗体 / 浏览窗体" :visible.sync="dialogTableVisible">
-        <el-table :data="gridData" border @cell-click="fieldsetRemark" height="250" style="overflow-y:auto;">
+        <el-table
+          :data="gridData"
+          border
+          @cell-click="fieldsetRemark"
+          height="250"
+          style="overflow-y:auto;"
+        >
           <el-table-column property="windowName" label="窗体名称" width="150"></el-table-column>
           <el-table-column property="systemClassify" label="系统分类"></el-table-column>
         </el-table>
@@ -117,6 +128,135 @@
           <legend>说明</legend>
           <div id="fieldsetRemark"></div>
         </fieldset>
+        <div style="text-align:right">
+          <el-button>加 入</el-button>
+          <el-button type="primary">关 闭</el-button>
+        </div>
+      </el-dialog>
+      <!-- 添加权限模组配置向导 -->
+      <el-dialog
+        title="添加权限模组配置向导"
+        :visible.sync="dialogTableVisible1"
+        width="40%"
+        :before-close="handleClose"
+      >
+        <div class="line" style="height:30px;line-height:30px;vertical-align:middle">
+          <i class="el-icon-tickets" style="color:blue;font-size:30px;margin-right:5px;"></i>
+          <span>加入定义窗体来源</span>
+        </div>
+        <fieldset style="margin:5px 0;" class="line">
+          <legend>窗体来源</legend>
+          <div>
+            <el-radio-group v-model="radio">
+              <el-radio :label="3" class="line">自定义</el-radio>
+              <br>
+              <el-radio :label="6" class="line">系统默认模组定义窗体</el-radio>
+            </el-radio-group>
+            <div class="line">
+              <el-select v-model="value" placeholder="请选择" style="width:300px;">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+              <el-button type="primary">加 入</el-button>
+            </div>
+            <div class="line">
+              <el-input
+                type="textarea"
+                :rows="4"
+                placeholder="请输入内容"
+                v-model="textarea"
+                style="width:300px;"
+              ></el-input>
+              <el-button type="danger">移除</el-button>
+            </div>
+          </div>
+        </fieldset>
+        <div class="line" style="margin-top:10px;text-align:right;">
+              <el-button @click="dialogTableVisible1=false">取消</el-button>
+              <el-button @click="dialogFormVisible1=true;dialogTableVisible1=false;">上一步</el-button>
+              <el-button @click="dialogTableVisible2 = true;dialogTableVisible1=false;">下一步</el-button>
+              <el-button type="primary" @click="dialogTableVisible1=false">完成</el-button>
+            </div>
+      </el-dialog>
+      <!-- 添加权限模组配置向导/下一步 -->
+      <el-dialog title="添加权限模组配置向导" :visible.sync="dialogTableVisible2" width="40%"
+        :before-close="handleClose">
+        <div class="line" style="height:30px;line-height:30px;vertical-align:middle">
+          <i class="el-icon-tickets" style="color:blue;font-size:30px;margin-right:5px;"></i><span>选取使用窗体 / 可多重选择</span>
+          <el-button style="float:right" @click="dialogTableVisible=true">浏览窗体</el-button>
+        </div>
+        <el-table
+          :data="deploy"
+          border
+          @cell-click="fieldsetRemark"
+          height="250"
+          style="overflow-y:auto;"
+        >
+          <el-table-column type="index" label="序号" width="150"></el-table-column>
+           <el-table-column
+              type="selection"
+              width="55">
+            </el-table-column>
+          <el-table-column property="windowName" label="窗体名称"></el-table-column>
+          <el-table-column property="remark" label="说明"></el-table-column>
+        </el-table>
+        <div class="line" style="margin-top:10px;text-align:right;">
+              <el-button @click="dialogTableVisible2=false">取消</el-button>
+              <el-button @click="dialogTableVisible1=true;dialogTableVisible2=false;">上一步</el-button>
+              <el-button @click="dialogTableVisible3=true;dialogTableVisible2=false;">下一步</el-button>
+              <el-button type="primary" @click="dialogTableVisible2=false">完成</el-button>
+            </div>
+      </el-dialog>
+      <!-- 添加权限模组配置向导/选择图片 -->
+      <el-dialog title="添加权限模组配置向导" :visible.sync="dialogTableVisible3">
+        <div class="line" style="height:30px;line-height:30px;vertical-align:middle">
+          <i class="el-icon-tickets" style="color:blue;font-size:30px;margin-right:5px;"></i><span>选择图片</span>
+        </div>
+        <el-select v-model="value1" placeholder="请选择图片" style="width:300px;" @change="selectChange">
+                <el-option
+                  v-for="item in options1"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+              <div class="picture">
+                <template v-if="value1==='xitongtushi'">
+                  <i class="el-icon-edit"></i><i class="el-icon-share"></i><i class="el-icon-delete"></i>
+                  <i class="el-icon-upload"></i><i class="el-icon-goods"></i>
+                  <i class="el-icon-share"></i><i class="el-icon-caret-left"></i><i class="el-icon-caret-right"></i>
+                  <i class="el-icon-caret-bottom"></i><i class="el-icon-caret-top"></i>
+                </template>
+              </div>
+        <div style="text-align:right;margin-top:10px;">
+          <el-button @click="dialogTableVisible3=false">取消</el-button>
+              <el-button @click="dialogTableVisible3=false;dialogTableVisible2=true">上一步</el-button>
+              <el-button @click="dialogTableVisible4=true;dialogTableVisible3=false">下一步</el-button>
+              <el-button type="primary" @click="dialogTableVisible3=false">完成</el-button>
+        </div>
+      </el-dialog>
+      <!-- 添加权限模组配置向导/配置完成 -->
+      <el-dialog title="添加权限模组配置向导" :visible.sync="dialogTableVisible4" style="padding:20px;">
+        <div class="line" style="height:30px;line-height:30px;vertical-align:middle">
+          <i class="el-icon-success" style="color:green;font-size:30px;margin-right:5px;"></i><span>配置完成</span>
+        </div>
+        <div class="success">
+          <div>模组名称：{{form1.name}}</div>
+          <div>说明：{{form1.remark}}</div>
+          <div style="border-bottom:2px dotted #ddd;">选用窗体信息如下</div>
+          <div class="info"></div>
+        </div>
+              
+        <div style="text-align:right">
+          <el-button @click="dialogTableVisible4=false">取消</el-button>
+              <el-button @click="dialogTableVisible4=false;dialogTableVisible3=true">上一步</el-button>
+              <el-button disabled>下一步</el-button>
+              <el-button type="primary"  @click="dialogTableVisible4=false">完成</el-button>
+        </div>
       </el-dialog>
     </div>
   </div>
@@ -212,42 +352,48 @@ export default {
         {
           windowName: "车险费率管理",
           systemClassify: "车险费率管理模块"
-        },{
+        },
+        {
           windowName: "核保规则模块",
           systemClassify: "车险管理模块"
         },
         {
           windowName: "车险费率管理",
           systemClassify: "车险费率管理模块"
-        },{
+        },
+        {
           windowName: "核保规则模块",
           systemClassify: "车险管理模块"
         },
         {
           windowName: "车险费率管理",
           systemClassify: "车险费率管理模块"
-        },{
+        },
+        {
           windowName: "核保规则模块",
           systemClassify: "车险管理模块"
         },
         {
           windowName: "车险费率管理",
           systemClassify: "车险费率管理模块"
-        },{
+        },
+        {
           windowName: "核保规则模块",
           systemClassify: "车险管理模块"
         },
         {
           windowName: "车险费率管理",
           systemClassify: "车险费率管理模块"
-        },{
+        },
+        {
           windowName: "核保规则模块",
           systemClassify: "车险管理模块"
         },
         {
           windowName: "车险费率管理",
           systemClassify: "车险费率管理模块"
-        },{
+        },
+        {
           windowName: "核保规则模块",
           systemClassify: "车险管理模块"
         },
@@ -256,7 +402,49 @@ export default {
           systemClassify: "车险费率管理模块"
         }
       ],
-      dialogTableVisible: false
+      dialogTableVisible: false,
+      radio: 3,
+      dialogTableVisible1: false,
+      options: [
+        {
+          value: "选项1",
+          label: "黄金糕"
+        },
+        {
+          value: "选项2",
+          label: "双皮奶"
+        },
+        {
+          value: "选项3",
+          label: "蚵仔煎"
+        },
+        {
+          value: "选项4",
+          label: "龙须面"
+        },
+        {
+          value: "选项5",
+          label: "北京烤鸭"
+        }
+      ],
+      value: "",
+      textarea: "",
+      deploy:[
+        {
+          windowName:'职级定义配置编辑窗体',
+          remark:'编辑公司的职级信息'
+        }
+      ],
+      dialogTableVisible2:false,
+      options1:[
+        {
+          value:'xitongtushi',
+          label:'系统图示'
+        }
+      ],
+      value1:'',
+      dialogTableVisible3:false,
+      dialogTableVisible4:false,
     };
   },
 
@@ -284,33 +472,31 @@ export default {
       menu.style.left = evt.pageX - 220 + "px";
       /*设置菜单可见*/
       // 每次右键打开菜单时，都先将文字颜色设置为黑色
-      $("#addItems").css("color", "black");
-      $("#remove").css("color", "black");
-      $("#reName").css("color", "black");
-      $("#changePicture").css("color", "black");
-      $("#edit").css("color", "black");
-      $("#useMoudle").css("color", "black");
-      $("#classify").css("color", "black");
+      this.$refs.addItems.style.color = "black";
+      this.$refs.remove.style.color = "black";
+      this.$refs.reName.style.color = "black";
+      this.$refs.changePicture.style.color = "black";
+      this.$refs.edit.style.color = "black";
+      this.$refs.useMoudle.style.color = "black";
+      this.$refs.classify.style.color = "black";
       if (node.label == "系统模块管理") {
-        $("#remove").css("color", "#ddd");
-        $("#reName").css("color", "#ddd");
-        $("#changePicture").css("color", "#ddd");
-        $("#edit").css("color", "#ddd");
-        $("#useMoudle").css("color", "#ddd");
+        this.$refs.remove.style.color = "#ddd";
+        this.$refs.reName.style.color = "#ddd";
+        this.$refs.changePicture.style.color = "#ddd";
+        this.$refs.edit.style.color = "#ddd";
+        this.$refs.useMoudle.style.color = "#ddd";
       } else if (new RegExp("^<.*$").test(node.label)) {
-        // console.log(node.label);
-        // console.log($("#classify")[0].style.color);
-        $("#changePicture").css("color", "#ddd");
-        $("#classify").css("color", "#ddd");
+        this.$refs.changePicture.style.color = "#ddd";
+        this.$refs.classify.style.color = "#ddd";
       } else {
-        $("#addItems").css("color", "#ddd");
-        $("#useMoudle").css("color", "#ddd");
-        $("#classify").css("color", "#ddd");
+        this.$refs.addItems.style.color = "#ddd";
+        this.$refs.useMoudle.style.color = "#ddd";
+        this.$refs.classify.style.color = "#ddd";
       }
       menu.style.visibility = "visible";
     },
     mouseOver(event) {
-      if ($("#addItems")[0].style.color == "black") {
+      if (this.$refs.addItems.style.color == "black") {
         var ul2 = document.getElementById("ul2");
         ul2.style.visibility = "visible";
       }
@@ -341,7 +527,7 @@ export default {
       alert("删除");
     },
     changePicture(node) {
-      if ($("#changePicture")[0].style.color == "black") {
+      if (this.$refs.changePicture.style.color == "black") {
         this.dialogFormVisible = true;
         // node.cancelBubble=true;
         // node.preventDefault();
@@ -354,8 +540,8 @@ export default {
       centerMenu.style.top = evt.pageY + 50 + "px";
       centerMenu.style.left = evt.pageX - 350 + "px";
       centerMenu.style.visibility = "visible";
-      $("#addWindow").css("color", "black");
-      $("#newRemove").css("color", "black");
+      this.$refs.addWindow.style.color == "black";
+      this.$refs.newRemove.style.color == "black";
       node.cancelBubble = true;
       node.preventDefault();
     },
@@ -366,8 +552,8 @@ export default {
       centerMenu.style.top = evt.pageY + 50 + "px";
       centerMenu.style.left = evt.pageX - 350 + "px";
       centerMenu.style.visibility = "visible";
-      $("#addWindow").css("color", "black");
-      $("#newRemove").css("color", "#ddd");
+      this.$refs.addWindow.style.color == "black";
+      this.$refs.newRemove.style.color == "#ddd";
     },
     showRightMenu(data, node) {
       var evt = window.event || arguments[0];
@@ -382,24 +568,35 @@ export default {
       node.preventDefault();
     },
     classify() {
-      if ($("#classify")[0].style.color == "black") {
+      if (this.$refs.classify.style.color == "black") {
         this.dialogFormVisible = true;
       }
     },
     useMoudle() {
-      if ($("#useMoudle")[0].style.color == "black") {
+      if (this.$refs.useMoudle.style.color == "black") {
         this.dialogFormVisible1 = true;
       }
     },
     edit() {
-      if ($("#edit")[0].style.color == "black") {
+      if (this.$refs.edit.style.color == "black") {
         this.dialogFormVisible2 = true;
       }
     },
-    fieldsetRemark(row, column, cell, event){
+    fieldsetRemark(row, column, cell, event) {
       // console.log(row[column.property]);
-      $("#fieldsetRemark")[0].innerHTML=row[column.property];
-      console.log($("#fieldsetRemark"));
+      document.getElementById("fieldsetRemark").innerHTML =
+        row[column.property];
+    },
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+    selectChange(e){
+      console.log('this.value1',this.value1);
+      console.log('e',e);
     }
   }
 };
@@ -650,5 +847,52 @@ export default {
   // .el-icon-caret-right{
   //   text-align:right;;
   // }
+}
+.el-select {
+  width: 200px;
+}
+textarea.el-textarea__inner {
+  width: 200px;
+}
+fieldset {
+  padding: 10px 20px;
+}
+.line {
+  margin-bottom: 10px;
+}
+.picture{
+  width:100%;
+  padding:10px;
+}
+.picture{
+  margin-top:10px;
+  width:100%;
+  height:200px;
+  font-size:100px;
+  overflow:auto;
+  border:1px solid #ddd;
+  padding:20px;
+  i{
+    margin-right:10px;
+    color:aqua;
+  }
+}
+.success{
+  // width:100%;
+  
+  margin:10px 20px;
+  overflow:auto;
+}
+.success .info{
+  border:1px solid #ddd;
+  height:250px;
+}
+.success div{
+  margin-bottom:10px;
+  &:first-of-type{
+    margin-top:10px;
+  }&:last-of-type{
+    margin-bottom:0;
+  }
 }
 </style>

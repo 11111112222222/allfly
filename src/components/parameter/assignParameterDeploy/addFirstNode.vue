@@ -6,7 +6,7 @@
         <span @click="goBack">
           <i class="el-icon-back"></i>
         </span>
-        <span>添加一级节点 / 分支机构 </span>
+        <span>添加一级节点 / 分支机构</span>
       </div>
     </header>
     <section>
@@ -164,20 +164,20 @@
         </el-tab-pane>
         <el-tab-pane label="联系人" name="third">
           <div class="content">
-            <el-table border :data="tableData" stripe style="width: 95%;margin:30px;">
+            <el-table @row-click="rowClick" border :data="tableData" highlight-current-row height='400' style="width: 95%;margin:30px;">
               <el-table-column prop="date" label="日期" width="180"></el-table-column>
               <el-table-column prop="name" label="姓名" width="180"></el-table-column>
               <el-table-column prop="address" label="地址"></el-table-column>
             </el-table>
           </div>
           <div id="tableBottom">
-            <el-button type="primary" plain size="mini">删除</el-button>
+            <el-button type="primary" plain size="mini" @click="deleteRow">删除</el-button>
             <el-button type="primary" plain size="mini" @click="dialogFormVisible = true">添加</el-button>
             <el-dialog title="联系人信息" :visible.sync="dialogFormVisible">
               <el-form :model="form">
                 <el-form-item label="姓名" :label-width="formLabelWidth">
                   <el-input v-model="form.name" autocomplete="off" style="width:200px"></el-input>
-                  <el-button @click="dialogFormVisible = false">高级查找</el-button>
+                  <el-button @click="seniorSearch">高级查找</el-button>
                 </el-form-item>
                 <el-form-item label="性别" :label-width="formLabelWidth">
                   <el-input v-model="form.sex" autocomplete="off" style="width:200px"></el-input>
@@ -201,7 +201,12 @@
                   ></el-input>
                 </el-form-item>
                 <el-form-item label="更新日期" :label-width="formLabelWidth">
-                  <el-date-picker v-model="form.date" type="date" placeholder="选择日期" style="width:200px"></el-date-picker>
+                  <el-date-picker
+                    v-model="form.date"
+                    type="date"
+                    placeholder="选择日期"
+                    style="width:200px"
+                  ></el-date-picker>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
@@ -210,6 +215,14 @@
               </div>
             </el-dialog>
           </div>
+          <!-- 分支协作机构管理/添加一级节点、分支机构/联系人/添加/高级查找对话框（位置） -->
+          <el-dialog title="位置" :visible.sync="dialogTableVisible">
+            <linkmanMessage></linkmanMessage>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogTableVisible = false">取 消</el-button>
+              <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+            </div>
+          </el-dialog>
         </el-tab-pane>
       </el-tabs>
       <div id="button">
@@ -222,6 +235,7 @@
 </template>
 
 <script>
+import linkmanMessage from "./linkmanMessage";
 export default {
   data() {
     return {
@@ -275,13 +289,17 @@ export default {
         telephone: "",
         email: "",
         describe: "",
-        date: "",
+        date: ""
       },
       formLabelWidth: "120px",
+      dialogTableVisible: false,
+      rowIndex:-1,//-1表示默认没有选中任何项
     };
   },
 
-  components: {},
+  components: {
+    linkmanMessage
+  },
 
   computed: {},
 
@@ -291,6 +309,35 @@ export default {
     },
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+    seniorSearch() {
+      this.dialogTableVisible = true;
+    },
+    rowClick(row){
+      this.rowIndex=Array.indexOf(this.tableData,row);
+      console.log('this.rowIndex',this.rowIndex);
+    },
+    deleteRow(){
+      if(this.rowIndex!=-1){
+        this.$confirm('确认删除该项吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.tableData.splice(this.rowIndex,1);
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      }else{
+        this.$message('请选择要删除的项！');
+      }
     }
   }
 };

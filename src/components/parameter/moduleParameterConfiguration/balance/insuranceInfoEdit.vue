@@ -88,7 +88,7 @@
                   style="margin-bottom:5px;margin-top:10px;"
                   @click="dialogFormVisible = true"
                 >新增</el-button>
-                <el-button type="primary" class="rt" size="mini" style="margin-bottom:5px;">编辑</el-button>
+                <el-button type="primary" class="rt" size="mini" style="margin-bottom:5px;" @click="dialogFormVisible = true">编辑</el-button>
                 <el-button type="primary" class="rt" size="mini">移除</el-button>
               </div>
               <el-dialog title="年期添加" :visible.sync="dialogFormVisible">

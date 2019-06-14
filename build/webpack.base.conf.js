@@ -1,4 +1,3 @@
-var webpack = require('webpack')
 'use strict'
 const path = require('path')
 const utils = require('./utils')
@@ -43,14 +42,6 @@ module.exports = {
       'base': resolve('src/base'),
     }
   },
-plugins: [
- new webpack.ProvidePlugin({
-$: "jquery",
-jQuery: "jquery",
-jquery: "jquery",
-"window.jQuery": "jquery"
- })
-],
   module: {
     rules: [
       // ...(config.dev.useEslint ? [createLintingRule()] : []),

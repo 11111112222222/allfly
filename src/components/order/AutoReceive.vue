@@ -1,6 +1,6 @@
 <!-- 续期应收自动化作业 -->
 <template>
-  <div style="height:100%">
+  <div style="height:100%;overflow:auto;">
     <el-tabs v-model="activeTab" type="card">
       <!-- @tab-click="handleClick" -->
       <!--这个是tabs标签页-->
@@ -316,7 +316,12 @@
                 <div class="title">D</div>
                 <div class="content">
                   <el-checkbox v-model="DCheck" class="check" @change="DIsSelected=!DIsSelected"></el-checkbox>
-                  <el-select size="mini" v-model="DSelected" collapse-tags v-bind:disabled="!DIsSelected">
+                  <el-select
+                    size="mini"
+                    v-model="DSelected"
+                    collapse-tags
+                    v-bind:disabled="!DIsSelected"
+                  >
                     <el-option v-for="item in DOpt" :key="item.value" :value="item.value"></el-option>
                   </el-select>
                   <el-input
@@ -332,7 +337,12 @@
                 <div class="title">E</div>
                 <div class="content">
                   <el-checkbox v-model="ECheck" class="check" @change="EIsSelected=!EIsSelected"></el-checkbox>
-                  <el-select size="mini" v-model="ESelected" collapse-tags v-bind:disabled="!EIsSelected">
+                  <el-select
+                    size="mini"
+                    v-model="ESelected"
+                    collapse-tags
+                    v-bind:disabled="!EIsSelected"
+                  >
                     <el-option v-for="item in EOpt" :key="item.value" :value="item.value"></el-option>
                   </el-select>
                   <el-input
@@ -359,7 +369,7 @@
           <div class="listTab">
             <el-table
               size="mini"
-              height="480"
+              max-height="450"
               border
               ref="singleTable"
               :data="tableData"
@@ -382,16 +392,84 @@
           </div>
           <div class="bottomLeftButton">
             <el-button type="primary" plain>导出到Excel</el-button>
-            <el-button type="primary" plain>批量生成保单记录</el-button>
+            <el-button type="primary" plain @click="outerVisible=true">批量生成保单记录</el-button>
           </div>
           <div class="bottomRightButton">
-            <el-button type="primary" plain>保单查看</el-button>
-            <el-button type="primary" plain>续期交费记录</el-button>
-            <el-button type="primary" plain>应收查看</el-button>
+            <el-button type="primary" plain @click="insuranceLook">保单查看</el-button>
+            <el-button type="primary" plain  @click="renewal_payment">续期交费记录</el-button>
+            <el-button type="primary" plain @click="shouldRecieveLook">应收查看</el-button>
           </div>
         </div>
       </el-tab-pane>
     </el-tabs>
+    <!-- 批量生成保单记录按钮点击弹出的对话框 -->
+    <el-dialog title="保单应收交费" :visible.sync="outerVisible">
+      <el-dialog width="50%" title="保单应收交费" :visible.sync="innerVisible" append-to-body>
+        <el-dialog
+          width="30%"
+          title="内层的内层 Dialog"
+          :visible.sync="innerInnerVisible"
+          append-to-body
+        >
+          <!-- 内层的内层的界面 -->
+          <p style="font-weight:bold;margin-bottom:20px;">保单应收记录生成向导</p>
+          <p style="margin-left:20px;">生成报告</p>
+          <div style="margin-top:20px;width:100%;max-height:300px;overflow-y:auto;border:1px solid #ddd;padding:20px;margin-bottom:20px;">
+            <div style="width:100%">
+              <div class="innerInnerDialog">
+                <p>日期时间 Datetime：{{operateDatetime}}</p>
+                <p>操作者 User：{{operateUser}}</p>
+                <p>应转入保单续期缴费记录 Total(笔)：{{shouldShift}}</p>
+                <p>添加 Add(笔)：{{add}}</p>
+                <p>覆盖 Override(笔)：{{override}}</p>
+                <p>略过 Leave(笔)：{{leave}}</p>
+                <p>失败 Failed(笔)：{{failed}}</p>
+              </div>
+            </div>
+          </div>
+              <!-- <el-button type="primary">明细查看</el-button> -->
+
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="innerInnerVisible = false;">上一步</el-button>
+            <el-button type="primary" disabled>下一步</el-button>
+            <el-button @click="innerInnerVisible = false;innerVisible = false;outerVisible = false">完成</el-button>
+          </div>
+        </el-dialog>
+        <!-- 内层界面 -->
+        <p style="font-weight:bold;margin-bottom:20px;">保单应收记录生成向导</p>
+        <p style="margin-left:20px;margin-bottom:20px;">选择生成应收交费记录的受理日期和实际交费日期</p>
+        <el-form>
+          <el-form-item label="交费受理日期" :label-width="formLabelWidth">
+            <el-date-picker v-model="chargeDealDate" type="date" placeholder="选择交费受理日期"></el-date-picker>
+          </el-form-item>
+          <el-form-item label="交费日期" :label-width="formLabelWidth">
+            <el-date-picker v-model="chargeDate" type="date" placeholder="选择交费日期"></el-date-picker>
+          </el-form-item>
+        </el-form>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="innerVisible=false;">上一步</el-button>
+          <el-button type="primary" @click="innerInnerVisible = true">下一步</el-button>
+          <el-button disabled>完成</el-button>
+        </div>
+      </el-dialog>
+      <!-- 外层界面 -->
+      <p style="font-weight:bold;margin-bottom:20px;">保单应收记录生成向导</p>
+      <p style="margin-left:20px;">对于已存在的交费记录，可选择略过或者覆盖</p>
+      <fieldset style="padding:20px;margin-top:20px;">
+        <legend>应收交费记录月份{{shouldreceiveRecordMonth}}</legend>
+        <div>
+          <span>对于已存在尚未核算的记录：</span>
+          <el-radio v-model="radio" label="1">略过</el-radio>
+          <el-radio v-model="radio" label="2">覆盖</el-radio>
+        </div>
+      </fieldset>
+      <div slot="footer" class="dialog-footer">
+        <el-button disabled>上一步</el-button>
+        <el-button type="primary" @click="innerVisible = true">下一步</el-button>
+        <el-button disabled>完成</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -710,7 +788,22 @@ export default {
           educationalBackground: "college"
         }
       ],
-      multipleSelection: []
+      multipleSelection: [],
+      outerVisible: false,
+      innerVisible: false,
+      innerInnerVisible: false,
+      shouldreceiveRecordMonth: "2019-04",
+      radio: "1",
+      chargeDealDate: "",
+      chargeDate: "",
+      formLabelWidth: '120px',
+      operateDatetime:"2019年3月29日 18.08",
+      operateUser:"胡文杰",
+      shouldShift:2,
+      add:0,
+      override:0,
+      leave:2,
+      failed:0,
     };
   },
 
@@ -731,17 +824,27 @@ export default {
     // handleClick: function() {
     //   console.log("这个定义过了");
     // },
-    getMonth: function(text) {
-      alert($("#date1").val());
+    // getMonth: function(text) {
+    //   alert($("#date1").val());
       // $("#date2").minDate=;
       // $("#date2").minDate=text;
-    },
+    // },
     handleCurrentChange: function() {
       //这个是用来监听列表的变化的
     },
     changeTabPane: function() {
       this.activeTab = "listTabPane";
-    }
+    },
+    insuranceLook() {
+      this.$router.push({ path: "/user/insuranceLook" });
+    },
+    shouldRecieveLook() {
+      console.log("进来过");
+      this.$router.push({ path: "/user/shouldRecieveLook" });
+    },
+    renewal_payment(row){
+         this.$router.push({path:"/user/payEditor"})
+     },
   }
 };
 </script>
@@ -789,20 +892,28 @@ fieldset {
   margin-bottom: 20px;
 }
 .bottomLeftButton {
-  position: fixed;
-  bottom: 40px;
-  left: 280px;
+
+  margin-left:40px;
+  display:inline-block;
+  margin-top:10px;
 }
 .bottomRightButton {
-  position: fixed;
-  bottom: 40px;
-  right: 60px;
+  // position: fixed;
+  // bottom: 3px;
+  // right: 60px;
+  display:inline-block;
+  float:right;
+  margin-right:60px;
+  margin-top:10px;
 }
 .listTab {
-  overflow-y: scroll;
+  // overflow-y: scroll;
   margin-left: 40px;
-  margin-right: 40px;
-  width: 100%;
-  height: 500px;
+  // margin-right: 40px;
+  // width: 100%;
+  // height: 500px;
+}
+.innerInnerDialog p{
+  margin-bottom:10px;
 }
 </style>

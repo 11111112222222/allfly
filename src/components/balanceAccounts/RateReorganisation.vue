@@ -1,6 +1,6 @@
 <!-- 继续率重新组织 -->
 <template>
-  <div>
+  <div id="main">
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
       <el-tab-pane label="继续率重新组织" name="RateReorganisation">
         <form>
@@ -100,18 +100,18 @@
             :data="tableData"
             @current-change="handleCurrentChange"
             border
-            height="500"
-            style="width: 100%"
+            max-height="200"
+            height="700"
           >
-            <el-table-column type="index" width="50" label="索引"></el-table-column>
-            <el-table-column property="date" label="继续率发生月份" width="120"></el-table-column>
-            <el-table-column property="company" label="单位" id=""></el-table-column>
-            <el-table-column property="rank" label="职级" id=""></el-table-column>
-            <el-table-column property="number" label="员工编号" id=""></el-table-column>
-            <el-table-column property="name" label="姓名" id=""></el-table-column>
-            <el-table-column property="shouldCost" label="应收继续保费" id=""></el-table-column>
-            <el-table-column property="realCost" label="实收继续保费" id=""></el-table-column>
-            <el-table-column property="R13" label="R13" width="250" id=""></el-table-column>
+            <el-table-column type="index" width="50" label="索引" fixed="left" fit></el-table-column>
+            <el-table-column property="date" label="继续率发生月份" fit></el-table-column>
+            <el-table-column property="company" label="单位" id="" fit></el-table-column>
+            <el-table-column property="rank" label="职级" id="" fit></el-table-column>
+            <el-table-column property="number" label="员工编号" id="" fit></el-table-column>
+            <el-table-column property="name" label="姓名" id="" fit></el-table-column>
+            <el-table-column property="shouldCost" label="应收继续保费" id="" fit></el-table-column>
+            <el-table-column property="realCost" label="实收继续保费" id="" fit></el-table-column>
+            <el-table-column property="R13" label="R13" id="" fit></el-table-column>
           </el-table>
           <div style="margin-top: 20px">
             <el-button type="primary" id="table-content" size="mini">Excel导出</el-button>
@@ -215,6 +215,10 @@ export default {
 
 <style lang='scss' scoped>
 @import "../../style/reset.css";
+#main{
+  height:90vh;
+  overflow:auto;
+}
 #rateFrame {
   margin: 0px 40px 0px 40px;
 }
@@ -245,7 +249,8 @@ span {
   margin-left: 30px;
 }
 .right {
-  display: inline-block;
+  display:inline-block;
+  overflow-x: auto;
 }
 p {
   margin: 0px;

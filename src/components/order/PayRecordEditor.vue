@@ -306,9 +306,9 @@ export default {
             font-weight: bold;
             background-color:#eee;
         }
-        td:nth-of-type(even){
-           // width:20%;
-        }
+        // td:nth-of-type(even){
+        //    // width:20%;
+        // }
     }
      fieldset {
         padding: 20px 0 10px 10px;

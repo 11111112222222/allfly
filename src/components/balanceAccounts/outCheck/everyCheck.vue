@@ -272,7 +272,7 @@
       <el-tab-pane label="列表" name="list">
         <div style="margin:0 10px;display:block;">
           <div class="message">
-            <span>{{whichNumber}}/{{wholeNumber}}</span>
+            <span>{{whichNumber}} / {{wholeNumber}}</span>
             <span>
               <el-checkbox v-model="checked">展开明细</el-checkbox>
             </span>
@@ -292,28 +292,63 @@
                 <el-table-column property="ChargePeriod" label="缴费年期"></el-table-column>
               </el-table>
             </el-dialog>-->
-            <el-table :data="tableData" style="width: 100%;" height="450">
+            <el-table
+              highlight-current-row
+              :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+              style="width: 100%;"
+              border
+              height="450"
+              :default-sort="{prop:'AchievementMonth', order: 'order'}"
+              @row-click="queryEdit"
+            >
               <el-table-column type="expand">
                 <template slot-scope="props">
                   <el-form label-position="left" inline class="demo-table-expand">
-                    <!-- <el-form-item label="商品名称"> -->
-                    <el-table :data="gridData" border>
-                      <el-table-column property="InsuranceType" label="险种名称 /" width="150"></el-table-column>
-                      <el-table-column property="chargeTime" label="年度缴次" width="200"></el-table-column>
-                      <el-table-column property="ChargePeriod" label="缴费年期"></el-table-column>
+                    <el-table :data="props.row.recordList1" border>
+                      <el-table-column
+                        v-for="item in tableHead1"
+                        :key="item.property"
+                        :label="item.label"
+                        :width="item.width"
+                        :property="item.property"
+                        :fixed="item.fixed"
+                        sortable
+                      >
+                        <template slot-scope="scope">{{scope.row[item.property]}}</template>
+                      </el-table-column>
                     </el-table>
                     <!-- </el-form-item> -->
                   </el-form>
                 </template>
               </el-table-column>
-              <el-table-column label="商品 ID" prop="id"></el-table-column>
-              <el-table-column label="商品名称" prop="name"></el-table-column>
-              <el-table-column label="描述" prop="desc"></el-table-column>
+              <el-table-column
+                v-for="item in tableHead2"
+                :key="item.property"
+                :label="item.label"
+                :property="item.property"
+                :width="item.width"
+                sortable
+                :fixed="item.fixed"
+              >
+                <template slot-scope="scope">{{scope.row[item.property]}}</template>
+              </el-table-column>
+              <!-- <el-table-column label="交费日期" prop="chargeDate" sortable></el-table-column>
+              <el-table-column label="应收月" prop="chargeMonth" sortable></el-table-column>-->
+              <!-- <el-table-column prop="name" width="180" fixed="right" label="操作">
+                <template slot-scope="scope">
+                  <el-button
+                    @click.native.prevent="deleteInfo(scope.$index,tableData)"
+                    type="danger"
+                    size="mini"
+                  >删除</el-button>
+                  <el-button type="primary" size="mini" @click="editorBtn(scope.row)">编辑</el-button>
+                </template>
+              </el-table-column>-->
             </el-table>
-
+            <el-pagination background layout="prev, pager, next" :total="wholeNumber" @current-change="current_change" :current-page="currentPage" :page-size="pageSize"></el-pagination>
             <div class="button">
               <el-button type="primary" size="mini">导出Excel</el-button>
-              <el-button type="primary" size="mini" @click="look_edit">查看/编辑</el-button>
+              <el-button type="primary" size="mini" :disabled="disabled" @click="look_edit" ref="look_edit">查看/编辑</el-button>
             </div>
           </form>
         </div>
@@ -509,31 +544,129 @@ export default {
         }
       ],
       MonthSelected: "",
-      whichNumber: 1,
+      whichNumber: "",
       wholeNumber: 10,
       checked: false,
       wholeInsuranceMoney: "100000000.00",
       tableData: [
         {
-          AchievementMonth: "201812",
-          chargeDate: "2018-12-03",
-          chargeMonth: "2018-12"
+          AchievementMonth: "2015-12",
+          chargeDate: "2015-12-03",
+          chargeMonth: "2015-12",
+          recordList1: [
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "20"
+            },
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "21"
+            }
+          ]
         },
         {
-          AchievementMonth: "201812",
+          AchievementMonth: "2018-12",
           chargeDate: "2018-12-03",
-          chargeMonth: "2018-12"
+          chargeMonth: "2018-12",
+          recordList1: [
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "20"
+            },
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "21"
+            }
+          ]
         },
         {
-          AchievementMonth: "201812",
+          AchievementMonth: "2018-12",
           chargeDate: "2018-12-03",
-          chargeMonth: "2018-12"
+          chargeMonth: "2018-12",
+          recordList1: [
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "20"
+            },
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "21"
+            }
+          ]
         },
         {
-          AchievementMonth: "201812",
+          AchievementMonth: "2018-12",
           chargeDate: "2018-12-03",
-          chargeMonth: "2018-12"
+          chargeMonth: "2018-12",
+          recordList1: [
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "20"
+            },
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "21"
+            }
+          ]
+        },
+        {
+          AchievementMonth: "2018-12",
+          chargeDate: "2018-12-03",
+          chargeMonth: "2018-12",
+          recordList1: [
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "20"
+            },
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "21"
+            }
+          ]
+        },
+        {
+          AchievementMonth: "2018-12",
+          chargeDate: "2018-12-03",
+          chargeMonth: "2018-12",
+          recordList1: [
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "20"
+            },
+            {
+              insuranceName: "信泰百万重疾",
+              spendTimes: "0101",
+              spendPeriod: "21"
+            }
+          ]
         }
+      ],
+      tableHead1: [
+        { label: "险种名称 /", property: "insuranceName", width: "100" },
+        { label: "年度缴次", property: "spendTimes", width: "100" },
+        { label: "交费年期", property: "spendPeriod", width: "" }
+        // {label: '操作',property: 'oper', fixed: 'right', width:'200',minWidth: '140px',
+        //     oper: [
+        //         { name: '删除'},
+        //         { name: '查看/编辑'}
+        //     ]
+        // }
+      ],
+      tableHead2: [
+        { label: "计绩年月 /", property: "AchievementMonth", width: "100" },
+        { label: "缴费日期", property: "chargeDate", width: "100" },
+        { label: "应收月", property: "chargeMonth", width: "" }
       ],
       dialogTableVisible: false,
       gridData: [
@@ -543,50 +676,59 @@ export default {
           ChargePeriod: "上海市普陀区金沙江路 1518 弄"
         }
       ],
-      tableData: [
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987123",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987125",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987126",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        }
-      ]
+      // tableData: [
+      //   {
+      //     id: "12987122",
+      //     name: "好滋好味鸡蛋仔",
+      //     category: "江浙小吃、小吃零食",
+      //     desc: "荷兰优质淡奶，奶香浓而不腻",
+      //     address: "上海市普陀区真北路",
+      //     shop: "王小虎夫妻店",
+      //     shopId: "10333"
+      //   },
+      //   {
+      //     id: "12987123",
+      //     name: "好滋好味鸡蛋仔",
+      //     category: "江浙小吃、小吃零食",
+      //     desc: "荷兰优质淡奶，奶香浓而不腻",
+      //     address: "上海市普陀区真北路",
+      //     shop: "王小虎夫妻店",
+      //     shopId: "10333"
+      //   },
+      //   {
+      //     id: "12987125",
+      //     name: "好滋好味鸡蛋仔",
+      //     category: "江浙小吃、小吃零食",
+      //     desc: "荷兰优质淡奶，奶香浓而不腻",
+      //     address: "上海市普陀区真北路",
+      //     shop: "王小虎夫妻店",
+      //     shopId: "10333"
+      //   },
+      //   {
+      //     id: "12987126",
+      //     name: "好滋好味鸡蛋仔",
+      //     category: "江浙小吃、小吃零食",
+      //     desc: "荷兰优质淡奶，奶香浓而不腻",
+      //     address: "上海市普陀区真北路",
+      //     shop: "王小虎夫妻店",
+      //     shopId: "10333"
+      //   }
+      // ]
+      temp: "",
+      disabled:true,
+      pageSize:2,
+      currentPage:1,
+
     };
   },
 
   components: {},
 
   computed: {},
+
+  mounted:function(){
+    this.wholeNumber=this.tableData.length;
+  },
 
   methods: {
     handleClick(tab, event) {
@@ -608,7 +750,11 @@ export default {
       this.everyCheck = "list";
     },
     look_edit() {
-      this.$router.push({ path: "/user/lookEdit" });
+      console.log(this.temp);
+      this.$router.push({
+        path: "/user/lookEdit",
+        query: { information: this.temp }
+      });
     },
     getDetails(row) {
       this.dialogTableVisible = true;
@@ -631,6 +777,49 @@ export default {
       this.gridData = data;
       //这里实现末尾添加而不是覆盖原来的数据，是否需要将原来的数据写入到新数组，然后将新数组再赋给原数组？
       // console.log(row.AchievementMonth);
+    },
+    deleteInfo(index, table) {
+      this.$confirm("确定删除该条数据吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          table.splice(index, 1);
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    editorBtn(row) {
+      this.$router.push({
+        path: "/user/lookEdit",
+        query: { address: row.address }
+      });
+    },
+    queryEdit(row,index) {
+      this.temp = row;//row是一行的数据
+      // console.log(row);
+      // console.log(this.tableData.indexOf(row));
+      //this.tableData.indexOf(row)可以获取当前点击行的索引
+      // console.log(this.disabled);
+      this.whichNumber=this.tableData.indexOf(row)+1;
+      this.disabled=false;
+      //间接修改disabled绑定的disabled，实现间接修改的目的
+      // this.$refs.look_edit.disabled=false;
+      //直接修改disabled的值，会产生警告，所以采用了修改disabled绑定的disabled，实现间接修改的目的
+      // this.tableData.splice(this.tableData.indexOf(row),1);
+      //这个是根据行号进行删除的操作
+    },
+    current_change(currentPage){
+      this.currentPage=currentPage;
     }
   }
 };
@@ -699,5 +888,8 @@ form {
   margin-right: 0;
   margin-bottom: 0;
   width: 50%;
+}
+.el-pagination {
+  margin-top: 10px;
 }
 </style>

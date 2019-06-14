@@ -8,7 +8,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'common/fonts/iconfont.js'
 import 'common/scss/index.scss'
-import 'jquery'
+// import 'jquery'
 
 Vue.use(ElementUI, { size: 'small' })
 

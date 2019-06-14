@@ -146,7 +146,11 @@
                   <el-input v-model="form.compulsoryCost" autocomplete="off" style="width:50%;"></el-input>
                 </el-form-item>
                 <el-form-item label="保费:" :label-width="formLabelWidth">
-                  <el-input v-model="form.compulsoryInsuranceMoney" autocomplete="off" style="width:80%;"></el-input>
+                  <el-input
+                    v-model="form.compulsoryInsuranceMoney"
+                    autocomplete="off"
+                    style="width:80%;"
+                  ></el-input>
                 </el-form-item>
               </fieldset>
               <fieldset :label-width="formLabelWidth">
@@ -156,17 +160,29 @@
                   :label-width="formLabelWidth"
                   style="display:inline-block;"
                 >
-                  <el-input v-model="form.commercialInsuranceCollect" autocomplete="off" style="width:50%;"></el-input>
+                  <el-input
+                    v-model="form.commercialInsuranceCollect"
+                    autocomplete="off"
+                    style="width:50%;"
+                  ></el-input>
                 </el-form-item>
                 <el-form-item
                   label="支:"
                   :label-width="formLabelWidth"
                   style="display:inline-block;"
                 >
-                  <el-input v-model="form.commercialInsuranceCost" autocomplete="off" style="width:50%;"></el-input>
+                  <el-input
+                    v-model="form.commercialInsuranceCost"
+                    autocomplete="off"
+                    style="width:50%;"
+                  ></el-input>
                 </el-form-item>
                 <el-form-item label="保费:" :label-width="formLabelWidth">
-                  <el-input v-model="form.commercialInsuranceMoney" autocomplete="off" style="width:80%;"></el-input>
+                  <el-input
+                    v-model="form.commercialInsuranceMoney"
+                    autocomplete="off"
+                    style="width:80%;"
+                  ></el-input>
                 </el-form-item>
               </fieldset>
             </el-form>
@@ -178,14 +194,40 @@
         </div>
         <div class="bottom">
           <div class="bottomLeft">
-            <el-button type="primary" size="mini">核佣</el-button>
-            <el-button type="primary" size="mini">反核佣</el-button>
+            <el-button type="primary" size="mini" @click="dialogVisible1 = true">核佣</el-button>
+            <el-button type="primary" size="mini" @click="dialogVisible2 = true">反核佣</el-button>
           </div>
           <div class="bottomRight">
             <el-button type="primary" size="mini">导出Excel</el-button>
             <el-button type="primary" size="mini" @click="getDetails">查看/编辑</el-button>
           </div>
         </div>
+        <!-- 核佣按钮点击弹出框 -->
+        <el-dialog
+          title="提示"
+          :visible.sync="dialogVisible1"
+          width="30%"
+          :before-close="handleClose1"
+        >
+          <span>你确定选中的数据已经核佣完毕要进行核佣吗？</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible1 = false">取 消</el-button>
+            <el-button type="primary" @click="dialogVisible1 = false">确 定</el-button>
+          </span>
+        </el-dialog>
+        <!-- 反核佣按钮点击弹出框 -->
+        <el-dialog
+          title="提示"
+          :visible.sync="dialogVisible2"
+          width="30%"
+          :before-close="handleClose2"
+        >
+          <span>你确定选中的数据要进行反核佣吗？</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible2 = false">取 消</el-button>
+            <el-button type="primary" @click="dialogVisible2 = false">确 定</el-button>
+          </span>
+        </el-dialog>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -221,7 +263,7 @@ export default {
       dateCheck: false,
       date: "",
       isCheck: false,
-      isChecked:"已核",
+      isChecked: "已核",
       isCheckOpt: [
         {
           value: "已核"
@@ -255,9 +297,11 @@ export default {
         compulsoryInsuranceMoney: "",
         commercialInsuranceCollect: "",
         commercialInsuranceCost: "",
-        commercialInsuranceMoney: "",
+        commercialInsuranceMoney: ""
       },
-      formLabelWidth: "120px"
+      formLabelWidth: "120px",
+      dialogVisible1: false,
+      dialogVisible2: false
     };
   },
 
@@ -287,6 +331,21 @@ export default {
       // obj.ChargePeriod=row.chargeMonth;
       // data[0]=obj;
       // this.gridData=data;
+    },
+    handleClose1(done) {
+      this.$confirm("你确定选中的数据已经何勇完毕要进行核佣吗？")
+        .then(_ => {
+          console.log('关闭之前输出数据');
+          done();
+        })
+        .catch(_ => {});
+    },
+    handleClose2(done) {
+      this.$confirm("你确定选中的数据要进行反核佣吗？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     }
   }
 };

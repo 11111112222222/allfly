@@ -1168,6 +1168,4 @@ section{
         height:380px !important
         }
     }
-
-
 </style>

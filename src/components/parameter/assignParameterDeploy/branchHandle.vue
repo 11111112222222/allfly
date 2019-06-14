@@ -9,6 +9,8 @@
       </header>
       <div id="left" @contextmenu.prevent="showMenu">
         <el-tree
+        highlight-current
+        check-on-click-node
           :data="data"
           :props="defaultProps"
           @node-click="handleNodeClick"
@@ -193,8 +195,9 @@ export default {
         //node不为undefind说明右键的元素为菜单元素或者table
         if (node.label == "合翔保险经纪有限公司") {
           //右键的是树根节点
-          $("#addItems")[0].innerHTML = "添加一级节点 / 分支机构";
-          $("#delete").hide();
+          document.getElementById("addItems").innerHTML = "添加一级节点 / 分支机构";
+          // $("#delete").hide();
+          document.getElementById("delete").style.display="none";
         } else {
           //为table右键或者树根的子节点（包括孙子节点，即叶子节点）
           node.cancelBubble = true; //取消事件冒泡
@@ -202,12 +205,14 @@ export default {
             //表示右键的是table，只有table右键有preventDefault方法，树列表没有
             node.preventDefault();
           }
-          $("#addItems")[0].innerHTML = "添加子级节点 / 部门";
-          $("#delete").show();
+          // $("#addItems")[0].innerHTML = "添加子级节点 / 部门";
+          // $("#delete").show();
+          document.getElementById("addItems").innerHTML = "添加子级节点 / 部门";
+          document.getElementById("delete").style.display="block";
         }
       } else {
-        $("#addItems")[0].innerHTML = "添加一级节点 / 分支机构";
-        $("#delete").hide();
+        document.getElementById("addItems").innerHTML = "添加一级节点 / 分支机构";
+        document.getElementById("delete").style.display="none";
       }
       menu.style.visibility = "visible";
     },
@@ -217,11 +222,10 @@ export default {
       menu.style.visibility = "hidden";
     },
     add() {
-      console.log($("#addItems")[0].innerHTML);
-      if ($("#addItems")[0].innerHTML == "添加一级节点 / 分支机构") {
+      if (document.getElementById("addItems").innerHTML == "添加一级节点 / 分支机构") {
         this.$router.push({ path: "/user/addFirstNode" });
       } else {
-        this.$router.push({ path: "/user/addChildNode" });
+        this.$router.push({ path: "/user/addChildNode",query:{title:'属性'}  });
       }
     },
     refresh() {
@@ -234,10 +238,10 @@ export default {
       alert("删除");
     },
     property() {
-      if ($("#addItems")[0].innerHTML == "添加一级节点 / 分支机构") {
+      if (document.getElementById("addItems").innerHTML == "添加一级节点 / 分支机构") {
         this.dialogFormVisible = true;
       } else {
-        this.$router.push({ path: "/user/addFirstNode" });
+        this.$router.push({ path: "/user/addChildNode",query:{title:'属性,这里获取是哪个部门'} });
       }
     }
   }

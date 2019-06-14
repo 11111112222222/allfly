@@ -17,6 +17,7 @@ export default {
   computed: {
     iconName() {
       return `#icon-${this.iconClass}`
+      // '#icon-'+this.iconClass',${}表示它是一个变量
     }
   },
 }

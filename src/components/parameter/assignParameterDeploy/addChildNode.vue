@@ -6,7 +6,7 @@
         <span @click="goBack">
           <i class="el-icon-back"></i>
         </span>
-        <span>添加子级节点 / 部门</span>
+        <span>{{this.$route.query.title}}</span>
       </div>
     </header>
     <section>
@@ -122,7 +122,40 @@
             <el-table-column prop="address" label="地址"></el-table-column>
           </el-table>
           <el-button type="danger" class="rt">删除</el-button>
-          <el-button type="primary" class="rt">新建</el-button>
+          <el-button type="primary" class="rt" @click="dialogFormVisible1 = true">新建</el-button>
+          <!-- 部门领导的新建弹出框 -->
+          <el-dialog title="部门领导  新建" :visible.sync="dialogFormVisible1">
+            <el-form :model="form">
+              <el-form-item label="起止时间：" :label-width="formLabelWidth">
+                <el-date-picker
+                  v-model="begin_end_date"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                ></el-date-picker>
+              </el-form-item>
+              <el-form-item label="部门领导：" :label-width="formLabelWidth">
+                <el-input style="width:250px;" v-model="form.leader" autocomplete="off"></el-input>
+                <el-button type="primary" @click="dialogTableVisible = true">高级查找</el-button>
+              </el-form-item>
+              <el-form-item label="描述：" :label-width="formLabelWidth">
+                <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="discript"></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogFormVisible1 = false">取 消</el-button>
+              <el-button type="primary" @click="dialogFormVisible1 = false">确 定</el-button>
+            </div>
+          </el-dialog>
+          <!-- 分支协作机构管理/添加一级节点、分支机构/联系人/添加/高级查找对话框（位置） -->
+          <el-dialog title="位置" :visible.sync="dialogTableVisible">
+            <linkmanMessage></linkmanMessage>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogTableVisible = false">取 消</el-button>
+              <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+            </div>
+          </el-dialog>
         </el-tab-pane>
         <el-tab-pane label="基本信息" name="second">
           <div class="content" id="basicInformation">
@@ -187,10 +220,36 @@
                 :value="item.value"
               ></el-option>
             </el-select>
-            <el-button type="primary">编辑</el-button>
+            <el-button type="primary" @click="dialogTableVisible1 = true">编辑</el-button>
           </div>
           <div id="BasicLaw"></div>
         </el-tab-pane>
+        <!-- 基本法中点击编辑后的弹出框 -->
+        <el-dialog title="部门使用职级" :visible.sync="dialogTableVisible1">
+          <div>职级定义列表</div>
+          <el-table
+            ref="multipleTable"
+            :data="tableData"
+            tooltip-effect="dark"
+            style="width: 100%"
+            @selection-change="handleSelectionChange"
+            border
+            height="200px"
+          >
+            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column label="日期" width="120">
+              <template slot-scope="scope">{{ scope.row.date }}</template>
+            </el-table-column>
+            <el-table-column prop="name" label="姓名" width="120"></el-table-column>
+            <el-table-column prop="address" label="地址" show-overflow-tooltip></el-table-column>
+          </el-table>
+          <fieldset>
+            <legend>职级内容</legend>
+            <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="rankContent"></el-input>
+          </fieldset>
+          <el-button type="primary" @click="dialogTableVisible1 = false">加入</el-button>
+          <el-button type="primary" @click="dialogTableVisible1 = false">关闭</el-button>
+        </el-dialog>
       </el-tabs>
       <div id="button">
         <el-button type="primary" plain size="mini">确定</el-button>
@@ -202,6 +261,7 @@
 </template>
 
 <script>
+import linkmanMessage from "./linkmanMessage";
 export default {
   data() {
     return {
@@ -225,28 +285,6 @@ export default {
       fax: "",
       email: "",
       address: "",
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ],
       dialogFormVisible: false,
       form: {
         name: "",
@@ -258,11 +296,58 @@ export default {
         date: ""
       },
       formLabelWidth: "120px",
-      leaderName: "小猪,现无"
+      leaderName: "小猪,现无",
+      dialogFormVisible1: false,
+      form: {
+        begin_end_date: "",
+        leader: "",
+        discript: ""
+      },
+      dialogTableVisible: false,
+      tableData: [
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-08",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-06",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        }
+      ],
+      multipleSelection: [],
+      dialogTableVisible1: false,
+      rankContent: ""
     };
   },
 
-  components: {},
+  components: { linkmanMessage },
 
   computed: {},
 
@@ -272,7 +357,7 @@ export default {
     },
     handleClick(tab, event) {
       console.log(tab, event);
-    },
+    }
   }
 };
 </script>
@@ -332,12 +417,12 @@ fieldset {
 .rt {
   margin-left: 20px;
   margin-top: 10px;
-  margin-bottom:20px;
+  margin-bottom: 20px;
 }
-#BasicLaw{
-    clear:both;
-    border:1px solid #ddd;
-    height:300px;
-    width:100%;
+#BasicLaw {
+  clear: both;
+  border: 1px solid #ddd;
+  height: 300px;
+  width: 100%;
 }
 </style>

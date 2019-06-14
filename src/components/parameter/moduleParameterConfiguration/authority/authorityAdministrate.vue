@@ -31,7 +31,7 @@
       </el-table>
     </div>
     <!-- </div> -->
-    <ul id="ul1">
+    <ul id="ul1" ref='ul1'>
       <li id="addUserGroup" @click="dialogFormVisible=true">新增使用者群组</li>
       <li id="RemoveUserGroup" @click="dialogVisible = true">移除使用者群组</li>
     </ul>
@@ -58,11 +58,11 @@
       </span>
     </el-dialog>
 
-    <ul id="ul2">
+    <ul id="ul2" ref='ul2'>
       <li id="addauthorityGroup" @click="dialogTableVisible = true">新增权限模组</li>
       <li id="Remove" @click="dialogVisible2 = true">移除</li>
     </ul>
-    <ul id="ul3">
+    <ul id="ul3" ref='ul3'>
       <li id="addauthorityGroup3" @click="dialogTableVisible = true">新增权限模组</li>
       <li id="Remove3" style="color:#ddd;">移除</li>
     </ul>
@@ -151,8 +151,8 @@ export default {
     /*显示菜单*/
     showMenu(data, node) {
       // console.log(data);
-      $("#ul2")[0].style.visibility = "hidden";
-      $("#ul3")[0].style.visibility = "hidden";
+      this.$refs.ul2.style.visibility = "hidden";
+      this.$refs.ul3.style.visibility = "hidden";
       node.preventDefault();
       var evt = window.event || arguments[0];
       var ul1 = document.getElementById("ul1");
@@ -163,8 +163,8 @@ export default {
     },
     showMenu2(data, node) {
       // console.log(data);
-      $("#ul1")[0].style.visibility = "hidden";
-      $("#ul3")[0].style.visibility = "hidden";
+      this.$refs.ul1.style.visibility = "hidden";
+      this.$refs.ul3.style.visibility = "hidden";
       node.preventDefault();
       var evt = window.event || arguments[0];
       var ul1 = document.getElementById("ul2");
@@ -176,8 +176,8 @@ export default {
     },
     showMenu3(data, node) {
       // console.log(data);
-      $("#ul2")[0].style.visibility = "hidden";
-      $("#ul3")[0].style.visibility = "hidden";
+      this.$refs.ul2.style.visibility = "hidden";
+      this.$refs.ul3.style.visibility = "hidden";
       var evt = window.event || arguments[0];
       var ul1 = document.getElementById("ul3");
       ul3.style.top = evt.pageY - 25 + "px";
@@ -186,9 +186,9 @@ export default {
       ul3.style.visibility = "visible";
     },
     hideMenu() {
-      $("#ul1")[0].style.visibility = "hidden";
-      $("#ul2")[0].style.visibility = "hidden";
-      $("#ul3")[0].style.visibility = "hidden";
+      this.$refs.ul1.style.visibility = "hidden";
+      this.$refs.ul2.style.visibility = "hidden";
+      this.$refs.ul3.style.visibility = "hidden";
     },
     handleClose(done) {
       this.$confirm("确认关闭？")

@@ -5,7 +5,10 @@
       <dl>
         <dt>代理险种费用率打印</dt>
       </dl>
+      <div class="line1"></div>
+
     </header>
+    
     <div class="tabContent">
       <form action>
         <div>
@@ -88,6 +91,8 @@
             </el-select>
           </div>
         </div>
+        <div class="line2"></div>
+
         <el-button type="primary" class="searchBtn">生成报表预览</el-button>
       </form>
     </div>
@@ -271,5 +276,15 @@ fieldset {
   //    right:45px;
   float: right;
   margin-top: 20px;
+}
+.line1{
+  margin-top:5px;
+  margin-right:30px;
+  border:1px solid rgb(224, 219, 219);
+}
+.line2{
+  margin-top:20px;
+  margin-left:70px;
+  border:1px solid rgb(224, 219, 219);
 }
 </style>

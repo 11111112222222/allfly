@@ -68,6 +68,9 @@ import authorityDeploy from 'components/parameter/moduleParameterConfiguration/a
 import addChildNode from 'components/parameter/assignParameterDeploy/addChildNode.vue'
 import authorityAdministrate from 'components/parameter/moduleParameterConfiguration/authority/authorityAdministrate.vue'
 import employMoneyDetails from 'components/balanceAccounts/inCheck/employMoneyDetails.vue'
+import insuranceLook from 'components/order/insuranceLook.vue'
+import shouldRecieveLook from 'components/order/shouldRecieveLook.vue'
+
 
 Vue.use(Router)
 
@@ -597,7 +600,15 @@ export default new Router({
           path: 'employMoneyDetails',
           name: 'employMoneyDetails',
           component: employMoneyDetails
-        }
+        },{
+          path: 'insuranceLook',
+          name: 'insuranceLook',
+          component: insuranceLook
+        },{
+          path: 'shouldRecieveLook',
+          name: 'shouldRecieveLook',
+          component: shouldRecieveLook
+        },
       ]
     }
   ]

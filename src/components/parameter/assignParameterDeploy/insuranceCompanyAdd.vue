@@ -152,7 +152,7 @@
             <el-button type="warning">移除</el-button>
           </div>
           <div class="rt">
-            <el-button type="primary">查看/编辑</el-button>
+            <el-button type="primary" @click="dialogFormVisible2 = true">查看/编辑</el-button>
             <el-button type="primary" @click="dialogFormVisible2 = true">新增</el-button>
             <el-dialog title="文档/协议 编辑页面" :visible.sync="dialogFormVisible2">
               <el-form :model="form2">

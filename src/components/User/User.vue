@@ -367,7 +367,7 @@ export default {
                       label: "代理险种费用率管理 "
                     },
                     {
-                      label: "代理险种费用率打印"
+                      label: "代理险种费用率打印 "
                     },
                     {
                       label: "结算费率参数"
@@ -381,7 +381,7 @@ export default {
                       label: "群组相应权限管理"
                     },
                     {
-                      label: "权限模组配置定义"
+                      label: "权限模组配置定义 "
                     }
                   ]
                 }
@@ -604,10 +604,10 @@ export default {
         case "结算费率参数":
           this.$router.push({ path: "/user/balanceMoneyParameter" });
           break;
-        case "代理险种费用率打印":
+        case "代理险种费用率打印 ":
           this.$router.push({ path: "/user/agentInsuranceMoneyPrint" });
           break;
-        case "权限模组配置定义":
+        case "权限模组配置定义 ":
           this.$router.push({ path: "/user/authorityDeploy" });
           break;
         case "群组相应权限管理":
