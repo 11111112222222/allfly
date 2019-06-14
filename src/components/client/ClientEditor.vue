@@ -7,7 +7,7 @@
         </div>
     </header>
     <section>
-        <el-tabs type="border-card" v-model="activeTab" style="height:90%;overflow-y:auto;">
+        <el-tabs type="border-card" v-model="activeTab" style="height:100%;overflow-y:auto;">
             <el-tab-pane label="基本信息" name="basicTab">
                 <div class="tabContent">
                     <el-row :gutter="10">
@@ -21,7 +21,7 @@
                                 :show-file-list="false"
                                 :on-success="handleAvatarSuccess"
                                 :before-upload="beforeAvatarUpload">
-                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <img v-if="clientMsg.imageUrl!==''" :src="clientMsg.imageUrl" class="avatar">
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                 </el-upload>
                                 <el-button type="primary" size="mini" id="bodyBtn"  @click="dialogVisible = true">身材</el-button>
@@ -32,12 +32,12 @@
                                 <div class="bodyMsg">
                                     <div>
                                         <span>身高</span>
-                                        <el-input v-model="height" size="mini" placeholder="0" style="width:100px;"></el-input>
+                                        <el-input v-model="clientMsg.height" size="mini" placeholder="0" style="width:100px;"></el-input>
                                         <span>CM</span>  
                                     </div>
                                     <div>
                                         <span>体重</span>
-                                        <el-input v-model="weight" size="mini" placeholder="0" style="width:100px;"></el-input>
+                                        <el-input v-model="clientMsg.weight" size="mini" placeholder="0" style="width:100px;"></el-input>
                                         <span>KG</span>  
                                     </div>
                                 </div>
@@ -54,8 +54,8 @@
                             <tr>
                                 <td>客户姓名</td>
                                 <td>
-                                    <el-input v-model="clientName" size="mini" placeholder="请输入姓名"  style="width:120px;"></el-input>  
-                                    <el-select v-model="nameType" size="mini" style="width:120px;">
+                                    <el-input v-model="clientMsg.name" size="mini" placeholder="请输入姓名"  style="width:120px;"></el-input>  
+                                    <el-select v-model="clientMsg.lawIdentity" size="mini" style="width:120px;">
                                         <el-option
                                         v-for="item in nameOpt"
                                         :key="item.value"
@@ -66,12 +66,12 @@
                                 </td>
                                 <td>客户类型</td>
                                 <td>
-                                    <el-select v-model="clientType" placeholder="请选择" size="mini">
+                                    <el-select v-model="clientMsg.type" placeholder="请选择" size="mini">
                                         <el-option
                                         v-for="item in typeOpt"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                        :key="item.id"
+                                        :label="item.name"
+                                        :value="item.name">
                                         </el-option>
                                     </el-select>
                                 </td>
@@ -79,7 +79,7 @@
                             <tr>
                                 <td>国籍/证件类型</td>
                                 <td>
-                                    <el-select v-model="country" placeholder="请选择" size="mini" style="width:120px;">
+                                    <el-select v-model="clientMsg.nation" placeholder="请选择" size="mini" style="width:120px;">
                                         <el-option
                                         v-for="item in countryOpt"
                                         :key="item.value"
@@ -87,7 +87,7 @@
                                         :value="item.value">
                                         </el-option>
                                     </el-select>
-                                    <el-select v-model="cardType" placeholder="请选择" size="mini" style="width:120px;">
+                                    <el-select v-model="clientMsg.certfType" placeholder="请选择" size="mini" style="width:120px;">
                                         <el-option
                                         v-for="item in cardOpt"
                                         :key="item.value"
@@ -100,7 +100,7 @@
                                 <td>
                                     <el-date-picker
                                     size="mini"
-                                    v-model="birthDate"
+                                    v-model="clientMsg.birthday"
                                     type="date"
                                     placeholder="选择日期"
                                     style="width:200px;">
@@ -110,11 +110,11 @@
                             <tr>
                                  <td>证件号码</td>
                                  <td>
-                                     <el-input v-model="cardNum" style="width:200px;" size="mini" placeholder="请输入内容"></el-input>
+                                     <el-input v-model="clientMsg.certfId" style="width:200px;" size="mini" placeholder="请输入内容"></el-input>
                                  </td>
                                  <td>性别/婚姻</td>
                                  <td>
-                                     <el-select v-model="sexValue" placeholder="请选择" size="mini" style="width:120px;">
+                                     <el-select v-model="clientMsg.sex" placeholder="请选择" size="mini" style="width:120px;">
                                         <el-option
                                         v-for="item in sexOpt"
                                         :key="item.value"
@@ -123,7 +123,7 @@
                                         >
                                         </el-option>
                                     </el-select>
-                                    <el-select v-model="marryValue" placeholder="请选择" size="mini" style="width:120px;">
+                                    <el-select v-model="clientMsg.married" placeholder="请选择" size="mini" style="width:120px;">
                                         <el-option
                                         v-for="item in marryOpt"
                                         :key="item.value"
@@ -142,32 +142,33 @@
                          <table class="table1">
                              <tr>
                                  <td>手机</td>
-                                 <td><el-input size="mini" v-model="mobilePhone"></el-input></td>
+                                 <td><el-input size="mini" v-model="clientMsg.telephone"></el-input></td>
                                  <td>邮箱</td>
-                                 <td><el-input size="mini"  v-model="eMail"></el-input></td>
+                                 <td><el-input size="mini"  v-model="clientMsg.email"></el-input></td>
                                  <td>座机电话</td>
-                                 <td><el-input size="mini" v-model="telPhone"></el-input></td>
+                                 <td><el-input size="mini" v-model="clientMsg.phone"></el-input></td>
                              </tr>
                               <tr>
                                  <td>备用</td>
-                                 <td colspan="5"><el-input style="width:100%;" size="mini" v-model="ready"></el-input></td>
+                                 <td colspan="5"><el-input style="width:100%;" size="mini" v-model="clientMsg.backup"></el-input></td>
                              </tr>
                              <tr>
                                  <td>家庭联系地址</td>
-                                 <td colspan="3"><el-input v-model="familyAddr" style="width:100%;" size="mini" placeholder="请输入省市区等详细地址"></el-input></td>
+                                 <td colspan="3"><el-input v-model="clientMsg.homeAddress" style="width:100%;" size="mini" placeholder="请输入省市区等详细地址"></el-input></td>
                                  <td>邮编</td>
-                                 <td><el-input  v-model="familyEmail" style="width:100%;" size="mini" placeholder="请输入内容"></el-input></td>
+                                 <td><el-input  v-model="clientMsg.homeCode" style="width:100%;" size="mini" placeholder="请输入内容"></el-input></td>
                              </tr>
                               <tr>
                                  <td>其他联系地址</td>
-                                 <td colspan="3"><el-input  v-model="otherAddr" style="width:100%;" size="mini" placeholder="请输入省市区等详细地址"></el-input></td>
+                                 <!-- 这个用的公司地址 -->
+                                 <td colspan="3"><el-input  v-model="clientMsg.companyAddress" style="width:100%;" size="mini" placeholder="请输入省市区等详细地址"></el-input></td>
                                  <td>邮编</td>
-                                 <td><el-input  v-model="otherEmail" style="width:100%;" size="mini" placeholder="请输入内容"></el-input></td>
+                                 <td><el-input  v-model="clientMsg.companyCode" style="width:100%;" size="mini" placeholder="请输入内容"></el-input></td>
                              </tr>
                               <tr>
                                  <td>首选联系方式</td>
                                  <td colspan="5">
-                                     <el-select v-model="contactPhone" placeholder="请选择" size="mini">
+                                     <el-select v-model="clientMsg.firstContactWay" placeholder="请选择" size="mini">
                                         <el-option
                                         v-for="item in phoneOpt"
                                         :key="item.value"
@@ -176,7 +177,7 @@
                                         >
                                         </el-option>
                                     </el-select>
-                                    <el-select v-model="contactAddr" placeholder="请选择" size="mini" >
+                                    <el-select v-model="clientMsg.firstAddress" placeholder="请选择" size="mini" >
                                         <el-option
                                         v-for="item in addrOpt"
                                         :key="item.value"
@@ -189,79 +190,72 @@
                              </tr>
                               <tr>
                                  <td>其他</td>
-                                 <td colspan="5"><el-input v-model="otherMsg" style="width:100%;" size="mini"></el-input></td>
+                                 <td colspan="5"><el-input v-model="clientMsg.other" style="width:100%;" size="mini"></el-input></td>
                              </tr>
                          </table>
                     </el-col>
                 </el-row>
-                </div>
-            </el-tab-pane>
-            <el-tab-pane label="单位信息" name="companyTab">
-                <div class="tabContent">
-                    <fieldset>
-                        <legend>
-                            所在单位
-                        </legend>
-                        <div>
-                            <el-row :gutter="10" class="compRow">
-                                <el-col :span="4" class="compCol1">
-                                    单位名称
-                                </el-col>
-                                <el-col :span="20">
-                                    <el-input v-model="companyName" style="width:90%;" size="mini" placeholder="请输入内容"></el-input>
-                                </el-col>
-                            </el-row>
-                            <el-row :gutter="10" class="compRow">
-                                <el-col :span="4" class="compCol1">
-                                    联系电话
-                                </el-col>
-                                <el-col :span="8">
-                                    <el-input v-model="companyTel" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
-                                </el-col>
-                                <el-col :span="4" class="compCol1">
-                                    传真号码
-                                </el-col>
-                                <el-col :span="8">
-                                    <el-input v-model="faxNum" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
-                                </el-col>
-                            </el-row>
-                            <el-row :gutter="10" class="compRow">
-                                <el-col :span="4" class="compCol1">
-                                    法定代表
-                                </el-col>
-                                <el-col :span="8">
-                                    <el-input v-model="legalPerson" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
-                                </el-col>
-                                <el-col :span="4" class="compCol1">
-                                    单位税号
-                                </el-col>
-                                <el-col :span="8">
-                                    <el-input v-model="taxNum" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
-                                </el-col>
-                            </el-row>
-                            <el-row :gutter="10" class="compRow">
-                                <el-col :span="4" class="compCol1">
-                                    单位地址
-                                </el-col>
-                                <el-col :span="20">
-                                    <el-input v-model="companyAddr" style="width:90%;" size="mini" placeholder="请输入省市区等详细地址"></el-input>
-                                </el-col>
-                            </el-row>
-                        </div>
-                    </fieldset>
-                    <div class="career">
+                <fieldset>
+                    <legend>
+                        单位信息
+                    </legend>
+                    <div>
+                        <el-row :gutter="10" class="compRow">
+                            <el-col :span="4" class="compCol1">
+                                单位名称
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input v-model="clientMsg.comName" style="width:90%;" size="mini" placeholder="请输入内容"></el-input>
+                            </el-col>
+                        </el-row>
+                        <el-row :gutter="10" class="compRow">
+                            <el-col :span="4" class="compCol1">
+                                联系电话
+                            </el-col>
+                            <el-col :span="8">
+                                <el-input v-model="clientMsg.comPhone" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
+                            </el-col>
+                            <el-col :span="4" class="compCol1">
+                                传真号码
+                            </el-col>
+                            <el-col :span="8">
+                                <el-input v-model="clientMsg.faxNo" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
+                            </el-col>
+                        </el-row>
+                        <el-row :gutter="10" class="compRow">
+                            <el-col :span="4" class="compCol1">
+                                法定代表
+                            </el-col>
+                            <el-col :span="8">
+                                <el-input v-model="clientMsg.comRepresentative" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
+                            </el-col>
+                            <el-col :span="4" class="compCol1">
+                                单位税号
+                            </el-col>
+                            <el-col :span="8">
+                                <el-input v-model="clientMsg.comTaxNo" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
+                            </el-col>
+                        </el-row>
+                        <el-row :gutter="10" class="compRow">
+                            <el-col :span="4" class="compCol1">
+                                单位地址
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input v-model="clientMsg.comAddress" style="width:90%;" size="mini" placeholder="请输入省市区等详细地址"></el-input>
+                            </el-col>
+                        </el-row>
                         <el-row :gutter="10" class="compRow">
                             <el-col :span="4" class="compCol1">
                                 职级名称
                             </el-col>
                             <el-col :span="8">
-                                <el-input v-model="careerName" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
+                                <el-input v-model="clientMsg.jobName" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
                             </el-col>
                             <el-col :span="4" class="compCol1">
                                 联系电话
                             </el-col>
                             <el-col :span="8">
-                                <el-input v-model="contactTel" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
+                                <el-input v-model="clientMsg.telephone" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
                             </el-col>
                         </el-row>
                         <el-row :gutter="10" class="compRow">
@@ -269,13 +263,13 @@
                                 职级内容
                             </el-col>
                             <el-col :span="8">
-                                <el-input v-model="careerContent" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
+                                <el-input v-model="clientMsg.jobContent" style="width:80%;" size="mini" placeholder="请输入内容"></el-input>
                             </el-col>
                             <el-col :span="4" class="compCol1">
                                 职业类别
                             </el-col>
                             <el-col :span="8">
-                                <el-select v-model="careerType" placeholder="请选择" size="mini">
+                                <el-select v-model="clientMsg.jobType" placeholder="请选择" size="mini">
                                     <el-option
                                     v-for="item in careerTypeOpt"
                                     :key="item.value"
@@ -291,7 +285,7 @@
                                 年收入约
                             </el-col>
                             <el-col :span="8">
-                                <el-select v-model="yearIncome" placeholder="请选择" size="mini">
+                                <el-select v-model="clientMsg.income" placeholder="请选择" size="mini">
                                     <el-option
                                     v-for="item in incomeOpt"
                                     :key="item.value"
@@ -307,11 +301,18 @@
                                 更新状态
                             </el-col>
                             <el-col :span="8">
-                                <el-input v-model="updateStatus1" style="width:100px;" size="mini"></el-input>
-                                <el-input v-model="updateStatus2" style="width:100px;" size="mini"></el-input>
+                                <!-- 这个接口没有 -->
+                                <el-input v-model="clientMsg.updateStatus1" style="width:100px;" size="mini"></el-input>
+                                <el-input v-model="clientMsg.updateStatus2" style="width:100px;" size="mini"></el-input>
                             </el-col>
                         </el-row>
                     </div>
+                </fieldset>
+                <div class="oprateBtn">
+                    <el-button type="primary" size="mini" @click="addClientMsg('1')">确定</el-button>
+                    <el-button type="primary" size="mini" @click="addClientMsg('2')">应用</el-button>
+                    <el-button type="danger" size="mini" @click="goBack()">取消</el-button>
+                </div>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="关联保单" name="relevanceTab">
@@ -321,7 +322,7 @@
                         ref="recordTable"
                         size="mini"
                         border
-                        height="780px"
+                        height="410px"
                         :data="relevanceList"
                         highlight-current-row
                         @row-click="setOrderNum">
@@ -367,6 +368,11 @@
                     <div style="margin-top:10px;">
                         <span>合计保费：</span><span>{{totalFee}}</span>
                     </div>
+                    <div class="oprateBtn">
+                        <el-button type="primary" size="mini">确定</el-button>
+                        <el-button type="primary" size="mini">应用</el-button>
+                        <el-button type="danger" size="mini" @click="goBack()">取消</el-button>
+                    </div>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="亲朋好友" name="friendTab">
@@ -376,7 +382,7 @@
                         ref="recordTable"
                         size="mini"
                         border
-                        height="780px"
+                        height="400px"
                         :data="friendList"
                         highlight-current-row
                         @row-click="setOrderNum">
@@ -385,50 +391,53 @@
                         width="50">
                         </el-table-column>
                         <el-table-column
-                        property="orderNum"
+                        property="name"
                         label="客户姓名"
-                        sortable :show-overflow-tooltip="true"
-                        width="100">
-                        </el-table-column>
-                        <el-table-column
-                        property="name"
-                        label="性别"
-                        sortable :show-overflow-tooltip="true"
-                        width="80">
-                        </el-table-column>
-                        <el-table-column
-                        property="address"
-                        label="联系电话"
-                        sortable :show-overflow-tooltip="true">
-                        </el-table-column>
-                        <el-table-column
-                        property="orderNum"
-                        label="出生日期"
-                        sortable :show-overflow-tooltip="true"
-                        width="100">
-                        </el-table-column>
-                        <el-table-column
-                        property="name"
-                        label="年龄"
-                        sortable :show-overflow-tooltip="true"
-                        width="80">
-                        </el-table-column>
-                        <el-table-column
-                        property="address"
-                        label="证件号码"
-                        sortable :show-overflow-tooltip="true"
-                        width="130">
-                        </el-table-column>
-                         <el-table-column
-                        property="name"
-                        label="存在关系"
                         sortable :show-overflow-tooltip="true"
                         width="120">
                         </el-table-column>
                         <el-table-column
-                        property="address"
-                        label="关系说明"
+                        property="sex"
+                        label="性别"
+                        sortable :show-overflow-tooltip="true"
+                        width="100">
+                        </el-table-column>
+                        <el-table-column
+                        property="telephone"
+                        label="联系电话"
+                        sortable :show-overflow-tooltip="true"
+                        width="160">
+                        </el-table-column>
+                        <el-table-column
+                        property="birthday"
+                        label="出生日期"
+                        sortable :show-overflow-tooltip="true"
+                        width="120">
+                        </el-table-column>
+                        <!-- <el-table-column
+                        label="年龄"
+                        sortable :show-overflow-tooltip="true"
+                        width="80">
+                            <template slot-scope="scope">
+                                <div>
+                                    {{Date(scope.row.birthday)}}
+                                </div>
+                            </template>
+                        </el-table-column> -->
+                        <el-table-column
+                        property="certfId"
+                        label="证件号码"
                         sortable :show-overflow-tooltip="true">
+                        </el-table-column>
+                         <el-table-column
+                        label="存在关系"
+                        sortable :show-overflow-tooltip="true"
+                        width="120">
+                            <template slot-scope="scope">
+                                <div>
+                                   {{relationList[scope.$index].relation}}
+                                </div>
+                            </template>
                         </el-table-column>
                         <el-table-column
                         label="操作"
@@ -438,7 +447,7 @@
                         </template>
                         </el-table-column>
                     </el-table>
-                    <div class="oprateBtn">
+                    <div style="margin-top:10px;">
                         <el-button type="primary" size="mini" @click="clientDialogVisible = true">新增关系人</el-button>
                     </div>
                     <el-dialog
@@ -465,7 +474,7 @@
                                     </el-option>
                                 </el-select>
                             </div>
-                            <el-button type="primary" size="mini" @click="showClient = true" class="searchBtn">查询</el-button>
+                            <el-button type="primary" size="mini" @click="searchClient" class="searchBtn">查询</el-button>
                             <!-- <div v-if="showClient">
                                 无此客户信息
                             </div> -->
@@ -475,7 +484,7 @@
                                 size="mini"
                                 border
                                 height="200px"
-                                :data="friendList"
+                                :data="selectList"
                                 highlight-current-row
                                 style="width:500px">
                                     <el-table-column
@@ -485,29 +494,28 @@
                                     width="90">
                                     </el-table-column>
                                     <el-table-column
-                                    property="name"
+                                    property="certfId"
                                     label="身份证号"
                                     sortable :show-overflow-tooltip="true"
                                     width="120">
                                     </el-table-column>
                                     <el-table-column
-                                    property="name"
+                                    property="birthday"
                                     label="出生日期"
                                     sortable :show-overflow-tooltip="true"
                                     width="100">
                                     </el-table-column>
                                     <el-table-column
-                                    property="name"
+                                    property="telephone"
                                     label="联系电话"
                                     sortable :show-overflow-tooltip="true"
                                     width="100">
                                     </el-table-column>
                                     <el-table-column
                                     label="选取"
-                                    sortable :show-overflow-tooltip="true"
-                                   >
+                                    sortable :show-overflow-tooltip="true">
                                         <template slot-scope="scope">
-                                           <el-button size="mini" type="success" icon="el-icon-check" circle @click="clientDialogVisible = false"></el-button>
+                                           <el-button size="mini" type="success" icon="el-icon-check" circle @click="selected(scope.row)"></el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -519,6 +527,11 @@
                             <el-button size="mini" type="primary" @click="clientDialogVisible = false">确 定</el-button>
                         </span> -->
                     </el-dialog>
+                    <div class="oprateBtn">
+                        <el-button type="primary" size="mini" @click="addRelation(1)">确定</el-button>
+                        <el-button type="primary" size="mini" @click="addRelation(2)">应用</el-button>
+                        <el-button type="danger" size="mini" @click="goBack()">取消</el-button>
+                    </div>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="相关信息" name="msgTab">
@@ -528,7 +541,7 @@
                         ref="recordTable"
                         size="mini"
                         border
-                        height="780px"
+                        height="400px"
                         :data="msgList"
                         highlight-current-row
                         @row-click="setOrderNum">
@@ -593,7 +606,7 @@
                         </template>
                         </el-table-column>
                     </el-table>
-                    <div class="oprateBtn">
+                    <div style="margin-top:10px;">
                         <el-button type="primary" size="mini" @click="fileDialogVisible = true">新增</el-button>
                     </div>
                      <el-dialog
@@ -656,14 +669,14 @@
                         <el-button size="mini" type="primary" @click="fileDialogVisible = false">确 定</el-button>
                     </span>
                 </el-dialog>
+                <div class="oprateBtn">
+                    <el-button type="primary" size="mini">确定</el-button>
+                    <el-button type="primary" size="mini">应用</el-button>
+                    <el-button type="danger" size="mini" @click="goBack()">取消</el-button>
+                </div>
                 </div>
             </el-tab-pane>
         </el-tabs>
-        <div class="oprateBtn">
-            <el-button type="primary" size="mini">确定</el-button>
-            <el-button type="primary" size="mini">应用</el-button>
-            <el-button type="danger" size="mini" @click="goBack()">取消</el-button>
-        </div>
     </section>
  </div>
 </template>
@@ -675,26 +688,13 @@ export default {
      activeTab:'basicTab',
      headerTitle:'客户添加',
      editor:true,
-     imageUrl:'',
      dialogVisible: false,
-     height:'',
-     weight:'',
-     clientName:'',
-     nameType:'自然人',
      nameOpt:[{
           value: '自然人',
         }, {
           value: '法人',
         }],
-     clientType:'已投保客户',
-     typeOpt:[{
-          value: '已投保客户',
-        }, {
-          value: '潜在客户',
-        }, {
-          value: '团险客户',
-        }],
-    country:'中国',
+    typeOpt:[],
     countryOpt:[{
           value: '中国',
         }, {
@@ -702,7 +702,6 @@ export default {
         }, {
           value: '外籍',
         }],
-    cardType:'身份证',
     cardOpt:[{
           value: '身份证',
         }, {
@@ -716,15 +715,11 @@ export default {
         }, {
           value: '港澳通行证',
         }],
-    birthDate:'',
-    cardNum:'',
-    sexValue:'男',
     sexOpt:[{
           value: '男',
         }, {
           value: '女',
         }],
-    marryValue:'未婚',
     marryOpt:[{
           value: '未婚',
         }, {
@@ -734,15 +729,6 @@ export default {
         }, {
           value: '离婚',
         }],
-    mobilePhone:'',
-    eMail:'',
-    telPhone:'',
-    ready:'',
-    familyAddr:'',
-    familyEmail:'',
-    otherAddr:'',
-    otherEmail:'',
-    contactPhone:'手机号码',
     phoneOpt:[{
           value: '手机号码',
         }, {
@@ -750,25 +736,13 @@ export default {
         }, {
           value: '公司电话',
         }],
-    contactAddr:'家庭地址有效',
-    addrOpt:[{
+     addrOpt:[{
           value: '家庭地址有效',
         }, {
           value: '单位地址有效',
         }, {
           value: '其他地址',
         }],
-    otherMsg:'',
-    companyName:'',
-    companyTel:'',
-    faxNum:'',
-    legalPerson:'',
-    taxNum:'',
-    companyAddr:'',
-    careerName:'',
-    contactTel:'',
-    careerContent:'',
-    careerType:'在校研究生',
     careerTypeOpt:[{
           value: '在校研究生',
         }, {
@@ -790,7 +764,6 @@ export default {
         }, {
           value: '其他',
         }],
-    yearIncome:'15万以内',
     incomeOpt:[{
           value: '15万以内',
         }, {
@@ -810,8 +783,43 @@ export default {
         }, {
           value: '空',
         }],
-    updateStatus1:'',
-    updateStatus2:'',
+    clientMsg:{
+        imageUrl:'',
+        height:'',
+        weight:'',
+        certfId:"",
+        name:"",
+        lawIdentity:"",
+        type:'',
+        nation:'',
+        certfType:"",
+        birthday:"",
+        sex:"",
+        married:'',
+        telephone:"",
+        phone:"",
+        email:'',
+        backup:'',
+        homeAddress:"",
+        homeCode:"",
+        companyAddress:'',
+        companyCode:'',
+        firstContactWay:'',
+        firstAddress:'',
+        other:'',
+        comName:'',
+        comPhone:'',
+        faxNo:'',
+        comRepresentative:'',
+        comTaxNo:'',
+        comAddress:'',
+        jobName:'',
+        jobContent:'',
+        jobType:'',
+        income:'',
+        updateStatus1:'',
+        updateStatus2:'',
+     },
     relevanceList: [{
           orderNum: '345345345',
           name: '王小虎',
@@ -829,7 +837,7 @@ export default {
     clientDialogVisible:false,
     dialogClientName:'',
     dialogCardId:'',
-    dialogRelative:'',
+    dialogRelative:'配偶',
     dialogRelativeOpt:[{
           value: '配偶',
         }, {
@@ -843,20 +851,14 @@ export default {
         }, {
           value: '本人',
         }],
+    selectList:[],
     showClient:true,
-    friendList: [{
-          orderNum: '345345345',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          orderNum: '576542526',
-          name: '小虎',
-          address: '北京市普陀区金沙江路 1517 弄'
-        },{
-          orderNum: '345345345',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
+    relationList:[{
+        "clientaId":"610121199309215096",
+        "clientbId":"420704199309165034",
+        "relation":"子女"
+    }],
+    friendList: [{name:'balalla'}],
     fileDialogVisible:false,
     recordProperty:'',
     propertyOpt:[{
@@ -893,7 +895,10 @@ export default {
 
  },
  mounted() {
-     this.fetch();
+    // this.fetch();
+ },
+ watch: {
+     'activeTab':"tabToggle"
  },
  methods:{
     goBack(){
@@ -903,12 +908,93 @@ export default {
     fetch(){
         this.editor=this.$route.query.editor;
         if(this.editor){
-            this.headerTitle="客户编辑"
+            this.headerTitle="客户编辑";
+            this.clientMsg=this.$route.query.clientMsg;
+            console.log(this.clientMsg)
         }else{
-            this.headerTitle="客户添加"
+            this.headerTitle="客户添加" 
         }
-        this.clientName=this.$route.query.clientName;
+        //this.clientMsg.name=this.$route.query.clientName;
         // console.log(this.orderNum)
+        this.getOptParams("clientTypeParam/list","clientType")
+    },
+    getOptParams(url,type){
+        fetch("http://10.0.0.2:9004/"+url, {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: ''
+        }).then((response) => {
+            if (response.ok) {
+            return response.json()
+            }
+        }).then((json) => {
+            console.log("typejson",json)
+            switch (type) {
+                case "clientType":
+                    this.typeOpt=json
+                    break;
+            
+                default:
+                    break;
+            }
+        }).catch((error) => {
+            // console.error(error)
+        })
+    },
+    searchClient(){
+        if(this.dialogCardId){
+            //按id查关系人
+            var ids=[];
+            ids.push(this.dialogCardId);
+            this.searchFriend("sel",ids)
+        }else if(this.dialogClientName){
+            //按姓名查关系人
+            fetch("http://10.0.0.2:9004/client/getByName", {
+                method: 'POST',
+                headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                body: 'name='+this.dialogClientName
+            }).then((response) => {
+                if (response.ok) {
+                return response.json()
+                }
+            }).then((json) => {
+                console.log("json",json)
+                this.selectList=json
+            }).catch((error) => {
+               // console.error(error)
+            })
+        }
+    },
+    selected(row){
+        this.clientDialogVisible = false;
+        //添加存在关系
+        var relationObj={"relation":this.dialogRelative};
+        this.relationList.push(relationObj)
+        //添加到关系人列表
+        this.friendList.push(row)
+    },
+    addRelation(val){
+        //将新增关系人提交到后台
+        var aid=this.friendList[0].clientaId;
+        var bid=this.friendList[this.friendList.length-1].certfId;
+        var relation=this.relationList[this.relationList.length-1].relation
+        fetch("http://10.0.0.2:9004/client/addRelation", {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: 'clientaId='+aid+"&clientbId="+bid+"&relation="+relation
+        }).then((response) => {
+            if (response.ok) {
+            return response.json()
+            }
+        }).then((json) => {
+            console.log("json",json)
+            if(val=="1"){
+                //点击确定时关闭该页面
+                history.go(-1)
+            }
+        }).catch((error) => {
+            //console.error(error)
+        })
     },
      editorBtn(){
         // this.$router.push({path:"/user/clientEditor",query:{editor:true}})
@@ -922,7 +1008,8 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            table.splice(index,1)
+            table.splice(index,1);//删除该关系人
+            this.relationList.splice(index,1)//删除关系列表中对应的关系
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -950,7 +1037,7 @@ export default {
          //this.orderNum=row.orderNum;
      },
       handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+        this.clientMsg.imageUrl = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
@@ -963,7 +1050,7 @@ export default {
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
         return isJPG && isLt2M;
-      }
+      },
     // handleClose(done) {
     //     this.$confirm('确认关闭？')
     //       .then(_ => {
@@ -971,6 +1058,85 @@ export default {
     //       })
     //       .catch(_ => {});
     //   }
+    tabToggle(){
+        //切换tab页时获取该页面数据
+        if(this.activeTab=="relevanceTab"){
+            console.log("关联保单")
+        }else if(this.activeTab=="friendTab"){
+            console.log("查询朋友")
+            fetch("http://10.0.0.2:9004/client/selectRelations", {
+                method: 'POST',
+                headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                body: 'cid='+this.clientMsg.certfId
+            }).then((response) => {
+                if (response.ok) {
+                return response.json()
+                }
+            }).then((json) => {
+                console.log("frijson",json)
+                this.relationList=json;//这里只能获取到关系人id
+                var friendIds=[];
+                for (let i = 0; i < json.length; i++) {
+                    friendIds.push(json[i].clientbId)
+                }
+                this.searchFriend("fri",friendIds)//根据关系人ID查具体信息
+            }).catch((error) => {
+               // console.error(error)
+            })
+        }else if(this.activeTab=="msgTab"){
+            console.log("相关信息")
+        }
+        
+    },
+    searchFriend(type,ids){
+        console.log("ids",ids)
+        fetch("http://10.0.0.2:9004/client/listByCid", {
+                method: 'POST',
+                headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                body: 'ids='+ids
+            }).then((response) => {
+                if (response.ok) {
+                return response.json()
+                }
+            }).then((json) => {
+                console.log("frilist",json)
+                if(type=="fri"){
+                    //亲朋好友列表
+                    this.friendList=json
+                }else if(type=="sel"){
+                    //弹框中的选择列表
+                    this.selectList=json
+                }
+            }).catch((error) => {
+               // console.error(error)
+            })
+    },
+   
+    addClientMsg(val){
+        //客户信息更新
+        fetch("http://10.0.0.2:9004/client/update", {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(this.clientMsg)
+            }).then((response) => {
+                if (response.ok) {
+                return response.json()
+                }
+            }).then((json) => {
+                if(json.data=="1"){
+                    console.log("addjson",json) 
+                    if(val=="1"){
+                        console.log("val",val) 
+                        history.go(-1)
+                    }
+                }
+               
+              
+            }).catch((error) => {
+                //console.error(error)
+            })
+    }
+
  },
  beforeRouteEnter (to, from, next){
   //console.log("准备进入路由模板");
@@ -1168,4 +1334,11 @@ section{
         height:380px !important
         }
     }
+// @media screen and (max-width: 1480px) {
+//         .table {
+//         height:400px !important
+//         }
+//     }
+
+
 </style>

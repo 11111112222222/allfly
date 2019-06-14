@@ -2,7 +2,7 @@
  <div class="page" style="height:100%;position:relative;">
     <header>
         <div class="title">
-            <span @click="goBack"><i class="el-icon-back"></i></span> 
+            <span @click="goBack"><i class="el-icon-back"></i></span>
             <span>{{headerTitle}}</span>
         </div>
     </header>
@@ -16,7 +16,7 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">保单号码</span>
-                                <el-input v-model="orderNum" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="orderNum" :disabled="disabled" size="mini" style="width:200px;"></el-input>
                             </div>
                         </el-col>
                         <el-col :span="8">
@@ -36,7 +36,7 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">报案号</span>
-                                <el-input v-model="reportNum" :disabled="disabled" size="mini" style="width:200px;" ></el-input>  
+                                <el-input v-model="reportNum" :disabled="disabled" size="mini" style="width:200px;" ></el-input>
                             </div>
                         </el-col>
                         <el-col :span="8">
@@ -68,14 +68,14 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">查勘地点</span>
-                                <el-input v-model="surveyAddr" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="surveyAddr" :disabled="disabled" size="mini" style="width:200px;"></el-input>
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">查勘员</span>
-                                <el-input v-model="surveyer" :disabled="disabled" size="mini" style="width:150px;"></el-input> 
-                                <el-button :disabled="disabled" style="margin-left: 5px;" size="mini">...</el-button> 
+                                <el-input v-model="surveyer" :disabled="disabled" size="mini" style="width:150px;"></el-input>
+                                <el-button :disabled="disabled" style="margin-left: 5px;" size="mini">...</el-button>
                             </div>
                         </el-col>
                         <el-col :span="8">
@@ -95,20 +95,20 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">车牌号码</span>
-                                <el-input v-model="carNum" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="carNum" :disabled="disabled" size="mini" style="width:200px;"></el-input>
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">出单员</span>
-                                <el-input v-model="createPerson" :disabled="disabled" size="mini" style="width:150px;"></el-input> 
-                                <el-button :disabled="disabled" style="margin-left: 5px;" size="mini">...</el-button> 
+                                <el-input v-model="createPerson" :disabled="disabled" size="mini" style="width:150px;"></el-input>
+                                <el-button :disabled="disabled" style="margin-left: 5px;" size="mini">...</el-button>
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">被保险人</span>
-                                <el-input v-model="insuranceder" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="insuranceder" :disabled="disabled" size="mini" style="width:200px;"></el-input>
                             </div>
                         </el-col>
                     </el-row>
@@ -116,12 +116,12 @@
                         <el-col :span="24">
                             <div class="grid-content processBox">
                                 <span class="title claimProcess">出险经过</span>
-                                <el-input type="textarea" :rows="3" v-model="claimProcess" :disabled="disabled" size="mini" style="width:85%;" class="processInput"></el-input>  
+                                <el-input type="textarea" :rows="3" v-model="claimProcess" :disabled="disabled" size="mini" style="width:85%;" class="processInput"></el-input>
                             </div>
                         </el-col>
                     </el-row>
                 </div>
-                
+
             </fieldset>
             <fieldset>
                 <legend>
@@ -172,8 +172,8 @@
                         <tr>
                             <td>过程</td>
                             <td colspan="5">
-                                <el-input type="textarea" :rows="3" v-model="item.process" size="mini"></el-input> 
-                                <el-button type="primary" size="mini" style="margin-top:5px;"   @click="editorRecord">编辑</el-button> 
+                                <el-input type="textarea" :rows="3" v-model="item.process" size="mini"></el-input>
+                                <el-button type="primary" size="mini" style="margin-top:5px;"   @click="editorRecord">编辑</el-button>
                             </td>
                         </tr>
                     </table>
@@ -189,19 +189,19 @@
                             <div class="grid-content bg-purple">
                                 <span class="title">结案金额</span>
                                  <el-input-number size="mini" v-model="finalMoney" :disabled="disabled" controls-position="right" :min="0" ></el-input-number>
-                                 <el-checkbox v-model="openInvoice2" :disabled="disabled" class="checkbox" style="margin-left:15px;">是否开票</el-checkbox>    
+                                 <el-checkbox v-model="openInvoice2" :disabled="disabled" class="checkbox" style="margin-left:15px;">是否开票</el-checkbox>
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">发票号</span>
-                                <el-input v-model="invoiceNum" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="invoiceNum" :disabled="disabled" size="mini" style="width:200px;"></el-input>
                             </div>
                         </el-col>
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">发票金额</span>
-                                <el-input v-model="invoiceMoney" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="invoiceMoney" :disabled="disabled" size="mini" style="width:200px;"></el-input>
                             </div>
                         </el-col>
                     </el-row>
@@ -215,7 +215,7 @@
                         <el-col :span="8">
                             <div class="grid-content bg-purple">
                                 <span class="title">来款金额</span>
-                                <el-input v-model="getMoney" :disabled="disabled" size="mini" style="width:200px;"></el-input>  
+                                <el-input v-model="getMoney" :disabled="disabled" size="mini" style="width:200px;"></el-input>
                             </div>
                         </el-col>
                     </el-row>
@@ -223,7 +223,7 @@
                         <el-col :span="24">
                             <div class="grid-content processBox">
                                 <span class="title claimProcess">备注说明</span>
-                                <el-input type="textarea" :rows="3" v-model="remark" :disabled="disabled" size="mini" style="width:85%;" class="processInput"></el-input>  
+                                <el-input type="textarea" :rows="3" v-model="remark" :disabled="disabled" size="mini" style="width:85%;" class="processInput"></el-input>
                             </div>
                         </el-col>
                     </el-row>
@@ -364,7 +364,11 @@ export default {
         }
         this.dialogVisible=false;
     },
-  
+
+    handleChange(file,fileList){
+        console.log(file,fileList)
+        this.fileList= fileList.slice(-3);
+    }
  },
  beforeRouteEnter (to, from, next){
   //console.log("准备进入路由模板");
@@ -391,7 +395,7 @@ header span:first-child{
     height: 30px;
     line-height: 30px;
     margin-left:10px;
-    
+
 }
 .el-row {
     margin-bottom: 20px;
@@ -410,13 +414,13 @@ section{
     overflow-y: scroll;
     padding:0 45px;
 
-    
+
     fieldset {
         padding: 10px;
         margin:10px 0;
        // height: 90px;
         border: 1px solid #d6dbe7;
-        
+
         .content{
             padding-left: 20px;
 
@@ -487,8 +491,8 @@ section{
         #confirmBtn{
             margin-left:50px;
         }
-        
-       
+
+
     }
 }
 

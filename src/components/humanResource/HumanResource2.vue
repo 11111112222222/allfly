@@ -313,7 +313,27 @@ export default {
           duringTime: '普陀区',
           contional: '上海市普陀区金沙江路 1518 弄',
           standerValue: 200333,
-
+        },{
+          random: '2016-05-03',
+          name: '王小虎',
+          rank: '上海',
+          duringTime: '普陀区',
+          contional: '上海市普陀区金沙江路 1518 弄',
+          standerValue: 200333,
+        },{
+          random: '2016-05-03',
+          name: '王小虎',
+          rank: '上海',
+          duringTime: '普陀区',
+          contional: '上海市普陀区金沙江路 1518 弄',
+          standerValue: 200333,
+        },{
+          random: '2016-05-03',
+          name: '王小虎',
+          rank: '上海',
+          duringTime: '普陀区',
+          contional: '上海市普陀区金沙江路 1518 弄',
+          standerValue: 200333,
         }],
     recordList1Options:{name:[{value: '黄金糕',label: '黄金糕'}, {value: '双皮奶',label: '双皮奶'}],
                         random:[{value: '唐美琪',label: '唐美琪'}, {value: '严裕州',label: '严裕州'}],
@@ -331,6 +351,33 @@ export default {
             {label:'分支机构',property:'branch',width:'100'},
             {label:'部门',property:'buMen',width:'200'}],
     recordList2:[{
+          status: '2016-05-02',
+          name: '王小虎',
+          bianhao: '上海',
+          nowZhiwei: '普陀区',
+          start:'',
+          entTime:'',
+          buMen: '上海市普陀区金沙江路 1518 弄',
+          branch: 200333
+        },{
+          status: '2016-05-02',
+          name: '王小虎',
+          bianhao: '上海',
+          nowZhiwei: '普陀区',
+          start:'',
+          entTime:'',
+          buMen: '上海市普陀区金沙江路 1518 弄',
+          branch: 200333
+        },{
+          status: '2016-05-02',
+          name: '王小虎',
+          bianhao: '上海',
+          nowZhiwei: '普陀区',
+          start:'',
+          entTime:'',
+          buMen: '上海市普陀区金沙江路 1518 弄',
+          branch: 200333
+        },{
           status: '2016-05-02',
           name: '王小虎',
           bianhao: '上海',
@@ -399,7 +446,7 @@ export default {
 }
 .title{
     display: inline-block;
-    width:60px;
+    width:100px;
     text-align: right;
     padding:10px 10px 10px 0px;
     vertical-align: middle;

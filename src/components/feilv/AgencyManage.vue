@@ -8,7 +8,7 @@
                     <div class="title">保险公司</div>
                     <div class="content">
                         <el-checkbox v-model="insurChecked" disabled class="checkbox"></el-checkbox> 
-                        <el-select size="mini" v-model="compSort">
+                        <el-select size="mini" v-model="compSort" @change="handleCompSort">
                             <el-option
                             v-for="item in sortOpt"
                             :key="item.value"
@@ -23,8 +23,8 @@
                             @change="handleSelectChange">
                             <el-option
                             v-for="item in compOpt"
-                            :key="item.value"
-                            :value="item.value">
+                            :key="item.companyId"
+                            :value="item.chineseSimpleName">
                             </el-option>
                         </el-select>
                     </div>
@@ -215,23 +215,14 @@ export default {
     sortOpt:[{
           value: '指定保险公司',
         }, {
-          value: '所有寿险公司',
+          value: '寿险公司',
         }, {
-          value: '所有产险公司',
+          value: '产险公司',
         }],
     compSort:'指定保险公司',
-    compOpt: [{
-          value: '不区分',
-        }, {
-          value: '选项2',
-        }, {
-          value: '选项3',
-        }, {
-          value: '选项4',
-        }, {
-          value: '选项5',
-        }],
-    compSel:["不区分"],
+    compOpt: [],
+    compSel:[],
+    compArr:[],
     nameChecked:false,
     insuranceName:'',
     nodeChecked:false,
@@ -299,13 +290,83 @@ export default {
      console.log('进入了')
  },
  methods:{
-     handleSelectChange(value){
-         if(value[value.length-1]=="不区分"){
-            value.splice(0,value.length-1)
-         }else if(value.indexOf("不区分")!=-1){
-            value.splice(value.indexOf("不区分"),1)
-         }
+      handleCompSort(){//查询保险公司
+        var compUrl='';
+        this.compSel=[];
+        switch (this.compSort) {
+            case "指定保险公司":
+            compUrl="http://10.0.0.2:9004/insurCompanyBasicInfo/listAll"
+            break;
+            default:
+            //寿险、产险公司
+            compUrl="http://10.0.0.2:9004/insurCompanyBasicInfo/listByCompanyType"
+            break;
+        }
+        //var str={companyType:this.compSort}
+        fetch(compUrl, {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: "companyType="+this.compSort
+        }).then((response) => {
+            if (response.ok) {
+            return response.json()
+            }
+        }).then((json) => {
+            console.log("json",json)
+            var arrStr=JSON.stringify(json)
+            this.compArr=JSON.parse(arrStr)
+            console.log("compArr",this.compArr) 
+            var obj={"chineseSimpleName":"不区分"}
+            json.splice(0,0,obj)//拼接json里的保险公司数组
+            this.compOpt=json
+             console.log(this.compOpt)
+        }).catch((error) => {
+            //console.error(error)
+        })
      },
+     handleSelectChange(value){//根据保险公司查询险种
+        var companies=[];
+        //this.insurTypeSel="";
+       // console.log("value",value)
+        if(value[value.length-1]=="不区分"){
+          //点击不区分时，取消其他项的勾选
+          value.splice(0,value.length-1)
+          //将所有公司的简称拼到companies数组中
+          for(var i=0;i<this.compArr.length;i++){
+            companies.push(this.compArr[i].chineseSimpleName)
+          }
+        }else if(value[0]=="不区分"){
+            //点击保险公司时，取消“不区分”的勾选
+          value.splice(0,1)
+          companies=this.compSel;
+        }else{
+            //点击保险公司时，且之前未勾选“不区分”
+          companies=this.compSel;
+        }
+        console.log("companies",companies)
+        // fetch("http://10.0.0.2:9004/insuranceTypeInfo/listSimple", {
+        // method: 'POST',
+        // headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        // body: 'companies='+companies
+        // }).then((response) => {
+        //   if (response.ok) {
+        //     return response.json()
+        //   }
+        // }).then((json) => {
+        //     console.log("险种",json)
+        //   this.insurTypeOpt=json
+        // }).catch((error) => {
+        //   //console.error(error)
+        // })
+     },
+    //  handleSelectChange(value){
+    //      if(value[value.length-1]=="不区分"){
+    //         value.splice(0,value.length-1)
+    //      }else if(value.indexOf("不区分")!=-1){
+    //         value.splice(value.indexOf("不区分"),1)
+    //      }
+    //  },
+     
      yearSelectChange(value){
          if(value=="年期/分档"){
             this.subYearShow=true;
@@ -373,7 +434,7 @@ export default {
       //通过vm访问组件实例
      // vm.$root.eventHub.$on('sendOrderNum',vm.getOrderRow);
     //   vm.fetchData();
-    //   vm.getDate();
+       vm.handleCompSort();
     })
   }
 }

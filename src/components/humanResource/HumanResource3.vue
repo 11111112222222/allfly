@@ -7,8 +7,9 @@
                     <div class="title">查核对象</div>
                     <div class="content">
                         <el-input v-model="checkObject" size="mini" placeholder="请输入内容" style="width:300px;"></el-input>
-                        <el-button type="info" size="mini">...</el-button>
+                        <el-button type="info" size="mini" @click="dialogVisible3=true">...</el-button>
                     </div>
+                <SearchPerson v-if="dialogVisible3" :visible.sync="dialogVisible3" @selectPerson="selectPerson3"></SearchPerson>    
             </div>
             <div class="tabSecondContent">
                     <div class="title">基础月份</div>
@@ -29,6 +30,7 @@
                             :data="recordList1"
                             border
                             style="width: 100%"
+                            height="300"
                             max-height="550">
                             <el-table-column
                             type="selection"
@@ -99,10 +101,12 @@
 </div>
 </template>
 
-<script type="text/ecmascript-6">
+ <script type="text/ecmascript-6">
+import SearchPerson from "./SearchPerson.vue"
 export default {
  data() {
  return {
+   dialogVisible3:false,
    checkObject:'',
    basicMonth:'',
    recordList1: [{
@@ -123,11 +127,12 @@ export default {
                         random:[{value: '唐美琪',label: '唐美琪'}, {value: '严裕州',label: '严裕州'}],
                         rank:[{value: '黄金糕',label: '黄金糕'}, {value: '双皮奶',label: '双皮奶'}],
                         duringTime:[{value: '唐美琪',label: '唐美琪'}, {value: '严裕州',label: '严裕州'}],
+    
     },
  }
  },
  components: {
-
+    SearchPerson
  },
  methods:{
     handleToggleTab(){
@@ -138,6 +143,9 @@ export default {
     selectIndex(porperty,index){
         console.log('porperty',porperty);
         console.log('index',index);
+    },
+    selectPerson3(){
+        //处理查询出人之后将人物信息带入到输入框的操作
     }
  }
 }
@@ -165,7 +173,7 @@ legend {
 }
 .title{
     display: inline-block;
-    width:60px;
+    width:80px;
     text-align: right;
     padding:10px 10px 10px 0px;
     vertical-align: middle;

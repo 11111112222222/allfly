@@ -21,21 +21,6 @@ import ClaimEditor from 'components/Claim/ClaimEditor.vue'
 import ClientRelation from 'components/Client/ClientRelation.vue'
 import ClientEditor from 'components/Client/ClientEditor.vue'
 import AgencyManage from 'components/feilv/AgencyManage.vue'
-import DailyChannelPer from "components/report/DailyChannelPer.vue";
-import PerOnlineStorePer from "components/report/PerOnlineStorePer.vue";
-import EleDocManage from "components/report/EleDocManage.vue";
-import PersBasInfReport from "components/report/PersBasInfReport.vue";
-import PersOrgInfList from "components/report/PersOrgInfList.vue";
-import ChangePerRankCurVi from "components/report/ChangePerRankCurVi.vue";
-import PrePolDetBefSettle from "components/report/PrePolDetBefSettle.vue";
-import AgentCostRatePrint from "components/report/AgentCostRatePrint.vue";
-import SystemUsageAccManange from "components/Authority/SystemUsageAccManange.vue";
-import AccountIncrease from "components/Authority/AccountIncrease.vue";
-import AccountLook from "components/Authority/AccountLook.vue";
-import Password from "components/Authority/Password.vue";
-import PolicyCusDataImp from "components/Order/PolicyCusDataImp.vue";
-import GroupCorresAuthorityManage from "components/Authority/GroupCorresAuthorityManage.vue";
-import PermModuleConfDefi from "components/Authority/PermModuleConfDefi.vue";
 
 import balanceRecordWork from 'components/balanceAccounts/inCheck/balanceRecordWork.vue'
 import carInsuranceLawCheck from 'components/balanceAccounts/inCheck/carInsuranceLawCheck.vue'
@@ -254,7 +239,7 @@ export default new Router({
           name: 'insuranceDetail',
           component: resolve => require(["components/feilv/InsuranceDetail.vue"], resolve),
           meta: {
-            keepAlive: false // 不需要缓存
+            keepAlive: true // 需要缓存
           }
         },  {
           path: 'ruleEditor',
@@ -308,23 +293,6 @@ export default new Router({
           name: 'humanResource6',
           component: resolve=>require(["components/humanResource/HumanResource6.vue"], resolve)
         },
-        // {
-        //   path: 'humanResource',
-        //   name:'humanResource',
-        //   component: HumanResource,
-        //   children:[
-        //   {
-        //     path: 'plan',
-        //     name: 'plan',
-        //     component: Plan
-        //   },
-        //   {
-        //     path: 'findpeople',
-        //     name: 'findpeople',
-        //     component: FindPeople
-        //   },
-        //   ]
-        // }
         {
           path: "DailyChannelPer",
           name: "DailyChannelPer",
@@ -414,7 +382,25 @@ export default new Router({
           name: "PermModuleConfDefi",
           component: resolve =>
             require(["components/Authority/PermModuleConfDefi.vue"], resolve)
-        },   
+        },
+        {
+          path: "ContinueQueryStatistics",
+          name: "ContinueQueryStatistics",
+          component: resolve =>
+            require(["components/ContinueRate/ContinueQueryStatistics.vue"], resolve)
+        },
+        {
+          path: "ContinueRateReorg",
+          name: "ContinueRateReorg",
+          component: resolve =>
+            require(["components/ContinueRate/ContinueRateReorg.vue"], resolve)
+        },
+        {
+          path: "InsurCompanyContinueRateQuerystatistics",
+          name: "InsurCompanyContinueRateQuerystatistics",
+          component: resolve =>
+            require(["components/ContinueRate/InsurCompanyContinueRateQuerystatistics.vue"], resolve)
+        },
         {
           path: 'addInformation',
           name: 'addInformation',
@@ -609,7 +595,13 @@ export default new Router({
           name: 'shouldRecieveLook',
           component: shouldRecieveLook
         },
+        {
+          path: "COSDetail",
+          name: "COSDetail",
+          component: resolve =>
+            require(["components/ContinueRate/COSDetail.vue"], resolve)
+        }
       ]
-    }
-  ]
+  }
+]
 })

@@ -1,11 +1,23 @@
-import Vue from 'vue'
-import HelloWorld from '@/components/HelloWorld'
+// 从测试实用工具集中导入 `mount()` 方法
+import { shallow } from 'vue-test-utils';
+// 导入你要测试的组件如App.vue
+import App from '@/App';
 
-describe('HelloWorld.vue', () => {
-  it('should render correct contents', () => {
-    const Constructor = Vue.extend(HelloWorld)
-    const vm = new Constructor().$mount()
-    expect(vm.$el.querySelector('.hello h1').textContent)
-      .toEqual('Welcome to Your Vue.js App')
+describe('App.test.js', () => {
+  let wrapper,vm;
+
+  beforeEach(() => {
+    wrapper = shallow(App);
+    vm = wrapper.vm;
+  });
+
+  it('closePacket Fn should be called', () => {
+    expect(vm.packetShow).toEqual(['false'])
+  });
+
+  // 为App的单元测试增加快照（snapshot）：
+  it('has the expected content', () => {
+    expect(vm.$el).toMatchSnapshot()
   })
-})
+});
+

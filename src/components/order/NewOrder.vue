@@ -129,90 +129,8 @@
           </el-select>&nbsp;&nbsp;
           <el-input v-model="input" :disabled="fcDisabled2" size="mini" placeholder="请输入内容" style="width:30%;margin-left: 10px;"></el-input>
           <!-- <el-button size="mini" style="margin-left: 5px;" type="text" @click="dialogFormVisible = true">...</el-button> -->
-          <el-button  @click="outerVisible = true" style="margin-left: 5px;" size="mini">...</el-button>
-            <el-dialog title="位置" :visible.sync="outerVisible"  :before-close="handleClose" @close='isClose' width="60%" >
-             <el-dialog
-              width="30%"
-              title="内层 Dialog"
-              :visible.sync="innerVisible"
-              append-to-body>
-             </el-dialog>
-             <span>选择查找位置：</span>
-             <el-input v-model="addrposit" size="mini"  style="width:30%;margin-top:-20px;"></el-input>
-             <el-button type="primary" @click="innerVisible = true" size="mini">位置</el-button>
-            <div class="find">
-             <div class="findleft">
-                <el-tabs type="border-card">
-                <el-tab-pane label="一般查询">
-                  <el-form ref="form" :model="form" label-width="80px">
-                    <el-form-item label="姓名" class="elformitem">
-                      <el-input v-model="form.name" size="mini"></el-input>
-                    </el-form-item>
-                     <el-form-item label="员工编号" class="elformitem">
-                      <el-input v-model="form.bianhao" size="mini"></el-input>
-                    </el-form-item>
-                     <el-form-item label="身份证号" class="elformitem">
-                      <el-input v-model="form.idcard" size="mini"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                      <el-button type="primary" @click="onSubmit" size="mini">立即查找</el-button>
-                      <el-button size="mini">停止</el-button>
-                    </el-form-item>
-                  </el-form>
-                </el-tab-pane>
-                <el-tab-pane label="高级查询">高级查询</el-tab-pane>
-                </el-tabs>
-             </div>
-              <div class="findright">
-                <el-table
-                  :data="tableData"
-                  border
-                  style="width: 100%"
-                  size="mini"
-                  height="300">
-                      <el-table-column
-                      prop="idname"
-                      label="员工码"
-                      width="100">
-                      </el-table-column>
-                      <el-table-column
-                      prop="name"
-                      label="名称"
-                      width="100">
-                      </el-table-column>
-                      <el-table-column
-                      prop="province"
-                      label="分支机构"
-                      width="100">
-                      </el-table-column>
-                      <el-table-column
-                      prop="bumen"
-                      label="部门"
-                      width="100">
-                      </el-table-column>
-                      <el-table-column
-                      prop="address"
-                      label="查找位置"
-                      width="200">
-                      </el-table-column>
-                      <el-table-column
-                      prop="zj"
-                      label="职级"
-                      width="100">
-                      </el-table-column>
-                       <el-table-column
-                      prop="zjStatus"
-                      label="职级状态"
-                      width="100">
-                      </el-table-column>
-                  </el-table>
-              </div> 
-            </div>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="outerVisible = false" size="mini">取 消</el-button>
-              <el-button type="primary" @click="outerVisible = false" size="mini" >确 定</el-button>
-            </span>
-            </el-dialog>
+          <el-button  @click="dialogVisible = true" style="margin-left: 5px;" size="mini">...</el-button>
+           <SearchPerson v-if="dialogVisible" :visible.sync="dialogVisible" @selectPerson="selectPerson"></SearchPerson>
           </li>
         </ul>
         </el-radio-group>
@@ -263,7 +181,8 @@
         </span>
     </fieldset>
     <div class="subutton">
-      <input type="text" id="btn" value="报表数据查询预览" @click="linkToOrderData"/>
+      <el-button @click="linkToOrderData" size="mini" type="primary">报表数据查询预览</el-button>
+      <!-- <input type="text" id="btn" value="报表数据查询预览" @click="linkToOrderData"/> -->
      </div>
     </form>
     
@@ -271,7 +190,9 @@
 </template>
 
 <script type="text/ecmascript-6">
+import SearchPerson from "../humanResource/SearchPerson.vue"
 export default {
+components: { SearchPerson},
  data() {
  return {
     radio:'allComp',
@@ -324,9 +245,7 @@ export default {
     }],
     valuerandom: '个人',
     input: '',
-    // dialogVisible: false,
-    outerVisible: false,
-    innerVisible: false,
+    dialogVisible: false,
      gridData: [{
           date: '2016-05-02',
           name: '王小虎',
@@ -495,27 +414,15 @@ export default {
     linkToOrderData(){
       this.$router.push({path: '/user/neworderdata',query:{findOrderItem:this.findOrderItem}})
     },
+    selectPerson(data){
+       //将弹窗组件找到的人的信息带过来，复制给input的值
+    },
     onSubmit() {
         console.log('submit!');
     },
-    handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      },
-    isClose(){
-      console.log('是否要关闭弹框')
-    }
-    // formValidator(){
-    //   return true;
-    // }
-
+  
  },
- components: {
-
- }
+ 
 }
 </script>
 
@@ -556,18 +463,9 @@ fieldset:nth-child(4) span{
   margin-left:10px;
 }
 .subutton{
-  margin-bottom:20px;
+  margin:20px 0px;
 }
-#btn{
-  margin-top:20px;
-  width:110px;
-  height: 35px;
-  background-color:#409EFF;
-  border:none;
-  border-radius:5px;
-  color:#fff;
-  padding:0 5px;
-}
+
 .find{
   margin-top:5px;
   display: flex;

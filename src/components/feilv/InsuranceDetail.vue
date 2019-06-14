@@ -237,9 +237,97 @@
                     </fieldset>
                 </div>
                 <div class="oprateBtn">
-                    <el-button type="primary" size="mini">新增</el-button>
-                     <el-button type="primary" size="small" @click="goBack()">关闭</el-button>
+                    <el-button type="primary" size="mini" @click="rateDialogVisible = true">新增</el-button>
+                    <el-button type="primary" size="mini" @click="goBack()">关闭</el-button>
                 </div>
+                <el-dialog
+                    title="险种费率编辑"
+                    :visible.sync="rateDialogVisible"
+                    width="60%">
+                    <div class="bodyMsg">
+                         <div>
+                            <div class="title">费率参数名称</div> 
+                            <el-select v-model="rateParam" size="mini">
+                                <el-option
+                                v-for="item in rateParamOpt"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                            <el-select v-model="rateParam2" size="mini">
+                                <el-option
+                                v-for="item in rateParamOpt2"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
+                        <div>
+                            <div class="title">佣金制度</div> 
+                            <el-input v-model="system" size="small"  style="width:270px;"></el-input>
+                        </div>
+                        <fieldset>
+                            <legend>
+                                <el-button type="primary" size="mini" >产生参数表</el-button>
+                            </legend>
+                            <div>
+                                <div class="title">年期/分档</div> 
+                                <el-input-number v-model="subYearStart" controls-position="right" :min="0" :max="100" size="mini" style="width:100px"></el-input-number>
+                                -
+                                <el-input-number v-model="subYearEnd" controls-position="right" :min="0" :max="100" size="mini" style="width:100px"></el-input-number>
+                                 <span class="remark">交费年期0~0表示泵缴</span>
+                            </div>
+                        </fieldset>
+                        <div>
+                            <div class="title">使用期间</div> 
+                            <el-date-picker
+                            size="mini"
+                            v-model="useDate"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                            </el-date-picker>
+                        </div>
+                        <div>
+                            <div class="title">业绩考核</div> 
+                            <el-checkbox v-model="examChecked" disabled class="checkbox">计入FYC</el-checkbox>    
+                        </div>
+                        <div>
+                            <div class="title">参数说明</div> 
+                            <el-input v-model="paramStrate" size="small"  style="width:270px;"></el-input>  
+                        </div>
+                        <div>
+                            <div class="title">参数值表</div> 
+                            <span class="remark">险种基本费率</span>
+                            <el-table
+                                ref="recordTable"
+                                size="mini"
+                                border
+                                height="200px"
+                                :data="yearList"
+                                highlight-current-row
+                                @row-click="setYearRow"
+                                style="width:200px;margin-left:180px;">
+                                <el-table-column
+                                property="year"
+                                label="年度"
+                                width="100">
+                                </el-table-column>
+                                <el-table-column
+                                property="strate"
+                                label="费率">
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </div>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button size="mini" type="danger" @click="rateDialogVisible = false">取 消</el-button>
+                        <el-button size="mini" type="primary" @click="rateDialogVisible = false">确 定</el-button>
+                    </span>
+                </el-dialog>
             </div>
         </el-tab-pane>
     </el-tabs>
@@ -318,6 +406,29 @@ export default {
     dialogVisible:false,
     yearInput:'',
     illustrate:'',
+    rateDialogVisible:false,
+    rateParam:'',
+    rateParamOpt: [{
+          value: '收项',
+        }, {
+          value: '支项',
+        }, {
+          value: '其他',
+        }],
+    rateParam2:'',
+    rateParamOpt2: [{
+          value: '首/续年佣金',
+        }, {
+          value: '销售奖金',
+        }, {
+          value: '续年度服务津贴',
+        }],
+    system:'',
+    subYearStart:'',
+    subYearEnd:'',
+    useDate:'',
+    examChecked:true,
+    paramStrate:'',
     recordList: [{
           orderNum: '345345345',
           name: '王小虎',
@@ -369,6 +480,8 @@ export default {
      },
      goBack(){
        history.go(-1);
+        this.activeTab="searchTab";
+       //this.$router.push({path:"/user/agencyManage"})
        //this.$root.eventHub.$emit("sendOrderNum",this.orderNum)
     },
     fetch(){
@@ -378,7 +491,7 @@ export default {
         }else{
             this.headerTitle="险种信息添加"
         }
-        //console.log(this.editor+'编辑')
+        console.log(this.editor+'编辑')
     },
     apply(){
         this.editor=true;
@@ -389,6 +502,7 @@ export default {
          this.activeTab="listTab"
      },
      editorBtn(){
+         this.rateDialogVisible = true;
        //  this.$router.push({path:"/user/claimEditor",query:{claimOrderNum:this.claimOrderNum}})
      },
      delateYear(){
@@ -452,7 +566,7 @@ export default {
     next(vm=>{
       //通过vm访问组件实例
      // vm.$root.eventHub.$on('sendOrderNum',vm.getOrderRow);
-    //   vm.fetchData();
+     vm.fetch();
     //   vm.getDate();
     })
   }
@@ -527,6 +641,21 @@ section{
                     margin:5px;
                 }
             }
+            
+        }
+         .bodyMsg{
+            width:90%;
+            margin:auto;
+            height:400px;
+            overflow-y: auto;
+            border:1px solid #d4d8e4;
+            padding:20px 30px;
+           
+            .remark{
+                margin-left:20px;
+                color:red;
+            }
+            
         }
          fieldset {
             padding: 10px 10px;

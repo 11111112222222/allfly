@@ -210,9 +210,6 @@ export default {
           label: "权限",
           children: [
             {
-              label: "客户关系管理"
-            },
-            {
               label: "系统使用账号管理"
             },
             {
