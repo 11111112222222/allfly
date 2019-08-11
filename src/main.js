@@ -5,13 +5,16 @@ import App from './App'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
+import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'common/fonts/iconfont.js'
 import 'common/scss/index.scss'
 // import 'jquery'
 
-Vue.use(ElementUI, { size: 'small' })
-
+Vue.prototype.$axios=axios
+Vue.use(ElementUI, {
+  size: 'small'
+})
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -19,7 +22,9 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>',
   data: {
     eventHub: new Vue()
